@@ -6,8 +6,8 @@
     <meta name="description" content="Aditya Tawde - AI & Data Science student specializing in Python and Web Development. Explore my projects, skills, and experience in machine learning, data analysis, and full-stack development.">
     <meta name="keywords" content="AI developer, data scientist, Python developer, web development, portfolio, machine learning">
     <meta name="author" content="Aditya Tawde">
-     <link rel="icon" type="image/png" href="AST.png">
-    <title>Aditya S. Tawde | AI & Data Science Engineer</title>
+    
+    <title>Aditya S. Tawde | AI & Data Science Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -16,7 +16,7 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Aditya S. Tawde",
-      "url": "https://adityatawde9699.github.io/Aditya-S.-Tawde/",
+      "url": "https://adityatawdeportfolio.com",
       "jobTitle": "AI & Data Science Student",
       "alumniOf": "Jawaharlal Nehru Engineering College, MGMU",
       "description": "B.Tech student specializing in Artificial Intelligence and Data Science",
@@ -30,9 +30,21 @@
 </head>
 
 <body>
+    
+    <div class="loader-container">
+        <div class="particles" id="particles"></div>
+        <div class="loader">
+            <div class="name-text">AST</div>
+            <div class="rolling-container">
+                <div class="roller"></div>
+            </div>
+            <div class="percentage">0%</div>
+        </div>
+    </div>
+
     <header>
         <div class="header-content">
-            <h1>ADITYA S. TAWDE</h1>
+            <h1>Portfolio</h1>
             <button id="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
@@ -42,7 +54,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#blog">Blog</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
             </ul>
@@ -122,7 +134,6 @@
                     <div class="progress-bar">
                         <div class="progress python-progress" data-progress="0"></div>
                     </div>
-                
         </section>
 
         <section id="projects" aria-labelledby="projects-heading" class="projects-section">
@@ -251,6 +262,49 @@
             </div>
         </section>
 
+        <section class="blog-grid">
+            <h2>Recent Blog Posts</h2>
+            <!-- Post 1 -->
+            <article class="blog-card">
+                <img src="https://th.bing.com/th/id/OIP.Hie4GxIOqEQZXPWTyVU9WgHaEK?w=263&h=180&c=7&r=0&o=5&pid=1.7" alt="Blog post image" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-category">AI</div>
+                    <h2 class="blog-title">Getting Started with Machine Learning in Python</h2>
+                    <p class=blog-excerpt">A beginner's guide to implementing machine learning algorithms using Python and popular libraries.</p>
+                    <div class="blog-meta">
+                    <span>Feb 15, 2024</span>
+                    <span>10 min read</span>
+                </div>
+                <a href="blog.html" class="read-more">Read More</a>
+            </article>
+
+        </section>
+
+        <section class="testimonials-container">
+            <h2>Testimonials</h2>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Aditya's work is truly outstanding. His attention to detail and futuristic design sense is incredible!"</p>
+                <div class="testimonial-author">
+                    <img src="user1.jpg" alt="User 1">
+                    <span>Neel Belsare</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"He delivered the project ahead of time, and the quality was top-notch. Highly recommended!"</p>
+                <div class="testimonial-author">
+                    <img src="user2.jpg" alt="User 2">
+                    <span>Jane Doe</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Working with Aditya was a pleasure. His ability to blend AI and web development is next level!"</p>
+                <div class="testimonial-author">
+                    <img src="user3.jpg" alt="User 3">
+                    <span>John Smith</span>
+                </div>
+            </div>
+        </section>
+        
         <section id="contact" aria-labelledby="contact-heading">
             <h2 id="contact-heading">Get in Touch</h2>
             <form id="contact-form" class="contact-form" action="https://your-endpoint-url.com/submit" method="POST">
@@ -270,7 +324,7 @@
             </form>
         </section>
 
-        <!-- Rest of the sections remain similar but with improved styling -->
+        
     </main>
 
     <footer>

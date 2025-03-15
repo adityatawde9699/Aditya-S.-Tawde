@@ -3,29 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aditya Tawde - AI & Data Science student specializing in Python and Web Development. Explore my projects, skills, and experience in machine learning, data analysis, and full-stack development.">
-    <meta name="keywords" content="AI developer, data scientist, Python developer, web development, portfolio, machine learning">
+    <meta name="description" content="Aditya Tawde - AI & Data Science specialist with expertise in Python, Machine Learning, and Web Development. Portfolio showcasing innovative projects, skills, and professional experience.">
+    <meta name="keywords" content="AI developer, data scientist, Python developer, machine learning engineer, web development, portfolio, deep learning, data analysis, full-stack developer">
     <meta name="author" content="Aditya Tawde">
-    <link rel="icon" href="AST.png">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <!-- Theme color for Chrome, Edge, Safari, and other supporting browsers -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#222222" media="(prefers-color-scheme: dark)">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://adityatawdeportfolio.com">
     <title>Aditya S. Tawde | AI & Data Science Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="blog" href="https://adityatawde9699.github.io/blog_webpage/">
     
+    <!-- Structured Data - Person -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Aditya S. Tawde",
       "url": "https://adityatawdeportfolio.com",
-      "jobTitle": "AI & Data Science Student",
-      "alumniOf": "Jawaharlal Nehru Engineering College, MGMU",
+      "jobTitle": "AI & Data Science Specialist",
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Jawaharlal Nehru Engineering College, MGMU"
+      },
       "description": "B.Tech student specializing in Artificial Intelligence and Data Science",
+      "image": "https://adityatawdeportfolio.com/images/profile.jpg",
       "sameAs": [
         "https://www.linkedin.com/in/aditya-tawde-7a1392315",
         "https://github.com/adityatawde9699",
         "https://www.instagram.com/adityasuniltawde"
-      ]
+      ],
+      "knowsAbout": ["Artificial Intelligence", "Machine Learning", "Data Science", "Python", "Web Development", "Deep Learning"]
+    }
+    </script>
+    
+    <!-- Structured Data - WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://adityatawdeportfolio.com",
+      "name": "Aditya S. Tawde Portfolio",
+      "description": "Professional portfolio of Aditya S. Tawde, AI & Data Science specialist",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://adityatawdeportfolio.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 </head>
@@ -45,21 +81,74 @@
 
     <header>
         <div class="header-content">
-            <h1>Portfolio</h1>
+            <h1>Aditya S. Tawde</h1>
             <button id="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
+            <nav id="main-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="#home" aria-current="page">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav id="mobile-nav" aria-label="Main Navigation" aria-expanded="false">
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="https://adityatawde9699.github.io/blog_webpage/">Blog</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-            </ul>
-        </nav>
+        <!-- Breadcrumb structured data -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#home"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#about"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Skills",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#skills"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Education",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#education"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Projects",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#projects"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Testimonials",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#testimonials"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Contact",
+              "item": "https://adityatawde9699.github.io/Aditya-S.-Tawde/#contact"
+            }
+          ]
+        }
+        </script>
     </header>
 
     <main class="container">
@@ -67,12 +156,12 @@
 
             <div class="hero-content">
                 <div class="profile">
-                    <img src="profile-photo.jpg" alt="Aditya Tawde - AI & Data Science Professional" loading="lazy" width="200" height="200">
+                    <img src="./images/profile-photo.jpg" alt="Aditya Tawde - AI & Data Science Professional" loading="lazy" width="200" height="200">
                 </div>
                 <h2 id="hero-heading">Welcome to My Portfolio</h2>
                 <p>Hello! I'm Aditya S. Tawde, an aspiring AI & Data Science professional seeking internship opportunities. Currently pursuing B.Tech at JNEC, I combine technical expertise with a passion for solving real-world problems through technology.</p>
                 <div class="cta-buttons">
-                    <a href="path-to-resume.pdf" class="btn primary" download>Download Resume <i class="fas fa-download"></i></a>
+                    <a href="Aditya_Portfolio.pdf" class="btn primary" download>Download Resume <i class="fas fa-download"></i></a>
                     <a href="#contact" class="btn secondary">Hire Me <i class="fas fa-arrow-right"></i></a>
                 </div>
 
@@ -108,14 +197,210 @@
                     </div>
                 </div>
                 <div class="tech-stack">
-                    <h3>My Tech Stack</h3>
-                    <div class="tech-icons">
-                        <span class="tech-item"><i class="fab fa-python"></i> Python</span>
-                        <span class="tech-item"><i class="fas fa-brain"></i> TensorFlow</span>
-                        <span class="tech-item"><i class="fas fa-chart-bar"></i> Pandas</span>
-                        <span class="tech-item"><i class="fab fa-html5"></i> HTML5</span>
-                        <span class="tech-item"><i class="fab fa-css3-alt"></i> CSS3</span>
-                        <span class="tech-item"><i class="fab fa-js"></i> JavaScript</span>
+                    <div class="bg-pattern tech-pattern"></div>
+                    <div class="section-title">
+                        <h3>My Tech Stack</h3>
+                        <p class="section-subtitle">Technologies I work with</p>
+                    </div>
+                    <div class="tech-categories">
+                        <div class="tech-category">
+                            <h4>Languages</h4>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <i class="fab fa-python"></i>
+                                    <span>Python</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-java"></i>
+                                    <span>Java</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>SQL</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-js"></i>
+                                    <span>JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <h4>Data Science & AI</h4>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>TensorFlow</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Pandas</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-robot"></i>
+                                    <span>PyTorch</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Scikit-learn</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <h4>Web Development</h4>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <i class="fab fa-html5"></i>
+                                    <span>HTML5</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-css3-alt"></i>
+                                    <span>CSS3</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-react"></i>
+                                    <span>React</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-node-js"></i>
+                                    <span>Node.js</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <h4>Tools & Others</h4>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <i class="fab fa-git-alt"></i>
+                                    <span>Git</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-docker"></i>
+                                    <span>Docker</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-aws"></i>
+                                    <span>AWS</span>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-cloud"></i>
+                                    <span>Cloud</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" aria-labelledby="education-heading" class="education-section">
+            <h2 id="education-heading">Education</h2>
+            <div class="education-timeline">
+                <div class="education-item">
+                    <div class="education-year">2021 - Present</div>
+                    <div class="education-content">
+                        <h3>B.Tech in AI & Data Science</h3>
+                        <h4>Jawaharlal Nehru Engineering College, MGMU</h4>
+                        <p>Pursuing specialization in Artificial Intelligence and Data Science with focus on machine learning, deep learning, and data analysis methodologies.</p>
+                        <div class="education-highlights">
+                            <span>CGPA: 8.5/10</span>
+                            <span>Technical Club Member</span>
+                            <span>Research Assistant</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="education-item">
+                    <div class="education-year">2019 - 2021</div>
+                    <div class="education-content">
+                        <h3>Higher Secondary Education</h3>
+                        <h4>Maharashtra State Board</h4>
+                        <p>Completed Higher Secondary with focus on Science and Mathematics, laying the foundation for technical education.</p>
+                        <div class="education-highlights">
+                            <span>80% Aggregate</span>
+                            <span>Mathematics Olympiad Participant</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="education-item">
+                    <div class="education-year">2019</div>
+                    <div class="education-content">
+                        <h3>Secondary School Certificate</h3>
+                        <h4>Maharashtra State Board</h4>
+                        <p>Completed SSC with distinction, showing early aptitude in science and technology subjects.</p>
+                        <div class="education-highlights">
+                            <span>85% Aggregate</span>
+                            <span>Science Club President</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="certifications-section">
+            <h2>Certifications & Courses</h2>
+            
+            <div class="certifications-container">
+                <div class="certification-card">
+                    <div class="certification-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Udemy_logo.svg/2560px-Udemy_logo.svg.png" alt="Udemy Logo">
+                    </div>
+                    <div class="certification-content">
+                        <h3>Complete Python Bootcamp</h3>
+                        <div class="certification-issuer">Udemy</div>
+                        <p class="certification-date">Issued May 2023</p>
+                        <div class="certification-description">
+                            Comprehensive Python programming course covering fundamentals to advanced concepts including OOP, data structures, and application development.
+                        </div>
+                        <div class="certification-tech">
+                            <span>Python</span>
+                            <span>Data Structures</span>
+                            <span>OOP</span>
+                        </div>
+                        <a href="#" class="certification-link" target="_blank">View Certificate <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-logo">
+                        <img src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/http://coursera-university-assets.s3.amazonaws.com/e8/7cc3d09f0c11e698d8998e2580feb3/coursera-logo-square.png?auto=format%2Ccompress&dpr=1&w=120&h=120" alt="Coursera Logo">
+                    </div>
+                    <div class="certification-content">
+                        <h3>Machine Learning Specialization</h3>
+                        <div class="certification-issuer">Coursera - Stanford University</div>
+                        <p class="certification-date">Issued August 2023</p>
+                        <div class="certification-description">
+                            Comprehensive specialization covering machine learning algorithms, neural networks, and practical ML implementations.
+                        </div>
+                        <div class="certification-tech">
+                            <span>Machine Learning</span>
+                            <span>TensorFlow</span>
+                            <span>Neural Networks</span>
+                        </div>
+                        <a href="#" class="certification-link" target="_blank">View Certificate <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-logo">
+                        <img src="https://www.svgrepo.com/show/306649/microsoft.svg" alt="Microsoft Logo">
+                    </div>
+                    <div class="certification-content">
+                        <h3>Microsoft Certified: Azure Data Scientist Associate</h3>
+                        <div class="certification-issuer">Microsoft</div>
+                        <p class="certification-date">Issued October 2023</p>
+                        <div class="certification-description">
+                            Certification validating skills in preparing data, training models, and deploying machine learning solutions on Azure.
+                        </div>
+                        <div class="certification-tech">
+                            <span>Azure ML</span>
+                            <span>Data Science</span>
+                            <span>MLOps</span>
+                        </div>
+                        <a href="#" class="certification-link" target="_blank">View Certificate <i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </div>
             </div>
@@ -133,16 +418,92 @@
                         <span class="badge">Scikit-learn</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress python-progress" data-progress="0"></div>
+                        <div class="progress python-progress" data-progress="90"></div>
                     </div>
+                </div>
+                
+                <div class="skill-card" tabindex="0">
+                    <i class="fas fa-brain"></i>
+                    <h3>Machine Learning</h3>
+                    <div class="skill-badges">
+                        <span class="badge">Classification</span>
+                        <span class="badge">Regression</span>
+                        <span class="badge">Deep Learning</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress ml-progress" data-progress="85"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-card" tabindex="0">
+                    <i class="fas fa-database"></i>
+                    <h3>Data Analysis</h3>
+                    <div class="skill-badges">
+                        <span class="badge">Data Cleaning</span>
+                        <span class="badge">Visualization</span>
+                        <span class="badge">Statistical Analysis</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress data-progress" data-progress="80"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-card" tabindex="0">
+                    <i class="fab fa-html5"></i>
+                    <h3>Web Development</h3>
+                    <div class="skill-badges">
+                        <span class="badge">HTML/CSS</span>
+                        <span class="badge">JavaScript</span>
+                        <span class="badge">Responsive Design</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress web-progress" data-progress="85"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-card" tabindex="0">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud & DevOps</h3>
+                    <div class="skill-badges">
+                        <span class="badge">AWS</span>
+                        <span class="badge">Docker</span>
+                        <span class="badge">Git</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress cloud-progress" data-progress="75"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-card" tabindex="0">
+                    <i class="fas fa-project-diagram"></i>
+                    <h3>Project Management</h3>
+                    <div class="skill-badges">
+                        <span class="badge">Agile</span>
+                        <span class="badge">Scrum</span>
+                        <span class="badge">Team Leadership</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress pm-progress" data-progress="80"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="projects" aria-labelledby="projects-heading" class="projects-section">
             <h2 id="projects-heading">Featured Projects</h2>
+            
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web">Web Dev</button>
+                <button class="filter-btn" data-filter="ai">AI/ML</button>
+                <button class="filter-btn" data-filter="data">Data Science</button>
+                <button class="filter-btn" data-filter="ui">UI/UX</button>
+            </div>
+            
             <div class="project-grid">
-                <article class="project-card">
+                <article class="project-card" data-category="web ui">
                     <div class="project-image">
-                        <img src="blog.png" alt="Digital Blog Website" loading="lazy">
+                        <img src="https://private-user-images.githubusercontent.com/171814781/415295018-ad55b433-7d73-48b3-9a09-7c0e9c3ee114.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDAwNzI2MjMsIm5iZiI6MTc0MDA3MjMyMywicGF0aCI6Ii8xNzE4MTQ3ODEvNDE1Mjk1MDE4LWFkNTViNDMzLTdkNzMtNDhiMy05YTA5LTdjMGU5YzNlZTExNC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyMFQxNzI1MjNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT01MjQxYzE3OTY5N2EwOGNjMDY1YTYwZWEwMWMyZTM5MjBjMmJmODlhOWRkZTlkOGE5ZWVlYWJiZGMyZDE5Yzc3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.gWjWZN4OT0UKASYyNRO16lVCPRyjYuS51wnT2b3aPQg" alt="Digital Blog Website" loading="lazy" width="600" height="400">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/adityatawde9699/blog_webpage" class="project-link" target="_blank" rel="noopener noreferrer" title="View source code on GitHub">
@@ -169,11 +530,27 @@
                             <span class="tech-tag">Font Awesome</span>
                         </div>
                     </div>
+                    <script type="application/ld+json">
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "SoftwareSourceCode",
+                        "name": "Digital Blog Platform",
+                        "description": "A modern blog platform featuring a responsive grid layout, dynamic content organization, and a clean user interface.",
+                        "author": {
+                            "@type": "Person",
+                            "name": "Aditya S. Tawde"
+                        },
+                        "codeRepository": "https://github.com/adityatawde9699/blog_webpage",
+                        "programmingLanguage": ["HTML", "CSS", "JavaScript"],
+                        "keywords": ["blog platform", "responsive design", "grid layout", "dynamic content"],
+                        "url": "https://adityatawde9699.github.io/blog_webpage/"
+                    }
+                    </script>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card" data-category="web">
                     <div class="project-image">
-                        <img src="interactive.png" alt="Interactive Portfolio Website" loading="lazy">
+                        <img src="https://private-user-images.githubusercontent.com/171814781/399486059-f2f217f8-9876-4207-83f9-73573ce90905.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzk5NzQ4NzcsIm5iZiI6MTczOTk3NDU3NywicGF0aCI6Ii8xNzE4MTQ3ODEvMzk5NDg2MDU5LWYyZjIxN2Y4LTk4NzYtNDIwNy04M2Y5LTczNTczY2U5MDkwNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjE5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIxOVQxNDE2MTdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hMTQyYjU1YTgyOWMzODQxOGIzYzlmM2Q1YjgzNDNhNzE3ZTg3Y2M2ZmY0OGU4YjFkYzIxYjIzZjdjNzA5MDFhJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.wlCUEEK-jnt21aQPR9FlRWJhVo5O4Awp_TxQ2Q8lAhA" alt="Interactive Portfolio Website" loading="lazy">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/adityatawde9699/interactive-portfolio-website" class="project-link" target="_blank" rel="noopener noreferrer">
@@ -201,9 +578,9 @@
                     </div>
                 </article>
             
-                <article class="project-card">
+                <article class="project-card" data-category="web ui">
                     <div class="project-image">
-                        <img src="smart.png" alt="Smart Parking System" loading="lazy">
+                        <img src="https://private-user-images.githubusercontent.com/171814781/415296770-175c9e4b-53c9-4d89-bd89-03fae236e4c4.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDAwNzI5MjIsIm5iZiI6MTc0MDA3MjYyMiwicGF0aCI6Ii8xNzE4MTQ3ODEvNDE1Mjk2NzcwLTE3NWM5ZTRiLTUzYzktNGQ4OS1iZDg5LTAzZmFlMjM2ZTRjNC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyMFQxNzMwMjJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NjAyMzY5MzM4ODQzNTA3MTE2ZWM1NDUzYTY2ZTNmYmJiNzA5MDFhJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.lyLx5LZQ8pamlMyqIAuhkcMRzIQg00vd4V3bsAsaNiw" alt="Smart Parking System" loading="lazy">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/adityatawde9699/Smart-parking-Assistant" class="project-link" target="_blank" rel="noopener noreferrer" title="View Smart Parking Assistant source code on GitHub">
@@ -231,9 +608,9 @@
                     </div>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card" data-category="web data">
                     <div class="project-image">
-                        <img src="hacking everthing.png" alt="Ethical Hacking Educational Website" loading="lazy">
+                        <img src="https://private-user-images.githubusercontent.com/171814781/415299283-e083c259-4cc4-4dd7-b35f-f082a2b2169b.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDAwNzMzODcsIm5iZiI6MTc0MDA3MzA4NywicGF0aCI6Ii8xNzE4MTQ3ODEvNDE1Mjk5MjgzLWUwODNjMjU5LTRjYzQtNGRkNy1iMzVmLWYwODJhMmIyMTY5Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyMFQxNzM4MDdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT02MzcwZmU1N2EwNzkyMzMzOWQ4YWM0OTcwNWZmODc0MjI5OWRjMWRjMzgyZGJlNDZhMGRmMmYwOTczMGE3ZTkyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.VFNasjXENzTKoMCrQtZDWX4seOWDH8EOo25ovJFWEPg" alt="Ethical Hacking Educational Website" loading="lazy">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/adityatawde9699/hack-everthing" class="project-link" target="_blank" rel="noopener noreferrer">
@@ -263,46 +640,107 @@
             </div>
         </section>
 
-        <section class="blog-grid">
+        <section class="blog-section" id="blog">
             <h2>Recent Blog Posts</h2>
-            <!-- Post 1 -->
-            <article class="blog-card">
-                <img src="https://th.bing.com/th/id/OIP.Hie4GxIOqEQZXPWTyVU9WgHaEK?w=263&h=180&c=7&r=0&o=5&pid=1.7" alt="Blog post image" class="blog-image">
-                <div class="blog-content">
-                    <div class="blog-category">AI</div>
-                    <h2 class="blog-title">Getting Started with Machine Learning in Python</h2>
-                    <p class=blog-excerpt">A beginner's guide to implementing machine learning algorithms using Python and popular libraries.</p>
-                    <div class="blog-meta">
-                    <span>Feb 15, 2024</span>
-                    <span>10 min read</span>
-                </div>
-                <a href="https://adityatawde9699.github.io/blog_webpage/" class="read-more">Read More</a>
-            </article>
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <article class="blog-card">
+                    <img src="https://th.bing.com/th/id/OIP.Hie4GxIOqEQZXPWTyVU9WgHaEK?w=263&h=180&c=7&r=0&o=5&pid=1.7" alt="Blog post image" class="blog-image">
+                    <div class="blog-content">
+                        <div class="blog-category">AI</div>
+                        <h2 class="blog-title">Getting Started with Machine Learning in Python</h2>
+                        <p class="blog-excerpt">A beginner's guide to implementing machine learning algorithms using Python and popular libraries.</p>
+                        <div class="blog-meta">
+                            <span>Feb 15, 2024</span>
+                            <span>10 min read</span>
+                        </div>
+                        <a href="blog.html" class="read-more">Read More</a>
+                    </div>
+                </article>
 
+                <!-- Post 2 -->
+                <article class="blog-card">
+                    <img src="https://th.bing.com/th/id/OIP.Rde58fOtQP5OiYrPDVIVgwHaE7?w=263&h=180&c=7&r=0&o=5&pid=1.7" alt="Data Visualization blog post" class="blog-image">
+                    <div class="blog-content">
+                        <div class="blog-category">Data Science</div>
+                        <h2 class="blog-title">Effective Data Visualization Techniques</h2>
+                        <p class="blog-excerpt">Learn how to create impactful visualizations that communicate your data insights clearly and effectively.</p>
+                        <div class="blog-meta">
+                            <span>Jan 28, 2024</span>
+                            <span>8 min read</span>
+                        </div>
+                        <a href="blog.html" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-card">
+                    <img src="https://th.bing.com/th/id/OIP.F-3K6Z4cpXVHtQRFNgE8TAHaEK?w=263&h=180&c=7&r=0&o=5&pid=1.7" alt="Web Development blog post" class="blog-image">
+                    <div class="blog-content">
+                        <div class="blog-category">Web Dev</div>
+                        <h2 class="blog-title">Modern Front-end Development Practices</h2>
+                        <p class="blog-excerpt">Exploring the latest tools, frameworks, and best practices in modern front-end web development.</p>
+                        <div class="blog-meta">
+                            <span>Dec 10, 2023</span>
+                            <span>12 min read</span>
+                        </div>
+                        <a href="blog.html" class="read-more">Read More</a>
+                    </div>
+                </article>
+            </div>
+            <div class="blog-cta">
+                <a href="blog.html" class="btn primary">View All Posts <i class="fas fa-arrow-right"></i></a>
+            </div>
         </section>
 
-        <section class="testimonials-container">
-            <h2>Testimonials</h2>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Aditya's work is truly outstanding. His attention to detail and futuristic design sense is incredible!"</p>
-                <div class="testimonial-author">
-                    <img src="user1.jpg" alt="User 1">
-                    <span>Neel Belsare</span>
+        <section id="testimonials" class="testimonials-section">
+            <div class="bg-pattern"></div>
+            <div class="section-title">
+                <span class="section-subtitle">Testimonials</span>
+                <h2>What People Say</h2>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                    <p class="testimonial-text">Aditya's work is truly outstanding. His attention to detail and futuristic design sense is incredible! The AI solution he developed transformed our data analytics process.</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Neel Belsare">
+                        <div class="author-info">
+                            <span class="author-name">Neel Belsare</span>
+                            <span class="author-title">Project Manager, Tech Innovations</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                    <p class="testimonial-text">He delivered the project ahead of time, and the quality was top-notch. Aditya's ability to understand requirements and translate them into solutions is remarkable.</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Wilson">
+                        <div class="author-info">
+                            <span class="author-name">Jane Wilson</span>
+                            <span class="author-title">Lead Developer, Digital Solutions</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                    <p class="testimonial-text">Working with Aditya was a pleasure. His ability to blend AI and web development is next level! Couldn't be happier with the results of our collaboration.</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="John Smith">
+                        <div class="author-info">
+                            <span class="author-name">John Smith</span>
+                            <span class="author-title">CTO, AI Startups Inc.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"He delivered the project ahead of time, and the quality was top-notch. Highly recommended!"</p>
-                <div class="testimonial-author">
-                    <img src="user2.jpg" alt="User 2">
-                    <span>Jane Doe</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Working with Aditya was a pleasure. His ability to blend AI and web development is next level!"</p>
-                <div class="testimonial-author">
-                    <img src="user3.jpg" alt="User 3">
-                    <span>John Smith</span>
-                </div>
+            
+            <div class="testimonial-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
         </section>
         
@@ -329,7 +767,7 @@
     </main>
 
     <footer>
-        <div class="social-icons"></div>
+        <div class="social-icons">
             <a href="https://www.linkedin.com/in/aditya-tawde-7a1392315?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener" role="button" aria-label="LinkedIn Profile for Aditya Tawde">
                 <img src="https://img.icons8.com/?size=60&id=114445&format=png&color=000000" alt="LinkedIn Profile for Aditya Tawde">
             </a>

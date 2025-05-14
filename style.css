@@ -603,6 +603,46 @@ nav a.active {
 }
 
 /* Skills Section */
+.skills-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
+    position: relative;
+    overflow: hidden;
+}
+.skills-heading h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.skills-heading {
+    max-width: 1200px;
+    margin: 0 auto; 
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+    animation: headingFadeIn 0.8s ease-out;
+}
+
+#skills-heading h2 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1091,28 +1131,27 @@ nav a.active {
 }
 
 /* Projects Section Styles */
-.projects-section {
-    padding: 6rem 2rem;
-    background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
-    position: relative;
-    overflow: hidden;
+.project-filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  position: relative;  /* ✅ Ensures it's above the background */
+  z-index: 1;
 }
 
 .projects-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        45deg,
-        var(--primary-color) 0,
-        transparent 1px,
-        transparent 50px
-    );
-    opacity: 0.05;
-    animation: patternMove 20s linear infinite;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: repeating-linear-gradient(45deg, var(--primary-color), var(--primary-color) 1px, transparent 1px, transparent 20px);
+  opacity: 0.05;
+  pointer-events: none;  /* ✅ This fixes the click issue */
+  z-index: 0;
 }
 
 @keyframes patternMove {
@@ -1140,6 +1179,43 @@ nav a.active {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.1);
     transform-style: preserve-3d;
+}
+
+/* Project Filter Buttons */
+.project-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.filter-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Make sure project cards have transition for smooth filtering */
+.project-card {
+    transition: all 0.4s ease;
 }
 
 .project-card:hover {

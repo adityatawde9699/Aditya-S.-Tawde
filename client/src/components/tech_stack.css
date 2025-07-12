@@ -1,0 +1,172 @@
+/* Modern horizontally scrolling tech stack ticker */
+.tech-scroll-container {
+  width: 100vw;
+  max-width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f8fafc 80%, #e0e7ef 100%);
+  margin: 0;
+  padding: 0;
+  border-top: 2.5px solid var(--primary-color, #6ee7b7);
+  border-bottom: 2.5px solid var(--accent-color, #e44d26);
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07), 0 2px 12px 0 rgba(0,0,0,0.04);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  backdrop-filter: blur(6px) saturate(120%);
+  border-radius: 0 0 18px 18px;
+  animation: tickerFadeIn 1.2s cubic-bezier(.4,2,.6,1);
+  /* New: subtle glassmorphism effect */
+  background: rgba(248, 250, 252, 0.85);
+  border-image: linear-gradient(90deg, var(--primary-color, #6ee7b7), var(--accent-color, #e44d26)) 1;
+}
+
+.tech-scroll-container::after {
+  /* New: fade-out effect at right edge */
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to left, #f8fafc 80%, transparent 100%);
+  z-index: 11;
+}
+
+.tech-scroll-container::before {
+  /* New: fade-out effect at left edge */
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to right, #f8fafc 80%, transparent 100%);
+  z-index: 11;
+}
+
+.tech-scroll-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: scroll-left 14s linear infinite;
+  gap: 0.5rem;
+  /* New: pause on hover */
+  will-change: transform;
+  transition: filter 0.2s;
+}
+.tech-scroll-container:hover .tech-scroll-track {
+  animation-play-state: paused;
+  filter: brightness(1.08) saturate(1.1);
+}
+
+.tech-scroll-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: var(--primary-color, #222);
+  background: linear-gradient(90deg, #f8fafc 60%, #e0e7ef 100%);
+  border-radius: 12px;
+  margin: 0 36px 0 0;
+  padding: 0 22px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(110,231,183,0.07);
+  border: 1.2px solid rgba(110,231,183,0.10);
+  transition: color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  /* New: subtle hover shadow */
+  filter: drop-shadow(0 1px 2px rgba(110,231,183,0.08));
+}
+.tech-scroll-item::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-color, #e44d26), var(--primary-color, #6ee7b7));
+  margin-right: 14px;
+  opacity: 0.8;
+  box-shadow: 0 1px 4px rgba(228,77,38,0.10);
+}
+.tech-scroll-item:last-child {
+  margin-right: 0;
+}
+.tech-scroll-item:hover, .tech-scroll-item:focus-visible {
+  color: #fff;
+  background: linear-gradient(90deg, var(--primary-color, #6ee7b7), var(--accent-color, #e44d26));
+  border-radius: 16px;
+  transform: scale(1.11) translateY(-2px) rotate(-1deg);
+  box-shadow: 0 4px 18px rgba(110,231,183,0.18), 0 2px 8px rgba(228,77,38,0.10);
+  border: 1.2px solid var(--primary-color, #6ee7b7);
+  filter: brightness(1.15) saturate(1.2);
+  outline: none;
+}
+.tech-scroll-item:active {
+  transform: scale(1.05) translateY(1px) rotate(0.5deg);
+  filter: brightness(0.98);
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes tickerFadeIn {
+  0% { opacity: 0; transform: translateY(40px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 900px) {
+  .tech-scroll-container {
+    height: 44px;
+    border-width: 2px;
+    border-radius: 0 0 12px 12px;
+  }
+  .tech-scroll-item {
+    font-size: 1rem;
+    padding: 0 14px;
+    margin-right: 18px;
+    border-radius: 9px;
+  }
+  .tech-scroll-item::before {
+    width: 5px;
+    height: 5px;
+    margin-right: 8px;
+  }
+  .tech-scroll-container::before,
+  .tech-scroll-container::after {
+    width: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tech-scroll-container {
+    height: 36px;
+    border-width: 1.5px;
+    border-radius: 0 0 8px 8px;
+  }
+  .tech-scroll-item {
+    font-size: 0.85rem;
+    padding: 0 8px;
+    margin-right: 10px;
+    border-radius: 7px;
+  }
+  .tech-scroll-item::before {
+    width: 4px;
+    height: 4px;
+    margin-right: 6px;
+  }
+  .tech-scroll-container::before,
+  .tech-scroll-container::after {
+    width: 18px;
+  }
+}

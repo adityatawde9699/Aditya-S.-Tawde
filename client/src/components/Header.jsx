@@ -58,9 +58,9 @@ const Header = () => {
         >
           {/* Hamburger SVG icon for better visibility and accessibility */}
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <rect y="6" width="28" height="3.2" rx="1.6" fill="currentColor"/>
-            <rect y="12.4" width="28" height="3.2" rx="1.6" fill="currentColor"/>
-            <rect y="18.8" width="28" height="3.2" rx="1.6" fill="currentColor"/>
+            <rect y="6" width="28" height="3.2" rx="1.6" fill="currentColor" />
+            <rect y="12.4" width="28" height="3.2" rx="1.6" fill="currentColor" />
+            <rect y="18.8" width="28" height="3.2" rx="1.6" fill="currentColor" />
           </svg>
         </button>
         <nav
@@ -72,13 +72,23 @@ const Header = () => {
           <ul className={styles.navList}>
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
-                  className={styles.navLink}
-                  onClick={handleNavLinkClick}
-                >
-                  {link.label}
-                </a>
+                {link.label === 'Home' ? (
+                  <a
+                    href={link.href}
+                    className={styles.navLink}
+                    onClick={e => { e.preventDefault(); window.location.replace(window.location.pathname); }}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <a
+                    href={link.href}
+                    className={styles.navLink}
+                    onClick={handleNavLinkClick}
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

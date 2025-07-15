@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -13,9 +13,20 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import './App.css'
 
+function ScrollToTopOnLoad() {
+  useEffect(() => {
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname);
+    }
+    window.scrollTo(0, 0);
+  }, []);
+  return null;
+}
+
 function App() {
   return (
     <>
+      <ScrollToTopOnLoad />
       <Header />
       <main className="container">
         <Hero />

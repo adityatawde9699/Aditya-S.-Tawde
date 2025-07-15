@@ -2,12 +2,12 @@ import React from 'react';
 import styles from './Hero.module.css';
 
 const Hero = () => (
-    <section className={styles.hero} aria-labelledby="hero-heading">
+    <section id="home" className={styles.hero} aria-labelledby="hero-heading">
         <div className={styles['hero-content']}>
             <div className={styles.profile}>
-                <img 
+                <img
                     src="./images/profile-photo.jpg"
-                    alt="Aditya Tawde - AI & Data Science Professional" 
+                    alt="Aditya Tawde - AI & Data Science Professional"
                     loading="lazy"
                     width="200"
                     height="200"

@@ -47,7 +47,7 @@ const skillsData = [
 ];
 
 const Skills = () => (
-    <section id="skills" aria-labelledby="skills-heading">
+    <section id="skills" className={styles.skillsSection} aria-labelledby="skills-heading">
         <h2 id="skills-heading" className={styles.skillsTitle}>Skills</h2>
         <div className={styles.skillsGrid}>
             {skillsData.map(skill => (

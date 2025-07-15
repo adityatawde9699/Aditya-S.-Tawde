@@ -2,16 +2,18 @@
 .skillsSection {
     background: #fff;
     border-radius: 24px;
-    box-shadow: 0 4px 32px 0 rgba(0,0,0,0.06);
+    box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.06);
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
     margin: 0 auto 2.5rem auto;
     max-width: 1400px;
 }
+
 /* Center the Skills section title */
 .skillsTitle {
     text-align: center;
 }
+
 .skillsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -27,8 +29,8 @@
     border-radius: 22px;
     padding: 2.5rem 1.7rem 2.3rem 1.7rem;
     text-align: center;
-    box-shadow: 0 4px 32px 0 rgba(0,0,0,0.10), 0 2px 24px 0 rgba(0,0,0,0.04), var(--box-shadow);
-    transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s, border 0.2s;
+    box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.10), 0 2px 24px 0 rgba(0, 0, 0, 0.04), var(--box-shadow);
+    transition: transform 0.25s cubic-bezier(.4, 2, .6, 1), box-shadow 0.25s, border 0.2s;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -58,35 +60,38 @@
 .skillCard:focus-visible,
 .skillCard:hover {
     border: 2.5px solid var(--primary-color);
-    box-shadow: 0 0 0 6px rgba(110,231,183,0.12), 0 8px 40px 0 rgba(0,0,0,0.13), var(--box-shadow-hover);
+    box-shadow: 0 0 0 6px rgba(110, 231, 183, 0.12), 0 8px 40px 0 rgba(0, 0, 0, 0.13), var(--box-shadow-hover);
 }
 
 .skillCard:focus-visible::before,
 .skillCard:hover::before {
     opacity: 0.18;
 }
+
 .skillCard:focus-visible {
     box-shadow: 0 0 0 3px var(--primary-color), var(--box-shadow);
     z-index: 1;
 }
+
 .skillCard:hover {
     transform: translateY(-12px) scale(1.025);
-    box-shadow: var(--box-shadow-hover), 0 4px 32px 0 rgba(0,0,0,0.08);
+    box-shadow: var(--box-shadow-hover), 0 4px 32px 0 rgba(0, 0, 0, 0.08);
 }
 
 .skillCard i {
     font-size: 3.7rem;
     color: var(--primary-color);
     margin-bottom: 1.1rem;
-    filter: drop-shadow(0 2px 12px rgba(0,0,0,0.13));
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.13));
     transition: color 0.2s, transform 0.2s;
     z-index: 1;
     background: linear-gradient(120deg, var(--primary-color), var(--primary-color-alt, #6ee7b7) 80%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 12px rgba(110,231,183,0.10);
+    text-shadow: 0 2px 12px rgba(110, 231, 183, 0.10);
 }
+
 .skillCard:hover i {
     transform: scale(1.12) rotate(-6deg);
     color: var(--primary-color-alt, #6ee7b7);
@@ -99,7 +104,7 @@
     letter-spacing: 0.02em;
     font-weight: 700;
     z-index: 1;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .skillBadges {
@@ -120,13 +125,14 @@
     font-size: 1.05rem;
     font-weight: 600;
     white-space: nowrap;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
     border: 1.5px solid var(--border-color);
     transition: background 0.2s, color 0.2s, border 0.2s;
     letter-spacing: 0.01em;
     margin-bottom: 2px;
     z-index: 1;
 }
+
 .badge:hover {
     background: linear-gradient(90deg, var(--primary-color), var(--primary-color-alt, #6ee7b7));
     color: #fff;
@@ -140,15 +146,15 @@
     overflow: hidden;
     margin-top: auto;
     position: relative;
-    box-shadow: 0 1px 6px 0 rgba(0,0,0,0.03);
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.03);
 }
 
 .progress {
     height: 100%;
     border-radius: 10px;
-    transition: width 1.2s cubic-bezier(.4,2,.6,1);
+    transition: width 1.2s cubic-bezier(.4, 2, .6, 1);
     background: linear-gradient(90deg, var(--primary-color), var(--primary-color-alt, #6ee7b7));
-    box-shadow: 0 1px 8px 0 rgba(0,0,0,0.07);
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.07);
     position: absolute;
     left: 0;
     top: 0;
@@ -157,21 +163,27 @@
 .pythonProgress {
     background: linear-gradient(90deg, #3776ab 60%, #4b8bbe 100%);
 }
+
 .mlProgress {
     background: linear-gradient(90deg, #f9a826 60%, #f7c873 100%);
 }
+
 .dataProgress {
     background: linear-gradient(90deg, #43cea2 60%, #185a9d 100%);
 }
+
 .webProgress {
     background: linear-gradient(90deg, #e44d26 60%, #f16529 100%);
 }
+
 .cloudProgress {
     background: linear-gradient(90deg, #00c6fb 60%, #005bea 100%);
 }
+
 .pmProgress {
     background: linear-gradient(90deg, #8e54e9 60%, #4776e6 100%);
 }
+
 /* Improved Responsive Tweaks */
 @media (max-width: 900px) {
     .skillsGrid {
@@ -179,32 +191,66 @@
         gap: 1.7rem;
         padding: 1.7rem 18px;
     }
+
     .skillCard {
         padding: 1.5rem 1rem 1.5rem 1rem;
         border-radius: 16px;
     }
+
     .skillCard h3 {
         font-size: 1.5rem;
     }
+
     .skillCard i {
         font-size: 2.7rem;
     }
 }
 
 @media (max-width: 600px) {
+    .skillsSection {
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+        margin: 0;
+        border-radius: 0;
+        max-width: 100vw;
+        background: #fff;
+        box-shadow: none;
+    }
+
     .skillsGrid {
         grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 1rem 8px;
+        gap: 1.1rem;
+        padding: 0.5rem 4vw;
     }
+
     .skillCard {
         padding: 1rem 0.5rem 1rem 0.5rem;
-        border-radius: 12px;
+        border-radius: 10px;
+        margin: 0 auto 1.2rem auto;
+        min-width: 0;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
     }
+
     .skillCard h3 {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
     }
+
     .skillCard i {
         font-size: 1.7rem;
+    }
+
+    .skillBadges {
+        gap: 0.4rem;
+        min-height: 32px;
+    }
+
+    .badge {
+        font-size: 0.98rem;
+        padding: 0.38rem 0.8rem;
+        border-radius: 7px;
+    }
+
+    .progressBar {
+        height: 10px;
     }
 }

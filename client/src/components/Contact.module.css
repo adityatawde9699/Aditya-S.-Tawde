@@ -1,680 +1,362 @@
 /* Contact.module.css */
 
-
 /* --- CSS Variables for easy theming --- */
-
 :root {
-
-  --primary-color: #007bff;
-
-  --primary-hover: #0056b3;
-
-  --success-color: #28a745;
-
-  --error-color: #dc3545;
-
-  --light-gray: #f8f9fa;
-
-  --medium-gray: #e9ecef;
-
-  --dark-gray: #000000;
-
-  --text-color: #212529;
-
-  --border-color: #ced4da;
-
-  --form-bg: #ffffff;
-
-  --fiverr-green: #1dbf73;
-
-  --freelancer-blue: #29b2fe;
-
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --light-gray: #f8f9fa;
+  --medium-gray: #e9ecef;
+  --dark-gray: #000000;
+  --text-color: #212529;
+  --border-color: #ced4da;
+  --form-bg: #ffffff;
+  --fiverr-green: #1dbf73;
+  --freelancer-blue: #29b2fe;
 }
-
 
 
 /* --- Progress Bar --- */
-
 .progress-bar {
-
-  width: 100%;
-
-  height: 8px;
-
-  background-color: var(--medium-gray);
-
-  border-radius: 4px;
-
-  overflow: hidden;
-
-  margin-bottom: -4px; /* Neatly overlaps with form's top border */
-
-  z-index: 5;
-
-  position: relative;
-
+  width: 100%;
+  height: 8px;
+  background-color: var(--medium-gray);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: -4px; /* Neatly overlaps with form's top border */
+  z-index: 5;
+  position: relative;
 }
-
 
 .progress-fill {
-
-  height: 100%;
-
-  background: linear-gradient(90deg, #6dd5ed, var(--primary-color));
-
-  border-radius: 4px;
-
-  transition: width 0.4s ease-in-out;
-
+  height: 100%;
+  background: linear-gradient(90deg, #6dd5ed, var(--primary-color));
+  border-radius: 4px;
+  transition: width 0.4s ease-in-out;
 }
-
 
 /* --- Form --- */
-
 .contact-form {
-
-  background-color: var(--form-bg);
-
-  padding: 2.5rem 2rem 2rem;
-
-  border-radius: 8px;
-
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.016);
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 1.5rem;
-
-  position: relative;
-
-  border-top-left-radius: 0;
-
-  border-top-right-radius: 0;
-
-  opacity: 0;
-
-  transform: translateY(20px);
-
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-
+  background-color: var(--form-bg);
+  padding: 2.5rem 2rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.016);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
-
 
 .contact-form.fadeIn {
-
-  opacity: 1;
-
-  transform: translateY(0);
-
+  opacity: 1;
+  transform: translateY(0);
 }
-
 
 /* --- Form Group & Input Wrapper --- */
-
 .form-group {
-
-  position: relative;
-
+  position: relative;
 }
-
 
 .input-wrapper {
-
-  position: relative;
-
-  display: flex;
-
-  align-items: center;
-
+  position: relative;
+  display: flex;
+  align-items: center;
 }
-
 
 /* --- Icons (inside inputs) --- */
-
 .input-icon {
-
-  position: absolute;
-
-  left: 12px;
-
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  color: var(--dark-gray);
-
-  pointer-events: none;
-
-  z-index: 2;
-
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dark-gray);
+  pointer-events: none;
+  z-index: 2;
 }
-
 
 .input-status {
-
-  position: absolute;
-
-  right: 12px;
-
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  z-index: 2;
-
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
 }
-
 
 /* --- Inputs, Textarea, and Labels --- */
-
 .contact-form input,
-
 .contact-form textarea {
-
-  width: 100%;
-
-  padding: 12px 40px; /* Space for icons on left and right */
-
-  font-size: 1rem;
-
-  border: 1px solid var(--border-color);
-
-  border-radius: 6px;
-
-  background-color: var(--light-gray);
-
-  color: var(--text-color);
-
-  transition: border-color 0.3s, box-shadow 0.3s;
-
-  position: relative;
-
-  z-index: 1;
-
+  width: 100%;
+  padding: 12px 40px; /* Space for icons on left and right */
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 1;
 }
 
-
 .contact-form textarea {
-
-  resize: vertical;
-
-  min-height: 120px;
-
-  font-family: inherit;
-
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
 }
-
 
 .contact-form input:focus,
-
 .contact-form textarea:focus {
-
-  outline: none;
-
-  border-color: var(--primary-color);
-
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-
-  background-color: #fff;
-
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  background-color: #fff;
 }
-
 
 /* Floating Label Logic */
-
 .contact-form label {
-
-  position: absolute;
-
-  top: 50%;
-
-  left: 45px; /* Aligned with text, past the icon */
-
-  transform: translateY(-50%);
-
-  color: var(--dark-gray);
-
-  pointer-events: none;
-
-  transition: all 0.2s ease-out;
-
-  background-color: var(--light-gray);
-
-  padding: 0 4px;
-
-  z-index: 1;
-
+  position: absolute;
+  top: 50%;
+  left: 45px; /* Aligned with text, past the icon */
+  transform: translateY(-50%);
+  color: var(--dark-gray);
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  background-color: var(--light-gray);
+  padding: 0 4px;
+  z-index: 1;
 }
-
 
 /* When input is focused or filled (using the .float class), move the label up */
-
 .contact-form input:focus + label,
-
 .contact-form textarea:focus + label,
-
 .contact-form label.float {
-
-  top: 0;
-
-  left: 40px;
-
-  font-size: 0.75rem;
-
-  color: var(--primary-color);
-
-  background-color: var(--form-bg); /* Match focused input background */
-
-  z-index: 3;
-
+  top: 0;
+  left: 40px;
+  font-size: 0.75rem;
+  color: var(--primary-color);
+  background-color: var(--form-bg); /* Match focused input background */
+  z-index: 3;
 }
-
 
 /* Adjust label background for non-focused but filled inputs */
-
 .contact-form input:not(:focus) + label.float,
-
 .contact-form textarea:not(:focus) + label.float {
-
-  background-color: var(--light-gray);
-
-  color: var(--dark-gray);
-
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
 }
-
 
 
 /* --- Error and Status Messages --- */
-
 .field-error {
-
-  color: var(--error-color);
-
-  font-size: 0.875rem;
-
-  margin-top: 0.25rem;
-
-  padding-left: 5px;
-
-  display: block;
-
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  padding-left: 5px;
+  display: block;
 }
-
 
 .form-status {
-
-  margin-top: 1rem;
-
-  padding: 0.75rem 1.25rem;
-
-  border-radius: 6px;
-
-  font-weight: 500;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.75rem;
-
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
-
 
 .form-status.success {
-
-  background-color: #d1fae5;
-
-  color: #065f46;
-
+  background-color: #d1fae5;
+  color: #065f46;
 }
-
 
 .form-status.error {
-
-  background-color: #fee2e2;
-
-  color: #991b1b;
-
+  background-color: #fee2e2;
+  color: #991b1b;
 }
-
 
 /* --- Buttons --- */
-
 .form-actions {
-
-  display: flex;
-
-  justify-content: flex-start;
-
-  align-items: center;
-
-  gap: 1rem;
-
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
 }
-
 
 .btn {
-
-  padding: 0.75rem 1.5rem;
-
-  font-size: 1rem;
-
-  font-weight: 600;
-
-  border: none;
-
-  border-radius: 6px;
-
-  cursor: pointer;
-
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .btn:disabled {
-
-  cursor: not-allowed;
-
-  opacity: 0.65;
-
+  cursor: not-allowed;
+  opacity: 0.65;
 }
-
 
 .btn.primary {
-
-  background-color: var(--primary-color);
-
-  color: #fff;
-
+  background-color: var(--primary-color);
+  color: #fff;
 }
-
 
 .btn.primary:not(:disabled):hover {
-
-  background-color: var(--primary-hover);
-
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-
-  transform: translateY(-2px);
-
+  background-color: var(--primary-hover);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
 }
-
 
 .btn:not(.primary) {
-
-  background-color: var(--medium-gray);
-
-  color: var(--text-color);
-
-  border: 1px solid var(--border-color);
-
+  background-color: var(--medium-gray);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
-
 
 .btn:not(.primary):not(:disabled):hover {
-
-  background-color: #d3d9df;
-
-  transform: translateY(-2px);
-
+  background-color: #d3d9df;
+  transform: translateY(-2px);
 }
-
 
 /* --- Loading Spinner --- */
-
 .spinner {
-
-  width: 20px;
-
-  height: 20px;
-
-  border: 3px solid rgba(255, 255, 255, 0.3);
-
-  border-top-color: #fff;
-
-  border-radius: 50%;
-
-  animation: spin 1s linear infinite;
-
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
-
 
 /* --- Animations --- */
-
 @keyframes spin {
-
-  to {
-
-    transform: rotate(360deg);
-
-  }
-
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 
 .shake {
-
-  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
-
 
 @keyframes shake {
-
-  10%, 90% { transform: translate3d(-1px, 0, 0); }
-
-  20%, 80% { transform: translate3d(2px, 0, 0); }
-
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-
-  40%, 60% { transform: translate3d(4px, 0, 0); }
-
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
 }
-
 
 /* Big Success Animation */
-
 .success-anim {
-
-  position: absolute;
-
-  top: 0;
-
-  left: 0;
-
-  right: 0;
-
-  bottom: 0;
-
-  background-color: rgba(255, 255, 255, 0.95);
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 8px;
-
-  z-index: 10;
-
-  animation: fade-in-out 2.1s forwards;
-
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 10;
+  animation: fade-in-out 2.1s forwards;
 }
-
 
 .success-anim span {
-
-  margin-top: 1rem;
-
-  font-size: 1.5rem;
-
-  font-weight: 600;
-
-  color: #059669;
-
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #059669;
 }
-
 
 @keyframes fade-in-out {
-
-  0% { opacity: 0; transform: scale(0.8); }
-
-  20% { opacity: 1; transform: scale(1); }
-
-  80% { opacity: 1; transform: scale(1); }
-
-  100% { opacity: 0; transform: scale(0.8); }
-
+  0% { opacity: 0; transform: scale(0.8); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
 }
-
 
 /* --- External Contact Section --- */
-
 .external-contact {
-
-  text-align: center;
-
-  margin-top: 2rem;
-
-  padding: 1.5rem;
-
-  background-color: var(--light-gray);
-
-  border-radius: 8px;
-
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--light-gray);
+  border-radius: 8px;
 }
-
 
 .external-contact p {
-
-  margin: 0 0 1rem;
-
-  color: var(--dark-gray);
-
-  font-size: 1.1rem;
-
+  margin: 0 0 1rem;
+  color: var(--dark-gray);
+  font-size: 1.1rem;
 }
-
 
 .external-links {
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: 1rem;
-
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
-
 
 .external-btn {
-
-  padding: 0.6rem 1.2rem;
-
-  border-radius: 6px;
-
-  text-decoration: none;
-
-  font-weight: 600;
-
-  color: #fff;
-
-  transition: transform 0.2s, box-shadow 0.2s;
-
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 
 .external-btn:hover {
-
-  transform: translateY(-2px);
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 
 .external-btn.fiverr {
-
-  background-color: var(--fiverr-green);
-
+  background-color: var(--fiverr-green);
 }
-
 
 .external-btn.freelancer {
-
-  background-color: var(--freelancer-blue);
-
+  background-color: var(--freelancer-blue);
 }
-
 
 
 /* --- Responsive Design --- */
-
 @media (max-width: 768px) {
-
-  .contact-container {
-
-    padding: 0.5rem;
-
-  }
-
-  .contact-form {
-
-    padding: 2rem 1.5rem 1.5rem;
-
-  }
-
+  .contact-container {
+    padding: 0.5rem;
+  }
+  .contact-form {
+    padding: 2rem 1.5rem 1.5rem;
+  }
 }
-
 
 @media (max-width: 480px) {
-
-  .contact-form {
-
-    padding: 1.5rem 1rem 1rem;
-
-  }
-
-  .form-actions {
-
-    flex-direction: column;
-
-    align-items: stretch;
-
-  }
-
-  .btn {
-
-    width: 100%;
-
-  }
-
-  /* Overrides the inline style from the JSX for the Reset button */
-
-  .btn:not(.primary) {
-
-      margin-left: 0 !important;
-
-  }
-
-  .external-links {
-
-    flex-direction: column;
-
-  }
-
+  .contact-form {
+    padding: 1.5rem 1rem 1rem;
+  }
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn {
+    width: 100%;
+  }
+  /* Overrides the inline style from the JSX for the Reset button */
+  .btn:not(.primary) {
+      margin-left: 0 !important;
+  }
+  .external-links {
+    flex-direction: column;
+  }
 }
-
-

@@ -35,10 +35,10 @@
   -webkit-backdrop-filter: blur(10px) saturate(120%) brightness(1.08);
   backdrop-filter: blur(10px) saturate(120%) brightness(1.08);
   border-radius: 0 0 18px 18px;
-}
-
-.tech-scroll-container::-webkit-scrollbar {
-  display: none;
+  animation: tickerFadeIn 1.2s cubic-bezier(.4,2,.6,1);
+  /* New: subtle glassmorphism effect */
+  background: rgba(248, 250, 252, 0.85);
+  border-image: linear-gradient(90deg, var(--primary-color, #6ee7b7), var(--accent-color, #e44d26)) 1;
 }
 
 .tech-scroll-container::after,
@@ -229,6 +229,3 @@
     width: 5px;
   }
 }
-.tech-scroll-container.scroll-animation{
-  width: 100%;
-} 

@@ -70,7 +70,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #110c0c;
+  background-color: #f7f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ body::before {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #0a0a0a;
+  background: #b9b7b7;
   left: 0;
   transform: translateX(-100%);
   animation: reveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
@@ -121,7 +121,7 @@ body::before {
   position: relative;
   width: 280px;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(167, 160, 160, 0.1);
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(71, 118, 230, 0.3);

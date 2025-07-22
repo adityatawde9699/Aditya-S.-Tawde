@@ -130,6 +130,7 @@ const Contact = () => {
                 setStatusType('error');
             }
         } catch (error) {
+            console.error(error);
             setStatus('An error occurred.');
             setStatusType('error');
         } finally {
@@ -151,6 +152,7 @@ const Contact = () => {
     return (
         <section id="contact" aria-labelledby="contact-heading">
             <h2 id="contact-heading">Get in Touch</h2>
+         
             <div className={styles['progress-bar']} aria-hidden="true">
                 <div className={styles['progress-fill']} style={{ width: `${progress * 100}%` }} />
             </div>
@@ -310,6 +312,7 @@ const Contact = () => {
                     </a>
                 </div>
             </div>
+          
         </section>
     );
 };

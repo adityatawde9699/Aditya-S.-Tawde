@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#education', label: 'Education' },
-  { href: '#certifications', label: 'Certifications' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#testimonials', label: 'Testimonials' },
-  { href: '#contact', label: 'Contact' },
+  { to: '/', label: 'Home', type: 'route' },
+  { to: '/projects', label: 'Projects', type: 'route' },
+  { to: '/contact', label: 'Contact', type: 'route' },
 ];
 
 const Header = () => {
   const [navActive, setNavActive] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef(null);
+  const headerRef = useRef(null);
 
   // Close nav on outside click
   useEffect(() => {
@@ -38,6 +36,21 @@ const Header = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [navActive]);
 
+  // Hide header on scroll down, show on scroll up
+  useEffect(() => {
+    let prevScrollpos = window.pageYOffset;
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      if (headerRef.current) {
+        headerRef.current.style.top = prevScrollpos > currentScrollPos ? '0' : '-60px';
+      }
+      setScrolled(currentScrollPos > 0);
+      prevScrollpos = currentScrollPos;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleHamburgerClick = () => {
     setNavActive((prev) => !prev);
   };
@@ -47,7 +60,11 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
+      ref={headerRef}
+      id="navbar"
+    >
       <div className={styles.headerContent}>
         <span className={styles.logo}>Aditya S. Tawde</span>
         <button
@@ -56,7 +73,6 @@ const Header = () => {
           aria-expanded={navActive}
           onClick={handleHamburgerClick}
         >
-          {/* Hamburger SVG icon for better visibility and accessibility */}
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <rect y="6" width="28" height="3.2" rx="1.6" fill="currentColor" />
             <rect y="12.4" width="28" height="3.2" rx="1.6" fill="currentColor" />
@@ -71,15 +87,15 @@ const Header = () => {
         >
           <ul className={styles.navList}>
             {navLinks.map((link) => (
-              <li key={link.href}>
-                {link.label === 'Home' ? (
-                  <a
-                    href={link.href}
+              <li key={link.label}>
+                {link.type === 'route' ? (
+                  <Link
+                    to={link.to}
                     className={styles.navLink}
-                    onClick={e => { e.preventDefault(); window.location.replace(window.location.pathname); }}
+                    onClick={handleNavLinkClick}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ) : (
                   <a
                     href={link.href}

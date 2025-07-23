@@ -1,4 +1,5 @@
-
+os
+sys
 django>=4.2
 django-anymail[sendgrid, mailgun]
 python-dotenv

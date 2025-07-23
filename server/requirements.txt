@@ -5,3 +5,4 @@ django-anymail[sendgrid, mailgun]
 python-dotenv
 pahtlib
 gunicorn
+smtplib

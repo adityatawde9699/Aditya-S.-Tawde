@@ -114,7 +114,7 @@ const Contact = () => {
         setStatus('');
         setStatusType('');
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/contact/send/', {
+            const response = await fetch('https://aditya-backend-3m7c.onrender.com/api/contact/send/', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

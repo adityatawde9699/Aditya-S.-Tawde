@@ -114,24 +114,28 @@ const Contact = () => {
         setStatus('');
         setStatusType('');
         try {
-          const response = await fetch('https://backend-for-astportfolio.onrender.com/api/contact', {
+            const response = await fetch('http://127.0.0.1:8000/api/contact/send/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(form),
+                credentials: 'include'
             });
             const data = await response.json();
-            if (data.success) {
-                setStatus('Message sent successfully!');
+            if (response.ok) {
+                setStatus(data.message || 'Message sent successfully!');
                 setStatusType('success');
                 setForm(initialForm);
                 setTouched({});
             } else {
-                setStatus('Failed to send message.');
+                setStatus(data.error || 'Failed to send message.');
                 setStatusType('error');
             }
         } catch (error) {
             console.error(error);
-            setStatus('An error occurred.');
+            setStatus('An error occurred. Please try again later.');
             setStatusType('error');
         } finally {
             setLoading(false);

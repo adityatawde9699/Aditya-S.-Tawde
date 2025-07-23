@@ -8,7 +8,7 @@ djangorestframework
 
 # For handling Cross-Origin Resource Sharing (CORS)
 django-cors-headers
-
+dotenv
 # Production WSGI server for Python
 gunicorn
 

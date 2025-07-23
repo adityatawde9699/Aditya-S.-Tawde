@@ -1,8 +1,22 @@
-os
-sys
+# requirements.txt
+
+# Core Django framework
 django>=4.2
-django-anymail[sendgrid, mailgun]
-python-dotenv
-pahtlib
+
+# Django REST framework for building APIs
+djangorestframework
+
+# For handling Cross-Origin Resource Sharing (CORS)
+django-cors-headers
+
+# Production WSGI server for Python
 gunicorn
-smtplib
+
+# For parsing database URLs from Render's environment
+dj-database-url
+
+# PostgreSQL adapter for Python
+psycopg2-binary
+
+# For serving static files in production
+whitenoise

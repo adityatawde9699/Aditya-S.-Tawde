@@ -27,7 +27,7 @@ const Hero = () => (
                 <a href="..\Aditya_Portfolio.pdf" className={`${styles.btn} ${styles.primary}`} download>
                     <i className="fas fa-download"></i> Download Resume
                 </a>
-                <a href="/contact" className={`${styles.btn} ${styles.secondary}`}>
+                <a href="https://aditya-s-tawde.onrender.com/contact" className={`${styles.btn} ${styles.secondary}`}>
                     <i className="fas fa-arrow-right"></i> Hire Me
                 </a>
             </div>

@@ -4,7 +4,7 @@ import styles from './Footer.module.css';
 const Footer = () => (
     <footer className={styles.footer}>
         <div className={styles['social-icons']}>
-            <a href="https://www.linkedin.com/in/aditya-tawde-7a1392315?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener" role="button" aria-label="LinkedIn Profile for Aditya Tawde">
+            <a href="https://www.linkedin.com/in/aditya-s-tawde-7a1392315?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener" role="button" aria-label="LinkedIn Profile for Aditya Tawde">
                 <img src="https://img.icons8.com/?size=60&id=114445&format=png&color=000000" alt="LinkedIn Profile for Aditya Tawde" />
             </a>
             <a href="https://www.instagram.com/adityasuniltawde" target="_blank" rel="noopener" role="button" aria-label="Instagram Profile for Aditya Tawde">
@@ -20,5 +20,6 @@ const Footer = () => (
         </p>
     </footer>
 );
+
 
 export default Footer; 

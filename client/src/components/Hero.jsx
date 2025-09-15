@@ -17,8 +17,7 @@ const Hero = () => (
                 Welcome to My Portfolio
             </h1>
             <p className={styles.subtitle}>
-                Hello! I'm <strong>Aditya S. Tawde</strong>, an aspiring <span className={styles.highlight}>AI & Data Science</span> professional seeking internship opportunities.<br />
-                Currently pursuing <b>B.Tech at JNEC</b>, I combine technical expertise with a passion for solving real-world problems through technology.
+                Hello! I'm Aditya S. Tawde, an aspiring AI & Data Science enthusiast looking for internship opportunities. Currently, I'm pursuing a B.Tech at JNEC, where I blend technical proficiency with a zeal for addressing real-world challenges using technology. Discover my work, skills, and projects below. Let's connect and craft something incredible together! About Me As a B.Tech candidate specializing in AI & Data Science at JNEC, I merge strong technical abilities with a fervor for devising innovative tech solutions for real-world issues.
             </p>
             <p className={styles['cta-text']}>
                 Explore my work, skills, and projects below. Let's connect and create something amazing together!

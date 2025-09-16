@@ -3,6 +3,45 @@ import { ExternalLink, Award, Calendar, Building, Code, ChevronDown } from 'luci
 import styles from './Certifications.module.css';
 
 const certificationsData = [
+     {
+        logo: "/images/IBM.svg",
+        alt: "IBM Logo",
+        title: "Introduction to Artificial Intelligence (AI)",
+        issuer: "Coursera – IBM Developer Skills Network",
+        date: "Issued September 2025",
+        description: "Gained a comprehensive understanding of AI's fundamental concepts and applications. Mastered core principles of machine learning, deep learning, and neural networks through real-world scenarios, and analyzed the transformative role of generative AI in business. Designed an ethical generative AI solution for an organizational challenge.",
+        tech: ["AI", "Machine Learning", "Deep Learning", "Generative AI", "NLP", "ChatGPT"],
+        link: "https://www.coursera.org/account/accomplishments/verify/L9U6S7VXNDSM",
+        category: "AI",
+        level: "Beginner",
+        duration: "1 week"
+    },
+    {
+    "logo": "/images/IBM.svg",
+    "alt": "IBM Logo",
+    "title": "Generative AI: Introduction and Applications",
+    "issuer": "Coursera – IBM Developer Skills Network",
+    "date": "Issued September 2025",
+    "description": "Learned the fundamentals of generative AI and its distinction from discriminative AI. Explored the capabilities, real-world use cases, and applications of generative AI across various sectors. Identified and explored common generative AI models and tools for text, code, image, audio, and video generation.",
+    "tech": ["Generative AI", "Artificial Intelligence and Machine Learning (AI/ML)", "Machine Learning", "ChatGPT", "Virtual Environment"],
+    "link": "https://www.coursera.org/account/accomplishments/verify/HEAXEL5WWV1L",
+    "category": "AI",
+    "level": "Beginner",
+    "duration": "1 week"
+   },
+   {
+    "logo": "/images/IBM.svg",
+    "alt": "IBM Logo",
+    "title": "Generative AI: Prompt Engineering Basics",
+    "issuer": "Coursera – IBM Developer Skills Network",
+    "date": "Issued September 13, 2025",
+    "description": "Gained a comprehensive understanding of prompt engineering, its relevance in generative AI models, and best practices for prompt creation. Learned to apply common prompt engineering techniques and assess various tools to write effective prompts.",
+    "tech": ["Generative AI", "Prompt Engineering", "ChatGPT"],
+    "link": "https://www.coursera.org/account/accomplishments/verify/DTEZI8ROEZPR",
+    "category": "AI",
+    "level": "Beginner",
+    "duration": "1 Week"
+   },
     {
         logo: "/images/IBM.svg",
         alt: "IBM Logo",
@@ -11,10 +50,10 @@ const certificationsData = [
         date: "Issued June 2025",
         description: "Recognized by IBM for demonstrating foundational knowledge in Python programming for data science and AI applications including data manipulation, analysis, and visualization.",
         tech: ["Python", "Data Science", "AI"],
-        link: "https://www.credly.com/badges/9be4a308-457d-40de-b6b4-d95cc70a2b87",
+        link: "https://www.coursera.org/account/accomplishments/verify/PI3SRNL9JKCV",
         category: "Data Science",
         level: "Intermediate",
-        duration: "6 weeks"
+        duration: "3 weeks"
     },
     {
         logo: "/images/IBM.svg", 
@@ -24,10 +63,10 @@ const certificationsData = [
         date: "Issued July 2025",
         description: "Mastered data analysis using Python, including data cleaning and visualization with Pandas. Developed expertise in building Data Pipelines and Machine Learning models for Regression using Scikit-learn, with strong focus on model evaluation and optimization.",
         tech: ["Python", "Pandas", "Scikit-learn", "Data Analysis", "NumPy"],
-        link: "https://www.credly.com/badges/b1094d6f2bc8-42c1-8bf4-fc3f00b2dacb",
+        link: "https://www.coursera.org/account/accomplishments/verify/UGIKDK39CALC",
         category: "Data Science",
         level: "Advanced", 
-        duration: "8 weeks"
+        duration: "6 weeks"
     },
     {
         logo: "/images/University of Washington.svg",
@@ -40,7 +79,7 @@ const certificationsData = [
         link: "https://coursera.org/verify/UT69BZRJTHNW",
         category: "Machine Learning",
         level: "Intermediate",
-        duration: "12 weeks"
+        duration: "5 weeks"
     },
 ];
 
@@ -51,7 +90,7 @@ const Certifications = () => {
     const sectionRef = useRef(null);
     const cardRefs = useRef([]);
 
-    const categories = ['all', 'Data Science', 'Machine Learning'];
+    const categories = ['all', 'Data Science', 'Machine Learning', 'AI', 'Cloud Computing', 'Web Development', ];
 
     useEffect(() => {
         const observer = new IntersectionObserver(

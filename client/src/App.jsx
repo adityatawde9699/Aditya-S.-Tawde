@@ -50,10 +50,10 @@ function App() {
               <TechStackScroll />
               <Skills />
               <Education />
-              <Certifications />
             </main>
           }
         />
+        <Route path="/certificates" element={<Certifications />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>

@@ -1,39 +1,29 @@
-/* tech_stack.css */
+/* tech_stack.css - Cyber-Minimalist Theme with Auto-Scroll */
 
-/*
-  Base Styles for the Ticker Container
-  This section sets up the overall layout and the "glassmorphism" look.
-*/
 .tech-scroll-container {
   width: 100%;
   max-width: 100vw;
-  overflow: hidden; /* Use 'hidden' for both x and y to prevent any scrollbars */
-  height: 54px;
+  overflow: hidden;
+  height: 48px;
   display: flex;
   align-items: center;
   position: relative;
   z-index: 10;
-  
-  /* Glassmorphism and Backdrop Effects */
-  background: rgba(248, 250, 252, 0.85);
-  -webkit-backdrop-filter: blur(10px) saturate(120%) brightness(1.08); /* For Safari support */
-  backdrop-filter: blur(10px) saturate(120%) brightness(1.08);
-  border-radius: 0 0 18px 18px;
-  box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  /* Dark glassmorphism */
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Fading Edges
-   This creates the gradient effect on the left and right to make the text appear to fade in and out.
-*/
+/* Fading Edges - Dark theme */
 .tech-scroll-container::before,
 .tech-scroll-container::after {
   content: '';
   position: absolute;
   top: 0;
-  width: 40px;
+  width: 60px;
   height: 100%;
   pointer-events: none;
   z-index: 11;
@@ -41,157 +31,190 @@
 
 .tech-scroll-container::before {
   left: 0;
-  background: linear-gradient(to right, rgba(248, 250, 252, 0.95), transparent);
+  background: linear-gradient(to right, rgba(11, 17, 32, 0.95), transparent);
 }
 
 .tech-scroll-container::after {
   right: 0;
-  background: linear-gradient(to left, rgba(248, 250, 252, 0.95), transparent);
+  background: linear-gradient(to left, rgba(11, 17, 32, 0.95), transparent);
 }
 
-/*
-  Animation and Track
-  This section controls the horizontal scrolling and the animation behavior.
-*/
+/* Track - THE KEY FIX: Ensure animation runs */
 .tech-scroll-track {
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 0.7rem;
+  gap: 1rem;
   padding: 0 2vw;
-  animation: techScroll 22s linear infinite;
+  animation: techScroll 25s linear infinite;
   will-change: transform;
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-animation: techScroll 25s linear infinite;
 }
 
 /* Pause animation on hover */
 .tech-scroll-container:hover .tech-scroll-track {
   animation-play-state: paused;
-  filter: brightness(1.12) saturate(1.15) contrast(1.05);
+  -webkit-animation-play-state: paused;
 }
 
-/* Individual Tech Item Styling */
+/* Individual Tech Items */
 .tech-scroll-item {
   display: inline-flex;
   align-items: center;
-  font-size: 1.08rem;
-  font-weight: 700;
-  color: #1e293b;
-  background: linear-gradient(135deg, #fff, #f3f4f6);
-  border-radius: 14px;
-  margin: 0 28px 0 0;
-  padding: 0 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 99px;
+  padding: 0.4rem 1rem;
   letter-spacing: 0.02em;
   white-space: nowrap;
   text-transform: uppercase;
-  position: relative;
-  
-  /* Hover and Active Transitions */
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(110, 231, 183, 0.07);
-  border: 1.2px solid rgba(110, 231, 183, 0.1);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .tech-scroll-item::before {
   content: '';
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e44d26, #6ee7b7);
-  margin-right: 12px;
-  opacity: 0.8;
-  box-shadow: 0 1px 4px rgba(228, 77, 38, 0.1);
+  background: var(--primary);
+  margin-right: 8px;
+  box-shadow: 0 0 8px var(--primary-glow);
+  flex-shrink: 0;
 }
 
-.tech-scroll-item:hover,
-.tech-scroll-item:focus-visible {
-  color: #fff;
-  background: linear-gradient(90deg, #6ee7b7, #e44d26);
-  border-radius: 16px;
-  transform: scale(1.11) translateY(-2px) rotate(-1deg);
-  box-shadow: 0 4px 18px rgba(110, 231, 183, 0.18), 0 2px 8px rgba(228, 77, 38, 0.1);
-  border-color: #6ee7b7;
-  filter: brightness(1.15) saturate(1.2);
-  outline: none;
+.tech-scroll-item:hover {
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--primary);
+  transform: scale(1.05);
 }
 
-.tech-scroll-item:active {
-  transform: scale(1.05) translateY(1px) rotate(0.5deg);
-  filter: brightness(0.98);
-}
-
-/*
-  Animations
-  The keyframes for the continuous scroll and initial fade-in.
-*/
+/* Animation - with vendor prefixes */
 @keyframes techScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-@keyframes tickerFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@-webkit-keyframes techScroll {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  100% {
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
 }
 
-/*
-  Responsiveness
-  Consolidated media queries for better organization.
-*/
+/* ============================================
+   MOBILE RESPONSIVE DESIGN
+   ============================================ */
+
 @media (max-width: 900px) {
   .tech-scroll-container {
-    height: 40px;
-    border-radius: 0 0 10px 10px;
+    height: 42px;
   }
+
   .tech-scroll-item {
-    font-size: 0.95rem;
-    padding: 0 10px;
-    margin-right: 12px;
-    border-radius: 10px;
+    font-size: 0.8rem;
+    padding: 0.35rem 0.85rem;
   }
+
   .tech-scroll-item::before {
     width: 5px;
     height: 5px;
     margin-right: 6px;
   }
+
   .tech-scroll-container::before,
   .tech-scroll-container::after {
-    width: 18px;
+    width: 40px;
+  }
+
+  .tech-scroll-track {
+    gap: 0.75rem;
+    animation-duration: 22s;
+    -webkit-animation-duration: 22s;
   }
 }
 
 @media (max-width: 600px) {
   .tech-scroll-container {
-    max-width: 100%; /* Changed from 130vw for better mobile compatibility */
-    left: 0; right: 0; /* Remove left/right to ensure it stays centered */
-    height: 50px;
-    border-radius: 0 0 5px 5px;
-    padding: 0 2px;
+    height: 38px;
   }
+
   .tech-scroll-track {
-    gap: 0.3rem;
-    padding: 0 1vw;
-    animation-duration: 14s;
+    gap: 0.5rem;
+    animation-duration: 18s;
+    -webkit-animation-duration: 18s;
   }
+
   .tech-scroll-item {
-    font-size: 0.72rem;
-    padding: 0 4px;
-    margin-right: 4px;
-    border-radius: 5px;
-    min-width: 48px;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
   }
+
   .tech-scroll-item::before {
-    width: 2px;
-    height: 2px;
-    margin-right: 2px;
+    width: 4px;
+    height: 4px;
+    margin-right: 5px;
   }
-  .tech-scroll-item:hover, .tech-scroll-item:focus-visible {
-    border-radius: 7px;
-    transform: scale(1.07) translateY(-1px) rotate(-0.5deg);
-  }
+
   .tech-scroll-container::before,
   .tech-scroll-container::after {
-    width: 5px;
+    width: 25px;
   }
+
+  /* Disable hover transform on mobile */
+  .tech-scroll-item:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .tech-scroll-container {
+    height: 34px;
+  }
+
+  .tech-scroll-item {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .tech-scroll-item::before {
+    width: 3px;
+    height: 3px;
+    margin-right: 4px;
+  }
+
+  .tech-scroll-track {
+    animation-duration: 15s;
+    -webkit-animation-duration: 15s;
+  }
+}
+
+/* Accessibility - only disable for those who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tech-scroll-track {
+    animation: none;
+    -webkit-animation: none;
+  }
+}
+
+/* Force animation to run */
+.scroll-animate .tech-scroll-track {
+  animation: techScroll 25s linear infinite !important;
+  -webkit-animation: techScroll 25s linear infinite !important;
 }

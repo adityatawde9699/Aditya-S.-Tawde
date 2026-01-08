@@ -1,22 +1,58 @@
+/* Footer.module.css - Cyber-Minimalist Theme */
+
 footer {
-  background: #222;
-  color: #fff;
-  padding: 2rem 0 1rem 0;
+  background: rgba(11, 17, 32, 0.95);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 3rem 2rem 2rem;
   text-align: center;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0.5;
 }
 
 .social-icons {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-icons a {
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icons a:hover {
+  color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.social-icons a:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .social-icons a img {
-  width: 40px;
-  height: 40px;
-  filter: grayscale(100%) brightness(1.5);
-  transition: filter 0.2s;
+  width: 32px;
+  height: 32px;
+  filter: grayscale(100%) brightness(0.7);
+  transition: filter 0.2s ease;
 }
 
 .social-icons a:hover img {
@@ -25,75 +61,78 @@ footer {
 
 footer p {
   margin: 0;
-  font-size: 1rem;
-  color: #bbb;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
 .builtby {
-  margin-top: 0.5rem;
-  font-size: 1.08rem;
-  color: #f3f3f3;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
   letter-spacing: 0.01em;
 }
 
 .author {
   font-weight: 600;
-  color: #a5b4fc;
+  color: var(--primary);
 }
 
+/* Back to Top Button */
 .backToTop {
   position: fixed;
   bottom: 32px;
   right: 32px;
-  background: #4f46e5;
-  color: #fff;
+  background: var(--primary);
+  color: #000;
   border: none;
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  font-size: 1.7rem;
+  width: 48px;
+  height: 48px;
+  font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 20px var(--primary-glow);
   z-index: 1000;
-  transition: background 0.2s, transform 0.2s;
+  transition: all 0.2s ease;
   display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.backToTop:hover {
+  background: #7DD3FC;
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px var(--primary-glow);
 }
 
 .backToTop:active,
 .backToTop:focus {
-  background: #6366f1;
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }
 
 @media (max-width: 600px) {
-  .footer {
-    padding: 1.2rem 0 0.5rem 0;
+  footer {
+    padding: 2rem 1rem 1.5rem;
   }
 
   .social-icons {
     gap: 1rem;
   }
 
+  .social-icons a img {
+    width: 28px;
+    height: 28px;
+  }
+
   .builtby {
-    font-size: 1rem;
-    margin-top: 0.7rem;
+    font-size: 0.9rem;
   }
 
   .backToTop {
-    right: 16px;
-    bottom: 16px;
-    width: 38px;
-    height: 38px;
-    font-size: 1.2rem;
+    right: 20px;
+    bottom: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
   }
-}
-
-.social-icons a {
-  outline: none;
-  border-radius: 8px;
-  padding: 4px;
-  transition: background 0.2s;
-}
-
-.social-icons a:focus {
-  background: #6366f1;
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
-import TechStackScroll from './components/tech_stack';
+import TechStack from './components/TechStack';
 import './components/tech_stack.css';
 import Skills from './components/Skills';
 import Education from './components/Education';
@@ -47,7 +47,7 @@ function App() {
             <main className="container">
               <Hero />
               <About />
-              <TechStackScroll />
+              <TechStack />
               <Skills />
               <Education />
             </main>

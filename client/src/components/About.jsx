@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './About.module.css';
-import TechStackScroll from './tech_stack';
+
 
 const About = () => {
     const [activeTab, setActiveTab] = useState('skills');
@@ -43,13 +43,13 @@ const About = () => {
             <h2 id="about-heading">About Me</h2>
             <div className={styles['about-content']}>
                 <div className={styles['about-text']}>
-                  <p className={styles['about-intro']}>
-                    <strong>Hello!</strong> I'm Aditya S. Tawde, an aspiring <strong>AI & Data Science</strong> enthusiast currently seeking internship opportunities. I am pursuing a <strong>B.Tech</strong> at JNEC, where I'm focused on blending technical proficiency with a zeal for solving complex, real-world challenges.
-                  </p>
-                  <p className={styles['about-intro']}>
-                    This portfolio is a showcase of my journey, projects, and the skills I've developed. I'm excited to connect and explore how I can contribute to innovative tech solutions.
-                  </p>
-                    
+                    <p className={styles['about-intro']}>
+                        <strong>Hello!</strong> I'm Aditya S. Tawde, an aspiring <strong>AI & Data Science</strong> enthusiast currently seeking internship opportunities. I am pursuing a <strong>B.Tech</strong> at JNEC, where I'm focused on blending technical proficiency with a zeal for solving complex, real-world challenges.
+                    </p>
+                    <p className={styles['about-intro']}>
+                        This portfolio is a showcase of my journey, projects, and the skills I've developed. I'm excited to connect and explore how I can contribute to innovative tech solutions.
+                    </p>
+
                     <div className={styles['tabs-container']}>
                         <div className={styles['tabs-header']}>
                             {Object.keys(tabs).map(tab => (
@@ -62,7 +62,7 @@ const About = () => {
                                 </button>
                             ))}
                         </div>
-                        
+
                         <div className={styles['tab-content']}>
                             <ul>
                                 {tabs[activeTab].content.map((item, index) => (

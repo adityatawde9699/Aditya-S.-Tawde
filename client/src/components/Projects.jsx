@@ -7,15 +7,18 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Since we don't have tags in the model yet (stored as JSON), we'll do simple client-side logic later
-  // For now, fetching all projects
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [categories, setCategories] = useState(['all']);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await getProjects();
         setProjects(response.data);
+
+        // Extract unique categories from projects
+        const uniqueCategories = [...new Set(response.data.map(p => p.category))];
+        setCategories(['all', ...uniqueCategories]);
       } catch (err) {
         console.error("Failed to fetch projects", err);
         setError("Could not load projects. Please try again later.");
@@ -27,6 +30,25 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
+  // Filter projects by category
+  const filteredProjects = activeCategory === 'all'
+    ? projects
+    : projects.filter(project => project.category === activeCategory);
+
+  // Category display names
+  const getCategoryDisplayName = (category) => {
+    const displayNames = {
+      'all': 'All Projects',
+      'WEB': 'Web Development',
+      'MOBILE': 'Mobile Apps',
+      'AI_ML': 'AI/ML',
+      'DATA': 'Data Science',
+      'DESKTOP': 'Desktop Apps',
+      'OTHER': 'Other'
+    };
+    return displayNames[category] || category;
+  };
+
   if (loading) return <div className="text-center p-10">Loading projects...</div>;
   if (error) return <div className="text-center p-10 text-red-500">{error}</div>;
 
@@ -34,8 +56,21 @@ const Projects = () => {
     <section id="projects" aria-labelledby="projects-heading" className={styles['projects-section']}>
       <h2 id="projects-heading">Featured Projects</h2>
 
+      {/* Category Filter Tabs */}
+      <div className={styles['category-filter']}>
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`${styles['filter-btn']} ${activeCategory === category ? styles['active'] : ''}`}
+            onClick={() => setActiveCategory(category)}
+          >
+            {getCategoryDisplayName(category)}
+          </button>
+        ))}
+      </div>
+
       <div className={styles['project-grid']}>
-        {projects.map((project, idx) => (
+        {filteredProjects.map((project, idx) => (
           <motion.article
             key={project.id || idx}
             className={styles['project-card']}
@@ -43,6 +78,7 @@ const Projects = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
             viewport={{ once: true }}
+            layout
           >
             <div className={styles['project-image']}>
               {project.image ? (
@@ -50,6 +86,14 @@ const Projects = () => {
               ) : (
                 <div className={styles['project-placeholder']}></div>
               )}
+
+              {/* Category Badge */}
+              {project.category_display && (
+                <span className={styles['category-badge']}>
+                  {project.category_display}
+                </span>
+              )}
+
               <div className={styles['project-overlay']}>
                 <div className={styles['project-links']}>
                   {project.github_link && (
@@ -68,16 +112,27 @@ const Projects = () => {
             <div className={styles['project-content']}>
               <h3>{project.title}</h3>
               <p className={styles['project-description']}>{project.description}</p>
+
+              {/* Tech Stack Display */}
               <div className={styles['project-tech']}>
-                {/* Check if tech_stack is an array or string */}
-                {Array.isArray(project.tech_stack) ? project.tech_stack.map((tech, tIdx) => (
-                  <span key={tIdx} className={styles['tech-tag']}>{tech}</span>
-                )) : null}
+                {Array.isArray(project.tech_stack) && project.tech_stack.map((tech, tIdx) => (
+                  <span key={tIdx} className={styles['tech-tag']}>
+                    {tech.icon_class && <i className={tech.icon_class}></i>}
+                    {tech.name || tech}
+                  </span>
+                ))}
               </div>
             </div>
           </motion.article>
         ))}
       </div>
+
+      {/* Empty State */}
+      {filteredProjects.length === 0 && (
+        <div className={styles['empty-state']}>
+          <p>No projects found in this category.</p>
+        </div>
+      )}
     </section>
   );
 };

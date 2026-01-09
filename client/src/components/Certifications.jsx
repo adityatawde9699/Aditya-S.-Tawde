@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Award, Calendar, Building, Code, ChevronDown } from 'lucide-react';
+import { ExternalLink, Award, Calendar, Building } from 'lucide-react';
 import { getCertifications } from '../services/api';
 import styles from './Certifications.module.css';
 
@@ -7,8 +7,6 @@ const Certifications = () => {
     const [certificationsData, setCertificationsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filter, setFilter] = useState('all');
-    const [expandedCard, setExpandedCard] = useState(null);
     const [inView, setInView] = useState([]);
     const sectionRef = useRef(null);
     const cardRefs = useRef([]);
@@ -29,9 +27,6 @@ const Certifications = () => {
 
         fetchCertifications();
     }, []);
-
-    // Get unique categories from data
-    const categories = ['all', ...new Set(certificationsData.map(cert => cert.category))];
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -55,22 +50,16 @@ const Certifications = () => {
         return () => observer.disconnect();
     }, [certificationsData]);
 
+    // Format date for display
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    };
+
     if (loading) return <div className="text-center p-10">Loading certifications...</div>;
     if (error) return <div className="text-center p-10 text-red-500">{error}</div>;
     if (certificationsData.length === 0) return null;
-
-    const filteredCerts = filter === 'all'
-        ? certificationsData
-        : certificationsData.filter(cert => cert.category === filter);
-
-    const getLevelClass = (level) => {
-        switch (level) {
-            case 'Beginner': return styles['level-beginner'];
-            case 'Intermediate': return styles['level-intermediate'];
-            case 'Advanced': return styles['level-advanced'];
-            default: return styles['level-intermediate'];
-        }
-    };
 
     const ParticleBackground = () => (
         <div className={styles['particle-background']}>
@@ -121,29 +110,13 @@ const Certifications = () => {
                     <p className={styles.subtitle}>
                         Validated skills and continuous learning in cutting-edge technologies
                     </p>
-
-                    {/* Filter Tabs */}
-                    <div className={styles['filter-container']}>
-                        <div className={styles['filter-tabs']}>
-                            {categories.map((category) => (
-                                <button
-                                    key={category}
-                                    onClick={() => setFilter(category)}
-                                    className={`${styles['filter-button']} ${filter === category ? styles.active : ''
-                                        }`}
-                                >
-                                    <span className={styles['filter-button-text']}>{category}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Cards Grid */}
                 <div className={styles['cards-grid']}>
-                    {filteredCerts.map((cert, index) => (
+                    {certificationsData.map((cert, index) => (
                         <div
-                            key={index}
+                            key={cert.id || index}
                             ref={el => cardRefs.current[index] = el}
                             className={`${styles['card-wrapper']} ${inView.includes(index) ? styles['in-view'] : ''
                                 }`}
@@ -157,30 +130,27 @@ const Certifications = () => {
                                 {/* Card Glow Effect */}
                                 <div className={styles['card-glow']} />
 
-                                {/* Level Badge */}
-                                <div className={`${styles['level-badge']} ${getLevelClass(cert.level)}`}>
-                                    {cert.level}
-                                </div>
-
                                 {/* Card Content */}
                                 <div className={styles['card-content']}>
-                                    {/* Logo Section */}
-                                    <div className={styles['logo-section']}>
-                                        <div className={styles['logo-container']}>
-                                            <img
-                                                src={cert.logo}
-                                                alt={cert.alt}
-                                                className={styles['logo-image']}
-                                                loading="lazy"
-                                            />
-                                            <div className={styles['logo-overlay']} />
+                                    {/* Logo Section - only show if image exists */}
+                                    {cert.image && (
+                                        <div className={styles['logo-section']}>
+                                            <div className={styles['logo-container']}>
+                                                <img
+                                                    src={cert.image}
+                                                    alt={`${cert.name} certification`}
+                                                    className={styles['logo-image']}
+                                                    loading="lazy"
+                                                />
+                                                <div className={styles['logo-overlay']} />
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     {/* Title and Meta Info */}
                                     <div className={styles['title-section']}>
                                         <h3 className={styles['card-title']}>
-                                            {cert.title}
+                                            {cert.name}
                                         </h3>
 
                                         <div className={styles['issuer-info']}>
@@ -191,57 +161,33 @@ const Certifications = () => {
                                         <div className={styles['meta-info']}>
                                             <div className={styles['meta-item']}>
                                                 <Calendar className={styles['meta-icon']} />
-                                                <span>{cert.date}</span>
-                                            </div>
-                                            <div className={styles['meta-item']}>
-                                                <span className={styles['duration-dot']} />
-                                                <span>{cert.duration}</span>
+                                                <span>{formatDate(cert.date_issued)}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Description Section */}
-                                    <div className={styles['description-section']}>
-                                        <p className={`${styles['description-text']} ${expandedCard === index ? styles.expanded : styles.clamped
-                                            }`}>
-                                            {cert.description}
-                                        </p>
+                                    {/* Description - only show if exists */}
+                                    {cert.description && (
+                                        <div className={styles['description-section']}>
+                                            <p className={styles['description-text']}>
+                                                {cert.description}
+                                            </p>
+                                        </div>
+                                    )}
 
-                                        <button
-                                            onClick={() => setExpandedCard(expandedCard === index ? null : index)}
-                                            className={styles['expand-button']}
-                                            aria-label={`${expandedCard === index ? 'Collapse' : 'Expand'} description for ${cert.title}`}
+                                    {/* CTA Button - only show if url exists */}
+                                    {cert.url && (
+                                        <a
+                                            href={cert.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={styles['cta-button']}
+                                            aria-label={`View certificate for ${cert.name}`}
                                         >
-                                            {expandedCard === index ? 'Show Less' : 'Show More'}
-                                            <ChevronDown className={`${styles['expand-icon']} ${expandedCard === index ? styles.rotated : ''
-                                                }`} />
-                                        </button>
-                                    </div>
-
-                                    {/* Tech Tags */}
-                                    <div className={styles['tech-tags']}>
-                                        {cert.tech.map((tech, i) => (
-                                            <span
-                                                key={i}
-                                                className={styles['tech-tag']}
-                                            >
-                                                <Code className={styles['tech-icon']} />
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* CTA Button */}
-                                    <a
-                                        href={cert.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles['cta-button']}
-                                        aria-label={`View certificate for ${cert.title}`}
-                                    >
-                                        <span className={styles['cta-text']}>View Certificate</span>
-                                        <ExternalLink className={styles['cta-icon']} />
-                                    </a>
+                                            <span className={styles['cta-text']}>View Certificate</span>
+                                            <ExternalLink className={styles['cta-icon']} />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </div>

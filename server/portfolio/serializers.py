@@ -1,22 +1,41 @@
 from rest_framework import serializers
-from .models import Project, Skill, Certification, ContactSubmission
+from .models import TechStack, Project, Skill, Education, Certification, ContactSubmission
+
+
+class TechStackSerializer(serializers.ModelSerializer):
+    """Serializer for TechStack model."""
+    
+    class Meta:
+        model = TechStack
+        fields = ['id', 'name', 'icon_class']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    """Serializer for Project model."""
+    """Serializer for Project model with nested tech_stack."""
+    tech_stack = TechStackSerializer(many=True, read_only=True)
     image = serializers.SerializerMethodField()
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
     
     class Meta:
         model = Project
-        fields = ['id', 'title', 'description', 'image', 'github_link', 'live_link', 'tech_stack']
+        fields = [
+            'id', 'title', 'description', 'category', 'category_display',
+            'image', 'github_link', 'live_link', 'tech_stack', 
+            'order', 'is_featured'
+        ]
     
     def get_image(self, obj):
+        """Return either the uploaded image URL or the external image URL."""
+        request = self.context.get('request')
+        
+        # If uploaded image exists, return its absolute URL
         if obj.image:
-            request = self.context.get('request')
             if request:
                 return request.build_absolute_uri(obj.image.url)
             return obj.image.url
-        return None
+        
+        # Otherwise return external URL (already absolute)
+        return obj.image_url
 
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -27,15 +46,34 @@ class SkillSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'category']
 
 
+class EducationSerializer(serializers.ModelSerializer):
+    """Serializer for Education model."""
+    
+    class Meta:
+        model = Education
+        fields = ['id', 'institution', 'degree', 'start_date', 'end_date', 'description', 'order']
+
+
 class CertificationSerializer(serializers.ModelSerializer):
     """Serializer for Certification model."""
+    image = serializers.SerializerMethodField()
     
     class Meta:
         model = Certification
-        fields = [
-            'id', 'logo', 'alt', 'title', 'issuer', 'date', 
-            'description', 'tech', 'link', 'category', 'level', 'duration'
-        ]
+        fields = ['id', 'name', 'issuer', 'date_issued', 'description', 'url', 'image']
+    
+    def get_image(self, obj):
+        """Return either the uploaded image URL or the external image URL."""
+        request = self.context.get('request')
+        
+        # If uploaded image exists, return its absolute URL
+        if obj.image:
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        
+        # Otherwise return external URL (already absolute)
+        return obj.image_url
 
 
 class ContactSerializer(serializers.ModelSerializer):

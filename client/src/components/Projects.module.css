@@ -143,6 +143,14 @@
 }
 
 /* Filter buttons */
+.category-filter {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
 .project-filters {
     display: flex;
     gap: 1rem;
@@ -160,6 +168,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 0.9rem;
 }
 
 .filter-btn:hover,
@@ -167,6 +176,36 @@
     background: var(--primary);
     color: #000;
     border-color: var(--primary);
+}
+
+/* Category Badge on Cards */
+.category-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(11, 17, 32, 0.85);
+    color: var(--primary);
+    padding: 0.35rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Tech tag with icon */
+.tech-tag i {
+    margin-right: 0.3rem;
+    font-size: 0.75rem;
 }
 
 @media (max-width: 768px) {

@@ -77,8 +77,24 @@ class CertificationSerializer(serializers.ModelSerializer):
 
 
 class ContactSerializer(serializers.ModelSerializer):
-    """Serializer for ContactSubmission model."""
+    """Serializer for ContactSubmission model with enhanced validation."""
+    name = serializers.CharField(max_length=100, min_length=2)
+    email = serializers.EmailField()
+    message = serializers.CharField(max_length=5000, min_length=10)
     
     class Meta:
         model = ContactSubmission
         fields = ['name', 'email', 'message']
+    
+    def validate_name(self, value):
+        """Validate name doesn't contain suspicious patterns."""
+        if '<script' in value.lower() or 'javascript:' in value.lower():
+            raise serializers.ValidationError("Invalid characters in name.")
+        return value.strip()
+    
+    def validate_message(self, value):
+        """Validate message content."""
+        if '<script' in value.lower() or 'javascript:' in value.lower():
+            raise serializers.ValidationError("Invalid content in message.")
+        return value.strip()
+

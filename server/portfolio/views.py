@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.conf import settings
+import logging
 
 from .models import TechStack, Project, Skill, Education, Certification, ContactSubmission
 from .serializers import (
@@ -13,6 +14,8 @@ from .serializers import (
     CertificationSerializer, 
     ContactSerializer
 )
+
+logger = logging.getLogger(__name__)
 
 
 class TechStackListView(generics.ListAPIView):
@@ -42,7 +45,7 @@ class ProjectListView(generics.ListAPIView):
     serializer_class = ProjectSerializer
     
     def get_queryset(self):
-        queryset = Project.objects.all()
+        queryset = Project.objects.prefetch_related('tech_stack').all()
         
         # Filter by featured
         featured = self.request.query_params.get('featured', None)
@@ -100,6 +103,7 @@ class ContactView(APIView):
         if serializer.is_valid():
             # Save to database
             submission = serializer.save()
+            logger.info(f"Contact submission saved: {submission.email}")
             
             # Send email notification
             try:
@@ -123,16 +127,19 @@ This email was sent automatically from your portfolio contact form.
                     recipient_list=[settings.RECIPIENT_EMAIL],
                     fail_silently=False,
                 )
+                logger.info(f"Email notification sent for contact: {submission.email}")
             except Exception as e:
                 # Log error but don't fail the request
-                print(f"Email sending failed: {e}")
+                logger.exception(f"Email sending failed for contact {submission.email}: {e}")
             
             return Response(
                 {"message": "Message sent successfully!"},
                 status=status.HTTP_201_CREATED
             )
         
+        logger.warning(f"Invalid contact form submission: {serializer.errors}")
         return Response(
             {"error": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
+

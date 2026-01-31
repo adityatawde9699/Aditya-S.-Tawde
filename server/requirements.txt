@@ -7,3 +7,11 @@ gunicorn==21.2.0
 whitenoise==6.6.0
 dj-database-url==2.1.0
 psycopg2-binary==2.9.9
+ruff>=0.1.0
+black>=23.0.0
+pytest>=7.4.0
+pytest-django>=4.5.0
+pytest-cov>=4.1.0
+django-unfold>=0.20.0
+
+

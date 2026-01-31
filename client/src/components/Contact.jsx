@@ -1,30 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './Contact.module.css';
+import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { sendContact } from '../services/api';
 
-const initialForm = { name: '', email: '', message: '' };
-
+const initialForm = { firstName: '', lastName: '', company: '', email: '', phone: '', message: '' };
 const validateEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
-
-const icons = {
-    name: (
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="#bdbdbd" strokeWidth="1.5" /><path d="M4 20c0-2.761 3.582-5 8-5s8 2.239 8 5" stroke="#bdbdbd" strokeWidth="1.5" strokeLinecap="round" /></svg>
-    ),
-    email: (
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" stroke="#bdbdbd" strokeWidth="1.5" /><path d="M3 7l9 6 9-6" stroke="#bdbdbd" strokeWidth="1.5" /></svg>
-    ),
-    message: (
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" stroke="#bdbdbd" strokeWidth="1.5" /><path d="M8 10h8M8 14h5" stroke="#bdbdbd" strokeWidth="1.5" strokeLinecap="round" /></svg>
-    ),
-    check: (
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d1fae5" /><path d="M7 13l3 3 7-7" stroke="#059669" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-    ),
-    error: (
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#fee2e2" /><path d="M15 9l-6 6M9 9l6 6" stroke="#dc2626" strokeWidth="2.2" strokeLinecap="round" /></svg>
-    ),
-    successBig: (
-        <svg width="64" height="64" fill="none" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#d1fae5" /><path d="M20 34l10 10 14-18" stroke="#059669" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-    )
-};
 
 const Contact = () => {
     const [form, setForm] = useState(initialForm);
@@ -33,292 +12,286 @@ const Contact = () => {
     const [status, setStatus] = useState('');
     const [statusType, setStatusType] = useState('');
     const [loading, setLoading] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [successAnim, setSuccessAnim] = useState(false);
-    const [shake, setShake] = useState(false);
-    const textareaRef = useRef(null);
-    const formRef = useRef(null);
-    const nameInputRef = useRef(null);
-    const [visible, setVisible] = useState(false);
-
-    // Fade-in on scroll
-    useEffect(() => {
-        const onScroll = () => {
-            if (formRef.current) {
-                const rect = formRef.current.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 100) setVisible(true);
-            }
-        };
-        window.addEventListener('scroll', onScroll);
-        onScroll();
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
-    // Auto-resize textarea
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-        }
-    }, [form.message]);
+    const [agreed, setAgreed] = useState(false);
 
     // Validation
     useEffect(() => {
         const newErrors = {};
-        if (touched.name && !form.name.trim()) newErrors.name = 'Name is required.';
+        if (touched.firstName && !form.firstName.trim()) newErrors.firstName = 'First name is required.';
         if (touched.email && !form.email.trim()) newErrors.email = 'Email is required.';
         else if (touched.email && !validateEmail(form.email)) newErrors.email = 'Invalid email address.';
         if (touched.message && !form.message.trim()) newErrors.message = 'Message is required.';
         setErrors(newErrors);
     }, [form, touched]);
 
-    // Progress bar logic
-    useEffect(() => {
-        let filled = 0;
-        if (form.name.trim()) filled++;
-        if (form.email.trim() && validateEmail(form.email)) filled++;
-        if (form.message.trim()) filled++;
-        setProgress(filled / 3);
-    }, [form]);
-
-    // Auto-focus first field
-    useEffect(() => {
-        if (nameInputRef.current) nameInputRef.current.focus();
-    }, []);
-
-    // Success animation
-    useEffect(() => {
-        if (statusType === 'success') {
-            setTimeout(() => setSuccessAnim(true), 400);
-            setTimeout(() => setSuccessAnim(false), 2500);
-        }
-    }, [statusType]);
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const handleBlur = (e) => {
-        setTouched({ ...touched, [e.target.name]: true });
-    };
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleBlur = (e) => setTouched({ ...touched, [e.target.name]: true });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setTouched({ name: true, email: true, message: true });
-        if (Object.keys(errors).length > 0 || !form.name || !form.email || !form.message) {
-            setShake(true);
-            setTimeout(() => setShake(false), 500);
-            return;
-        }
+        setTouched({ firstName: true, email: true, message: true });
+
+        if (!form.firstName || !form.email || !form.message) return;
+        if (Object.keys(errors).length > 0) return;
+
         setLoading(true);
         setStatus('');
         setStatusType('');
+
         try {
-            const response = await fetch('https://aditya-backend-3m7c.onrender.com/api/contact/send/', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(form),
-                credentials: 'include'
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setStatus(data.message || 'Message sent successfully!');
-                setStatusType('success');
-                setForm(initialForm);
-                setTouched({});
-            } else {
-                setStatus(data.error || 'Failed to send message.');
-                setStatusType('error');
-            }
+            // Combine first and last name for API
+            const payload = {
+                name: `${form.firstName} ${form.lastName}`.trim(),
+                email: form.email,
+                message: form.message
+            };
+            const response = await sendContact(payload);
+            setStatus(response.data.message || 'Message sent successfully!');
+            setStatusType('success');
+            setForm(initialForm);
+            setTouched({});
+            setAgreed(false);
         } catch (error) {
-            console.error(error);
-            setStatus('An error occurred. Please try again later.');
+            setStatus(error.message || 'An error occurred. Please try again.');
             setStatusType('error');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleReset = () => {
-        setForm(initialForm);
-        setTouched({});
-        setErrors({});
-        setStatus('');
-        setStatusType('');
-    };
-
-    // Floating label logic
-    const isFilled = (field) => form[field] && form[field].length > 0;
-
     return (
-        <section id="contact" aria-labelledby="contact-heading">
-            <h2 id="contact-heading">Get in Touch</h2>
-         
-            <div className={styles['progress-bar']} aria-hidden="true">
-                <div className={styles['progress-fill']} style={{ width: `${progress * 100}%` }} />
-            </div>
-            <form
-                id="contact-form"
-                className={styles['contact-form'] + (visible ? ' ' + styles['fadeIn'] : '') + (shake ? ' ' + styles['shake'] : '')}
-                onSubmit={handleSubmit}
-                ref={formRef}
-                noValidate
-                aria-describedby={status ? 'form-status' : undefined}
-                autoComplete="on"
+        <div id="contact" className="relative isolate bg-gray-900 px-6 py-24 sm:py-32 lg:px-8 overflow-hidden">
+            {/* Background Gradient - Top Left */}
+            <div
+                aria-hidden="true"
+                className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
             >
-                <div className={styles['form-group']}>
-                    <div className={styles['input-wrapper']}>
-                        <span className={styles['input-icon']}>{icons.name}</span>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={form.name}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required
-                            aria-invalid={!!errors.name}
-                            aria-describedby={errors.name ? 'name-error' : undefined}
-                            autoComplete="name"
-                            ref={nameInputRef}
-                            className={isFilled('name') ? styles['filled'] : ''}
-                            placeholder=" "
-                        />
-                        <label htmlFor="name" className={isFilled('name') ? styles['float'] : ''}>Name</label>
-                        {touched.name && !errors.name && form.name && (
-                            <span className={styles['input-status'] + ' ' + styles['valid']}>{icons.check}</span>
-                        )}
-                        {touched.name && errors.name && (
-                            <span className={styles['input-status'] + ' ' + styles['invalid']}>{icons.error}</span>
-                        )}
+                <div
+                    style={{
+                        clipPath:
+                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                    }}
+                    className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                />
+            </div>
+
+            {/* Header - Centered */}
+            <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                    Contact sales
+                </h2>
+                <p className="mt-2 text-lg leading-8 text-gray-400">
+                    Aute magna irure deserunt veniam aliqua magna enim voluptate.
+                </p>
+            </div>
+
+            {/* Form - Centered */}
+            <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                    {/* First Name */}
+                    <div>
+                        <label htmlFor="firstName" className="block text-sm font-semibold leading-6 text-white">
+                            First name
+                        </label>
+                        <div className="mt-2.5">
+                            <input
+                                id="firstName"
+                                name="firstName"
+                                type="text"
+                                value={form.firstName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                autoComplete="given-name"
+                                className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
+                        </div>
                     </div>
-                    {errors.name && <span className={styles['field-error']} id="name-error">{errors.name}</span>}
-                </div>
-                <div className={styles['form-group']}>
-                    <div className={styles['input-wrapper']}>
-                        <span className={styles['input-icon']}>{icons.email}</span>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required
-                            aria-invalid={!!errors.email}
-                            aria-describedby={errors.email ? 'email-error' : undefined}
-                            autoComplete="email"
-                            className={isFilled('email') ? styles['filled'] : ''}
-                            placeholder=" "
-                        />
-                        <label htmlFor="email" className={isFilled('email') ? styles['float'] : ''}>Email</label>
-                        {touched.email && !errors.email && form.email && (
-                            <span className={styles['input-status'] + ' ' + styles['valid']}>{icons.check}</span>
-                        )}
-                        {touched.email && errors.email && (
-                            <span className={styles['input-status'] + ' ' + styles['invalid']}>{icons.error}</span>
-                        )}
+
+                    {/* Last Name */}
+                    <div>
+                        <label htmlFor="lastName" className="block text-sm font-semibold leading-6 text-white">
+                            Last name
+                        </label>
+                        <div className="mt-2.5">
+                            <input
+                                id="lastName"
+                                name="lastName"
+                                type="text"
+                                value={form.lastName}
+                                onChange={handleChange}
+                                autoComplete="family-name"
+                                className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
+                        </div>
                     </div>
-                    {errors.email && <span className={styles['field-error']} id="email-error">{errors.email}</span>}
-                </div>
-                <div className={styles['form-group']}>
-                    <div className={styles['input-wrapper']}>
-                        <span className={styles['input-icon']}>{icons.message}</span>
-                        <textarea
-                            id="message"
-                            name="message"
-                            value={form.message}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required
-                            aria-invalid={!!errors.message}
-                            aria-describedby={errors.message ? 'message-error' : undefined}
-                            ref={textareaRef}
-                            rows={3}
-                            className={isFilled('message') ? styles['filled'] : ''}
-                            placeholder=" "
-                        />
-                        <label htmlFor="message" className={isFilled('message') ? styles['float'] : ''}>Message</label>
-                        {touched.message && !errors.message && form.message && (
-                            <span className={styles['input-status'] + ' ' + styles['valid']}>{icons.check}</span>
-                        )}
-                        {touched.message && errors.message && (
-                            <span className={styles['input-status'] + ' ' + styles['invalid']}>{icons.error}</span>
-                        )}
+
+                    {/* Company */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="company" className="block text-sm font-semibold leading-6 text-white">
+                            Company
+                        </label>
+                        <div className="mt-2.5">
+                            <input
+                                id="company"
+                                name="company"
+                                type="text"
+                                value={form.company}
+                                onChange={handleChange}
+                                autoComplete="organization"
+                                className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
+                        </div>
                     </div>
-                    {errors.message && <span className={styles['field-error']} id="message-error">{errors.message}</span>}
+
+                    {/* Email */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="email" className="block text-sm font-semibold leading-6 text-white">
+                            Email
+                        </label>
+                        <div className="mt-2.5">
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                autoComplete="email"
+                                className={`block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 ${errors.email ? 'ring-red-500' : 'ring-white/10'
+                                    }`}
+                            />
+                            {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
+                        </div>
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="phone" className="block text-sm font-semibold leading-6 text-white">
+                            Phone number
+                        </label>
+                        <div className="relative mt-2.5">
+                            <div className="absolute inset-y-0 left-0 flex items-center">
+                                <label htmlFor="country" className="sr-only">
+                                    Country
+                                </label>
+                                <select
+                                    id="country"
+                                    name="country"
+                                    className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm"
+                                >
+                                    <option>US</option>
+                                    <option>CA</option>
+                                    <option>EU</option>
+                                </select>
+                                <ChevronDownIcon
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
+                                />
+                            </div>
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                value={form.phone}
+                                onChange={handleChange}
+                                autoComplete="tel"
+                                placeholder="123-456-7890"
+                                className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 pl-20 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Message */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="message" className="block text-sm font-semibold leading-6 text-white">
+                            Message
+                        </label>
+                        <div className="mt-2.5">
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows={4}
+                                value={form.message}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className={`block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 ${errors.message ? 'ring-red-500' : 'ring-white/10'
+                                    }`}
+                            />
+                            {errors.message && <p className="mt-1 text-sm text-red-400">{errors.message}</p>}
+                        </div>
+                    </div>
+
+                    {/* Agreement Switch */}
+                    <div className="flex gap-x-4 sm:col-span-2">
+                        <div className="flex h-6 items-center">
+                            <button
+                                type="button"
+                                role="switch"
+                                aria-checked={agreed}
+                                onClick={() => setAgreed(!agreed)}
+                                className={`flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${agreed ? 'bg-indigo-500' : 'bg-white/10'
+                                    }`}
+                            >
+                                <span className="sr-only">Agree to policies</span>
+                                <span
+                                    aria-hidden="true"
+                                    className={`h-4 w-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out ${agreed ? 'translate-x-3.5' : 'translate-x-0'
+                                        }`}
+                                />
+                            </button>
+                        </div>
+                        <label className="text-sm leading-6 text-gray-400">
+                            By selecting this, you agree to our{' '}
+                            <a href="#" className="font-semibold text-indigo-400">
+                                privacy&nbsp;policy
+                            </a>
+                            .
+                        </label>
+                    </div>
                 </div>
-                <div className={styles['form-actions']}>
+
+                {/* Status Message */}
+                {status && (
+                    <div className={`mt-6 p-4 rounded-md flex items-center gap-3 ${statusType === 'success'
+                            ? 'bg-green-500/10 border border-green-500/20 text-green-400'
+                            : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                        }`}>
+                        {statusType === 'success' ? (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        ) : (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        )}
+                        {status}
+                    </div>
+                )}
+
+                {/* Submit Button */}
+                <div className="mt-10">
                     <button
                         type="submit"
-                        className={styles['btn'] + ' ' + styles['primary']}
                         disabled={loading}
-                        aria-busy={loading}
+                        className="block w-full rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         {loading ? (
-                            <span className={styles['spinner']} />
+                            <span className="flex items-center justify-center gap-2">
+                                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                </svg>
+                                Sending...
+                            </span>
                         ) : (
-                            'Send Message'
+                            "Let's talk"
                         )}
                     </button>
-                    <button
-                        type="button"
-                        className={styles['btn']}
-                        onClick={handleReset}
-                        disabled={loading}
-                        style={{ marginLeft: '1rem' }}
-                    >
-                        Reset
-                    </button>
                 </div>
-                {status && (
-                    <p
-                        className={styles['form-status'] + ' ' + styles[statusType]}
-                        id="form-status"
-                        role={statusType === 'error' ? 'alert' : 'status'}
-                        aria-live="polite"
-                    >
-                        {statusType === 'success' && icons.check}
-                        {statusType === 'error' && icons.error}
-                        {status}
-                    </p>
-                )}
-                {successAnim && (
-                    <div className={styles['success-anim']}>
-                        {icons.successBig}
-                        <span>Thank you!</span>
-                    </div>
-                )}
             </form>
-            <div className={styles['external-contact']}>
-                <p>Or reach out via:</p>
-                <div className={styles['external-links']}>
-                    <a
-                        href="https://www.fiverr.com/s/m52EYZ9"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles['external-btn'] + ' ' + styles['fiverr']}
-                        aria-label="Contact on Fiverr"
-                    >
-                        Fiverr
-                    </a>
-                    <a
-                        href="https://www.freelancer.com/u/AdityaST9699?sb=t"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles['external-btn'] + ' ' + styles['freelancer']}
-                        aria-label="Contact on Freelancer"
-                    >
-                        Freelancer
-                    </a>
-                </div>
-            </div>
-          
-        </section>
+        </div>
     );
 };
 
-export default Contact; 
+export default Contact;

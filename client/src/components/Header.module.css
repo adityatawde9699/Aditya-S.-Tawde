@@ -1,25 +1,41 @@
-/* src/components/Header.module.css - Fixed Mobile Navigation */
+/* ============================================
+   Header.module.css - Fixed Mobile Navigation
+   Cross-browser compatible, GPU-optimized
+   ============================================ */
+
 .header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: var(--z-sticky, 100);
     background: rgba(11, 17, 32, 0.6);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur, 16px));
+    -webkit-backdrop-filter: blur(var(--glass-blur, 16px));
     border-bottom: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: all 0.3s var(--ease-out, ease);
+    /* Contain for performance */
+    contain: layout style;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(16px)) {
+    .header {
+        background: rgba(11, 17, 32, 0.95);
+    }
 }
 
 .headerContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: var(--space-4, 1rem) var(--space-8, 2rem);
     max-width: 1280px;
     margin: 0 auto;
     position: relative;
 }
 
+/* ============================================
+   Logo
+   ============================================ */
 .logo {
     font-size: 1.25rem;
     font-weight: 700;
@@ -30,6 +46,9 @@
     align-items: center;
     gap: 0.5rem;
     z-index: 102;
+    /* Touch target */
+    padding: 8px;
+    margin: -8px;
 }
 
 .logo::after {
@@ -42,6 +61,9 @@
     box-shadow: 0 0 10px var(--primary);
 }
 
+/* ============================================
+   Navigation
+   ============================================ */
 .mainNav {
     display: flex;
     align-items: center;
@@ -49,7 +71,7 @@
 
 .navList {
     display: flex;
-    gap: 2.5rem;
+    gap: var(--space-10, 2.5rem);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -60,18 +82,46 @@
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out, ease);
+    /* Touch target */
+    padding: 8px;
+    margin: -8px;
+    position: relative;
+}
+
+.navLink::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.2s var(--ease-out, ease),
+        left 0.2s var(--ease-out, ease);
 }
 
 .navLink:hover {
     color: var(--primary);
 }
 
+.navLink:hover::after {
+    width: 100%;
+    left: 0;
+}
+
 .navLinkActive {
     color: var(--primary);
 }
 
-/* Mobile Menu Button */
+.navLinkActive::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ============================================
+   Mobile Menu Button
+   ============================================ */
 .hamburgerMenu {
     display: none;
     background: transparent;
@@ -82,9 +132,12 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.2s var(--ease-out, ease);
     z-index: 102;
     position: relative;
+    /* Touch target */
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .hamburgerMenu:hover {
@@ -92,7 +145,14 @@
     color: var(--primary);
 }
 
-/* Hidden state for scroll */
+.hamburgerMenu:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Header States
+   ============================================ */
 .header.hide {
     opacity: 0;
     pointer-events: none;
@@ -104,7 +164,7 @@
 }
 
 /* ============================================
-   MOBILE RESPONSIVE DESIGN
+   RESPONSIVE DESIGN
    ============================================ */
 
 @media (max-width: 900px) {
@@ -113,7 +173,7 @@
     }
 
     .navList {
-        gap: 1.5rem;
+        gap: var(--space-6, 1.5rem);
     }
 
     .navLink {
@@ -139,7 +199,7 @@
         height: 5px;
     }
 
-    /* Fullscreen Navigation Overlay - Fixed positioning */
+    /* Fullscreen Navigation Overlay */
     .mainNav {
         position: fixed;
         top: 0;
@@ -147,7 +207,6 @@
         width: 100vw;
         height: 100vh;
         height: 100dvh;
-        /* Dynamic viewport height for mobile browsers */
         background: rgba(11, 17, 32, 0.98);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -158,12 +217,13 @@
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition: opacity 0.3s var(--ease-out, ease),
+            visibility 0.3s var(--ease-out, ease);
         z-index: 100;
         padding: 80px 20px 40px;
-        /* Added padding - top accounts for header */
         box-sizing: border-box;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .mainNav.active {
@@ -179,14 +239,14 @@
         max-width: 320px;
         text-align: center;
         margin: auto;
-        /* Center vertically */
     }
 
     .navList li {
         width: 100%;
         opacity: 0;
         transform: translateY(20px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition: opacity 0.3s var(--ease-out, ease),
+            transform 0.3s var(--ease-out, ease);
     }
 
     .mainNav.active .navList li {
@@ -194,6 +254,7 @@
         transform: translateY(0);
     }
 
+    /* Staggered animation */
     .mainNav.active .navList li:nth-child(1) {
         transition-delay: 0.1s;
     }
@@ -220,7 +281,11 @@
         padding: 1rem 1.5rem;
         font-size: 1.2rem;
         border-bottom: 1px solid var(--border-color);
-        transition: all 0.2s ease;
+        transition: all 0.2s var(--ease-out, ease);
+    }
+
+    .navLink::after {
+        display: none;
     }
 
     .navList li:first-child .navLink {
@@ -235,7 +300,7 @@
 
     /* Hamburger to X animation */
     .hamburgerMenu svg rect {
-        transition: all 0.3s ease;
+        transition: all 0.3s var(--ease-out, ease);
         transform-origin: center;
     }
 
@@ -284,7 +349,6 @@
     }
 }
 
-/* Extra small screens */
 @media (max-width: 360px) {
     .logo {
         font-size: 0.9rem;
@@ -304,14 +368,36 @@
     }
 }
 
-/* Safe area support for notched phones */
+/* ============================================
+   Safe Area Support (Notched Phones)
+   ============================================ */
 @supports (padding: max(0px)) {
     @media (max-width: 768px) {
         .mainNav {
-            padding-top: max(80px, env(safe-area-inset-top) + 60px);
-            padding-bottom: max(40px, env(safe-area-inset-bottom) + 20px);
+            padding-top: max(80px, calc(env(safe-area-inset-top) + 60px));
+            padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px));
             padding-left: max(20px, env(safe-area-inset-left));
             padding-right: max(20px, env(safe-area-inset-right));
         }
     }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    .header,
+    .mainNav,
+    .navList li,
+    .navLink,
+    .hamburgerMenu,
+    .hamburgerMenu svg rect {
+        transition: none;
+    }
+}
+
+.navLink:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }

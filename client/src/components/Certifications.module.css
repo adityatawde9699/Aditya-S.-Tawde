@@ -561,6 +561,11 @@
         animation: none;
     }
 
+    .card-wrapper {
+        opacity: 1 !important;
+        animation: none !important;
+    }
+
     .card:hover {
         transform: none;
     }

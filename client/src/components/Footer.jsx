@@ -1,25 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Footer.module.css';
+import { Linkedin, Instagram, Github, ArrowUp, Heart } from 'lucide-react';
 
-const Footer = () => (
-    <footer className={styles.footer}>
-        <div className={styles['social-icons']}>
-            <a href="https://www.linkedin.com/in/aditya-s-tawde-7a1392315?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener" role="button" aria-label="LinkedIn Profile for Aditya Tawde">
-                <img src="https://img.icons8.com/?size=60&id=114445&format=png&color=000000" alt="LinkedIn Profile for Aditya Tawde" />
-            </a>
-            <a href="https://www.instagram.com/adityasuniltawde" target="_blank" rel="noopener" role="button" aria-label="Instagram Profile for Aditya Tawde">
-                <img src="https://img.icons8.com/?size=60&id=aimNrfnvOM9T&format=png&color=000000" alt="Instagram Profile for Aditya Tawde" />
-            </a>
-            <a href="https://github.com/adityatawde9699" target="_blank" rel="noopener" role="button" aria-label="GitHub Profile for Aditya Tawde">
-                <img src="https://img.icons8.com/?size=60&id=12599&format=png&color=000000" alt="GitHub Profile for Aditya Tawde" />
-            </a>
-        </div>
-        <p className={styles.copyright}>© 2024 Aditya S. Tawde | All Rights Reserved</p>
-        <p className={styles.builtby}>
-            Built by <span className={styles.author}>Aditya S. Tawde</span> with <span aria-label="love" role="img">❤️</span>
-        </p>
-    </footer>
-);
+const Footer = () => {
+    const [showTopBtn, setShowTopBtn] = useState(false);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 400) {
+                setShowTopBtn(true);
+            } else {
+                setShowTopBtn(false);
+            }
+        };
 
-export default Footer; 
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    const currentYear = new Date().getFullYear();
+
+    return (
+        <footer className={styles.footer}>
+            {/* Social Icons */}
+            <div className={styles['social-icons']}>
+                <a
+                    href="https://www.linkedin.com/in/aditya-s-tawde-7a1392315"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn Profile"
+                >
+                    <Linkedin size={24} />
+                </a>
+                <a
+                    href="https://www.instagram.com/adityasuniltawde"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram Profile"
+                >
+                    <Instagram size={24} />
+                </a>
+                <a
+                    href="https://github.com/adityatawde9699"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub Profile"
+                >
+                    <Github size={24} />
+                </a>
+            </div>
+
+            {/* Copyright */}
+            <p className={styles.copyright}>
+                &copy; {currentYear} Aditya S. Tawde | All Rights Reserved
+            </p>
+
+            {/* Attribution */}
+            <p className={styles.builtby}>
+                Built by <span className={styles.author}>Aditya S. Tawde</span> with
+                <Heart size={14} fill="currentColor" color="#ef4444" style={{ display: 'inline', margin: '0 4px', verticalAlign: 'middle' }} />
+            </p>
+
+            {/* Back to Top Button */}
+            <button
+                className={`${styles.backToTop} ${showTopBtn ? styles.visible : ''}`}
+                onClick={scrollToTop}
+                aria-label="Back to top"
+                style={{ display: showTopBtn ? 'flex' : 'none' }}
+            >
+                <ArrowUp size={24} />
+            </button>
+        </footer>
+    );
+};
+
+export default Footer;

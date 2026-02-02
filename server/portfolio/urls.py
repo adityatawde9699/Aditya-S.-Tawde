@@ -5,10 +5,12 @@ from .views import (
     SkillListView, 
     EducationListView,
     CertificationListView, 
-    ContactView
+    ContactView,
+    HealthCheckView
 )
 
 urlpatterns = [
+    path('health/', HealthCheckView.as_view(), name='health-check'),
     path('portfolio/tech-stack/', TechStackListView.as_view(), name='techstack-list'),
     path('portfolio/projects/', ProjectListView.as_view(), name='project-list'),
     path('portfolio/skills/', SkillListView.as_view(), name='skill-list'),
@@ -16,3 +18,4 @@ urlpatterns = [
     path('portfolio/certifications/', CertificationListView.as_view(), name='certification-list'),
     path('contact/', ContactView.as_view(), name='contact'),
 ]
+

@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.throttling import AnonRateThrottle
 from django.core.mail import send_mail
 from django.conf import settings
 import logging
@@ -16,6 +17,15 @@ from .serializers import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+class ContactRateThrottle(AnonRateThrottle):
+    """Custom throttle for contact form submissions.
+    
+    Limits anonymous users to 5 contact submissions per hour
+    to prevent spam and email bombing attacks.
+    """
+    scope = 'contact'
 
 
 class TechStackListView(generics.ListAPIView):
@@ -96,7 +106,10 @@ class ContactView(APIView):
     
     Accepts contact form submissions, saves to database,
     and sends email notification.
+    
+    Rate limited to 5 requests per hour per IP address.
     """
+    throttle_classes = [ContactRateThrottle]
     
     def post(self, request):
         serializer = ContactSerializer(data=request.data)
@@ -142,4 +155,37 @@ This email was sent automatically from your portfolio contact form.
             {"error": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+class HealthCheckView(APIView):
+    """
+    GET /api/health/
+    
+    Health check endpoint for container orchestration and load balancers.
+    Returns 200 OK if the service is running properly.
+    
+    Optionally checks database connectivity when ?db=true is passed.
+    """
+    
+    def get(self, request):
+        health_status = {
+            "status": "healthy",
+            "service": "portfolio-api",
+        }
+        
+        # Optional database check
+        check_db = request.query_params.get('db', 'false').lower() == 'true'
+        if check_db:
+            try:
+                from django.db import connection
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT 1")
+                health_status["database"] = "connected"
+            except Exception as e:
+                health_status["database"] = "error"
+                health_status["database_error"] = str(e)
+                return Response(health_status, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        
+        return Response(health_status, status=status.HTTP_200_OK)
+
 

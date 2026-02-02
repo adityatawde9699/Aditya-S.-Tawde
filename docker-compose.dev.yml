@@ -1,0 +1,25 @@
+# Development overrides for docker-compose
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  server:
+    # Override production command with development server
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=True
+    # Disable health check for faster development iteration
+    healthcheck:
+      disable: true
+
+  client:
+    # Override for hot-reloading in development
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    healthcheck:
+      disable: true

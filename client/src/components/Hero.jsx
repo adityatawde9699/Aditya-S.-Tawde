@@ -1,64 +1,124 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Hero.module.css';
 
-// Import FontAwesome icons if you're using react-icons
-// (Alternatively, ensure Font Awesome CSS is linked in your project's index.html)
-// import { FaDownload, FaArrowRight, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+/**
+ * Typewriter Effect Component
+ * Cycles through the roles array with a typing animation.
+ */
+const Typewriter = ({ roles }) => {
+    const [text, setText] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [loopNum, setLoopNum] = useState(0);
+    const [typingSpeed, setTypingSpeed] = useState(150);
 
-const Hero = () => (
-    <section id="home" className={styles.hero} aria-labelledby="hero-heading">
-        <div className={styles['hero-content']}>
-            <div className={styles.profile}>
-                <img
-                    src="./images/profile-photo.jpg"
-                    alt="Aditya Tawde - AI & Data Science Professional"
-                    loading="lazy"
-                    width="200"
-                    height="200"
-                />
+    useEffect(() => {
+        const handleTyping = () => {
+            const i = loopNum % roles.length;
+            const fullText = roles[i];
+
+            setText(isDeleting
+                ? fullText.substring(0, text.length - 1)
+                : fullText.substring(0, text.length + 1)
+            );
+
+            setTypingSpeed(isDeleting ? 30 : 150);
+
+            if (!isDeleting && text === fullText) {
+                setTimeout(() => setIsDeleting(true), 2000); // Pause at end
+            } else if (isDeleting && text === '') {
+                setIsDeleting(false);
+                setLoopNum(loopNum + 1);
+            }
+        };
+
+        const timer = setTimeout(handleTyping, typingSpeed);
+        return () => clearTimeout(timer);
+    }, [text, isDeleting, loopNum, roles, typingSpeed]);
+
+    return (
+        <span className={styles.typingText}>
+            {text}
+        </span>
+    );
+};
+
+const Hero = () => {
+    const roles = [
+        "AI & Data Science Professional",
+        "Full Stack Developer",
+        "Problem Solver",
+        "Tech Enthusiast"
+    ];
+
+    return (
+        <section id="home" className={styles.hero} aria-labelledby="hero-heading">
+            {/* Main Content */}
+            <div className={styles.heroContent}>
+                {/* Profile Image with float & glow */}
+                <div className={styles.profileContainer}>
+                    <img
+                        src="/images/profile-photo.jpg"
+                        alt="Aditya Tawde"
+                        className={styles.profileImage}
+                        loading="eager"
+                        width="200"
+                        height="200"
+                    />
+                </div>
+
+                {/* Typography */}
+                <span className={styles.eyebrow}>Hello, I'm</span>
+
+                <h1 id="hero-heading" className={styles.title}>
+                    <span className={styles.titleGradient}>Aditya S. Tawde</span>
+                </h1>
+
+                <div className={styles.subtitle}>
+                    <span>I am an</span>
+                    <Typewriter roles={roles} />
+                </div>
+
+                <p className={styles.description}>
+                    Welcome! I'm a B.Tech candidate at JNEC with a passion for building
+                    intelligent systems and seamless web experiences.
+                    Explore my work in AI, Data Science, and Development.
+                </p>
+
+                {/* Call to Actions */}
+                <div className={styles.actions}>
+                    <a href="/Aditya_Portfolio.pdf" className={styles.primaryBtn} download>
+                        <i className="fas fa-download"></i>
+                        Download Resume
+                    </a>
+
+                    <a href="#contact" className={styles.secondaryBtn}>
+                        <i className="fas fa-paper-plane"></i>
+                        Contact Me
+                    </a>
+                </div>
+
+                {/* Social Links */}
+                <div className={styles.socials}>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="LinkedIn">
+                        <i className="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="GitHub">
+                        <i className="fab fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter">
+                        <i className="fab fa-twitter"></i>
+                    </a>
+                </div>
             </div>
-            
-            {/* CHANGED: Title is now more direct */}
-            <h1 id="hero-heading" className={styles.title}>
-                Aditya S. Tawde
-            </h1>
 
-            {/* CHANGED: Subtitle is now a punchy tagline using the .highlight style */}
-            <p className={styles.subtitle}>
-                Aspiring <span className={styles.highlight}>AI & Data Science</span> Professional
-            </p>
-
-            {/* CHANGED: Combined and shortened the redundant paragraphs into one clear intro */}
-            <p className={styles['cta-text']}>
-                Welcome! I'm a B.Tech candidate at JNEC with a passion for solving
-                real-world challenges using technology. Explore my work and skills below.
-            </p>
-
-            <div className={styles['cta-buttons']}>
-                <a href="..\Aditya_Portfolio.pdf" className={`${styles.btn} ${styles.primary}`} download>
-                    <i className="fas fa-download"></i> Download Resume
-                </a>
-                
-                {/* CHANGED: "Hire Me" to "Contact Me" is a slightly softer CTA */}
-                <a href="/contact" className={`${styles.btn} ${styles.secondary}`}>
-                    <i className="fas fa-arrow-right"></i> Contact Me
-                </a>
+            {/* Scroll/Mouse Indicator */}
+            <div className={styles.scrollIndicator}>
+                <div className={styles.mouse}>
+                    <div className={styles.wheel}></div>
+                </div>
             </div>
-
-            {/* NEW: Added the social icons section, which already had styles in the CSS */}
-            <div className={styles['social-icons']}>
-                <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <i className="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                    <i className="fab fa-github"></i>
-                </a>
-                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                    <i className="fab fa-twitter"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 export default Hero;

@@ -7,6 +7,7 @@ import './components/tech_stack.css';
 import Skills from './components/Skills';
 import Education from './components/Education';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -53,30 +54,32 @@ function ScrollToTopOnLoad() {
 
 function App() {
   return (
-    <Router>
-      <ScrollToTopOnLoad />
-      <Header />
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <main className="container">
-                <Hero />
-                <About />
-                <TechStack />
-                <Skills />
-                <Education />
-              </main>
-            }
-          />
-          <Route path="/certificates" element={<Certifications />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <ScrollToTopOnLoad />
+        <Header />
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <main className="container">
+                  <Hero />
+                  <About />
+                  <TechStack />
+                  <Skills />
+                  <Education />
+                </main>
+              }
+            />
+            <Route path="/certificates" element={<Certifications />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Suspense>
+        <Footer />
+      </Router>
+    </ErrorBoundary>
   );
 }
 

@@ -1,4 +1,6 @@
 from rest_framework import serializers
+import bleach
+
 from .models import TechStack, Project, Skill, Education, Certification, ContactSubmission
 
 
@@ -76,8 +78,24 @@ class CertificationSerializer(serializers.ModelSerializer):
         return obj.image_url
 
 
+def sanitize_text(value: str) -> str:
+    """Sanitize text by stripping all HTML tags.
+    
+    Uses bleach to remove potentially dangerous HTML content including:
+    - Script tags and event handlers
+    - SVG/img with onerror/onload
+    - Data URIs and javascript: URLs
+    - All other HTML tags
+    """
+    return bleach.clean(value, tags=[], strip=True).strip()
+
+
 class ContactSerializer(serializers.ModelSerializer):
-    """Serializer for ContactSubmission model with enhanced validation."""
+    """Serializer for ContactSubmission model with enhanced validation.
+    
+    Implements comprehensive XSS protection using bleach sanitization.
+    All text inputs are stripped of HTML tags before saving.
+    """
     name = serializers.CharField(max_length=100, min_length=2)
     email = serializers.EmailField()
     message = serializers.CharField(max_length=5000, min_length=10)
@@ -87,14 +105,22 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = ['name', 'email', 'message']
     
     def validate_name(self, value):
-        """Validate name doesn't contain suspicious patterns."""
-        if '<script' in value.lower() or 'javascript:' in value.lower():
-            raise serializers.ValidationError("Invalid characters in name.")
-        return value.strip()
+        """Sanitize name and reject if HTML was detected."""
+        cleaned = sanitize_text(value)
+        # If cleaning changed the content, it contained HTML
+        if cleaned != value.strip():
+            raise serializers.ValidationError(
+                "Name contains invalid characters. HTML is not allowed."
+            )
+        return cleaned
     
     def validate_message(self, value):
-        """Validate message content."""
-        if '<script' in value.lower() or 'javascript:' in value.lower():
-            raise serializers.ValidationError("Invalid content in message.")
-        return value.strip()
+        """Sanitize message and reject if dangerous HTML was detected."""
+        cleaned = sanitize_text(value)
+        # If cleaning changed the content significantly, it contained HTML
+        if cleaned != value.strip():
+            raise serializers.ValidationError(
+                "Message contains invalid content. HTML is not allowed."
+            )
+        return cleaned
 

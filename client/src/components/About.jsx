@@ -39,7 +39,7 @@ const About = () => {
     };
 
     return (
-        <section id="about" aria-labelledby="about-heading" className={styles['about-section']}>
+        <section id="about" aria-labelledby="about-heading" className={`${styles['about-section']} animate-fade-in-up`}>
             <h2 id="about-heading">About Me</h2>
             <div className={styles['about-content']}>
                 <div className={styles['about-text']}>

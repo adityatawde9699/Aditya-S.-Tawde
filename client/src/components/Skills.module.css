@@ -1,9 +1,14 @@
-/* Skills.module.css - Cyber-Minimalist Theme */
+/* ============================================
+   Skills.module.css - Cyber-Minimalist Theme
+   Cross-browser compatible, GPU-optimized
+   ============================================ */
 
 .skillsSection {
-  padding: 6rem 2rem;
+  padding: var(--space-24, 6rem) var(--space-8, 2rem);
   position: relative;
   overflow: hidden;
+  /* Contain for performance */
+  contain: layout style;
 }
 
 .skillsSection::before {
@@ -13,44 +18,63 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+  background:
+    radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
     radial-gradient(circle at 70% 80%, rgba(129, 140, 248, 0.08) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .skillsTitle {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4rem;
+  margin-bottom: var(--space-16, 4rem);
   position: relative;
   z-index: 1;
+  text-wrap: balance;
 }
 
-/* Skills Grid Layout */
+/* ============================================
+   Skills Grid Layout
+   ============================================ */
 .skillsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: var(--space-6, 1.5rem);
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
-/* Individual Skill Cards */
+/* ============================================
+   Individual Skill Cards
+   ============================================ */
 .skillCard {
   background: var(--bg-card);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 16px));
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-lg, 24px);
+  padding: var(--space-8, 2rem);
+  transition: transform 0.3s var(--ease-out, ease),
+    border-color 0.3s var(--ease-out, ease),
+    box-shadow 0.3s var(--ease-out, ease);
   position: relative;
   overflow: hidden;
   text-align: center;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(16px)) {
+  .skillCard {
+    background: var(--bg-card-solid, #1E293B);
+  }
 }
 
 .skillCard::before {
@@ -62,30 +86,28 @@
   height: 3px;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s var(--ease-out, ease);
 }
 
 .skillCard:hover {
-  transform: translateY(-8px);
+  transform: translateY(-8px) translateZ(0);
   border-color: var(--primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl, 0 20px 40px rgba(0, 0, 0, 0.3));
 }
 
 .skillCard:hover::before {
   opacity: 1;
 }
 
-.skillCard:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-/* Skill Icons */
+/* ============================================
+   Skill Icons
+   ============================================ */
 .skillCard i {
   font-size: 2.5rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-5, 1.25rem);
   color: var(--primary);
-  transition: all 0.3s ease;
+  transition: transform 0.3s var(--ease-out, ease),
+    filter 0.3s var(--ease-out, ease);
   display: block;
 }
 
@@ -94,20 +116,24 @@
   filter: drop-shadow(0 0 10px var(--primary-glow));
 }
 
-/* Skill Titles */
+/* ============================================
+   Skill Titles
+   ============================================ */
 .skillCard h3 {
-  font-size: 1.25rem;
+  font-size: var(--text-xl, 1.25rem);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1.25rem;
-  transition: color 0.3s ease;
+  margin-bottom: var(--space-5, 1.25rem);
+  transition: color 0.3s var(--ease-out, ease);
 }
 
 .skillCard:hover h3 {
   color: var(--primary);
 }
 
-/* Skill Badges */
+/* ============================================
+   Skill Badges
+   ============================================ */
 .skillBadges {
   display: flex;
   flex-wrap: wrap;
@@ -119,11 +145,13 @@
   background: rgba(56, 189, 248, 0.1);
   color: var(--primary);
   padding: 0.4rem 1rem;
-  border-radius: 99px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-full, 99px);
+  font-size: var(--text-sm, 0.85rem);
   font-weight: 500;
   border: 1px solid rgba(56, 189, 248, 0.2);
-  transition: all 0.2s ease;
+  transition: background 0.2s var(--ease-out, ease),
+    transform 0.2s var(--ease-out, ease),
+    box-shadow 0.2s var(--ease-out, ease);
 }
 
 .badge:hover {
@@ -132,75 +160,83 @@
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
 }
 
-/* Animation */
+/* ============================================
+   Animation Keyframes
+   ============================================ */
 @keyframes skillFadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) translateZ(0);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
   }
 }
 
-.skillCard {
-  animation: skillFadeIn 0.6s ease forwards;
+/* Animation only when user prefers motion */
+@media (prefers-reduced-motion: no-preference) {
+  .skillCard {
+    opacity: 0;
+    animation: skillFadeIn 0.6s var(--ease-out, ease) forwards;
+  }
+
+  /* Staggered animation delays */
+  .skillCard:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .skillCard:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .skillCard:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .skillCard:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .skillCard:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  .skillCard:nth-child(6) {
+    animation-delay: 0.6s;
+  }
 }
 
-.skillCard:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.skillCard:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.skillCard:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.skillCard:nth-child(4) {
-  animation-delay: 0.4s;
-}
-
-.skillCard:nth-child(5) {
-  animation-delay: 0.5s;
-}
-
-.skillCard:nth-child(6) {
-  animation-delay: 0.6s;
-}
-
-/* Responsive Design */
+/* ============================================
+   Responsive Design
+   ============================================ */
 @media (max-width: 768px) {
   .skillsSection {
-    padding: 4rem 1rem;
+    padding: var(--space-16, 4rem) var(--space-4, 1rem);
   }
 
   .skillsTitle {
-    font-size: 1.75rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-10, 2.5rem);
   }
 
   .skillsGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--space-4, 1rem);
   }
 
   .skillCard {
-    padding: 1.5rem;
+    padding: var(--space-6, 1.5rem);
   }
 
   .skillCard i {
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4, 1rem);
   }
 
   .skillCard h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+    font-size: var(--text-lg, 1.1rem);
+    margin-bottom: var(--space-4, 1rem);
   }
 
   .skillBadges {
@@ -208,31 +244,35 @@
   }
 
   .badge {
-    font-size: 0.75rem;
+    font-size: var(--text-xs, 0.75rem);
     padding: 0.35rem 0.75rem;
   }
 
-  .skillCard:hover {
-    transform: none;
-  }
+  /* Disable hover on touch devices */
+  @media (hover: none) {
 
-  .skillCard:hover i {
-    transform: none;
+    .skillCard:hover,
+    .skillCard:hover i {
+      transform: none;
+    }
+
+    .skillCard:hover::before {
+      opacity: 0;
+    }
   }
 }
 
 @media (max-width: 480px) {
   .skillsSection {
-    padding: 3rem 0.75rem;
+    padding: var(--space-12, 3rem) var(--space-3, 0.75rem);
   }
 
   .skillsTitle {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8, 2rem);
   }
 
   .skillCard {
-    padding: 1.25rem;
+    padding: var(--space-5, 1.25rem);
   }
 
   .skillCard i {
@@ -240,7 +280,7 @@
   }
 
   .skillCard h3 {
-    font-size: 1rem;
+    font-size: var(--text-base, 1rem);
   }
 
   .badge {
@@ -249,13 +289,13 @@
   }
 }
 
-/* Accessibility */
+/* ============================================
+   Accessibility
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
 
   .skillCard,
-  .skillCard i,
   .badge {
-    animation: none;
     transition: none;
   }
 
@@ -267,4 +307,15 @@
 .skillCard:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .skillCard {
+    border-width: 2px;
+  }
+
+  .badge {
+    border-width: 2px;
+  }
 }

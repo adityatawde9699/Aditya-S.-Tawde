@@ -1,44 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { getProjects } from '../services/api';
+import { useApi } from '../hooks';
 import styles from './Projects.module.css';
 
+/**
+ * Projects component displays portfolio projects with category filtering.
+ * 
+ * Uses the useApi hook for data fetching with 5-minute caching.
+ * Category display names come from backend to avoid duplication.
+ */
 const Projects = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
-  const [categories, setCategories] = useState(['all']);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await getProjects();
-        setProjects(response.data);
+  // Use the custom hook with caching
+  const { data: projects, loading, error } = useApi(getProjects, {
+    cacheTime: 5 * 60 * 1000, // 5 minute cache
+  });
 
-        // Extract unique categories from projects
-        const uniqueCategories = [...new Set(response.data.map(p => p.category))];
-        setCategories(['all', ...uniqueCategories]);
-      } catch (err) {
-        console.error("Failed to fetch projects", err);
-        setError("Could not load projects. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+  // Extract unique categories from projects
+  const categories = useMemo(() => {
+    if (!projects || projects.length === 0) return ['all'];
+    const uniqueCategories = [...new Set(projects.map(p => p.category))];
+    return ['all', ...uniqueCategories];
+  }, [projects]);
 
   // Filter projects by category
-  const filteredProjects = activeCategory === 'all'
-    ? projects
-    : projects.filter(project => project.category === activeCategory);
+  const filteredProjects = useMemo(() => {
+    if (!projects) return [];
+    return activeCategory === 'all'
+      ? projects
+      : projects.filter(project => project.category === activeCategory);
+  }, [projects, activeCategory]);
 
-  // Category display names
+  // Use backend's category_display when available, fallback to friendly names
   const getCategoryDisplayName = (category) => {
+    if (category === 'all') return 'All Projects';
+
+    // Find a project with this category to get the display name
+    const project = projects?.find(p => p.category === category);
+    if (project?.category_display) return project.category_display;
+
+    // Fallback mapping
     const displayNames = {
-      'all': 'All Projects',
       'WEB': 'Web Development',
       'MOBILE': 'Mobile Apps',
       'AI_ML': 'AI/ML',
@@ -49,8 +53,27 @@ const Projects = () => {
     return displayNames[category] || category;
   };
 
-  if (loading) return <div className="text-center p-10">Loading projects...</div>;
-  if (error) return <div className="text-center p-10 text-red-500">{error}</div>;
+  if (loading) {
+    return (
+      <section className={styles['projects-section']}>
+        <h2>Featured Projects</h2>
+        <div className={styles['loading-state']}>
+          <div className="text-center p-10">Loading projects...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className={styles['projects-section']}>
+        <h2>Featured Projects</h2>
+        <div className="text-center p-10 text-red-500">
+          {error || 'Could not load projects. Please try again later.'}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" aria-labelledby="projects-heading" className={styles['projects-section']}>

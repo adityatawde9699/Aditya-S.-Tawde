@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
   { to: '/', label: 'Home', type: 'route' },
@@ -12,14 +13,48 @@ const navLinks = [
 const Header = () => {
   const [navActive, setNavActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const navRef = useRef(null);
-  const headerRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const location = useLocation();
+
+  // Handle Scroll (Hide/Show)
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Determine if scrolled (for background)
+      setScrolled(currentScrollY > 20);
+
+      // Determine visibility
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100 && !navActive) {
+        setVisible(false); // Scrolling down
+      } else {
+        setVisible(true); // Scrolling up or at top
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [navActive]);
+
+  // Lock Body Scroll when Mobile Menu is Active
+  useEffect(() => {
+    if (navActive) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [navActive]);
 
   // Close nav on outside click
   useEffect(() => {
     if (!navActive) return;
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+      if (navRef.current && !navRef.current.contains(event.target) && !event.target.closest(`.${styles.hamburgerMenu}`)) {
         setNavActive(false);
       }
     };
@@ -27,64 +62,43 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [navActive]);
 
-  // Close nav on Escape key
+  // Close nav on Escape
   useEffect(() => {
-    if (!navActive) return;
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') setNavActive(false);
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [navActive]);
-
-  // Hide header on scroll down, show on scroll up
-  useEffect(() => {
-    let prevScrollpos = window.pageYOffset;
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      if (headerRef.current) {
-        headerRef.current.style.top = prevScrollpos > currentScrollPos ? '0' : '-60px';
-      }
-      setScrolled(currentScrollPos > 0);
-      prevScrollpos = currentScrollPos;
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleHamburgerClick = () => {
-    setNavActive((prev) => !prev);
-  };
 
   const handleNavLinkClick = () => {
     setNavActive(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <header
-      className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
-      ref={headerRef}
+      className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${!visible ? styles.hide : ''}`}
       id="navbar"
     >
       <div className={styles.headerContent}>
-        <span className={styles.logo}>Aditya S. Tawde</span>
+        <Link to="/" className={styles.logo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          Aditya S. Tawde
+        </Link>
+
         <button
           className={`${styles.hamburgerMenu} ${navActive ? styles.active : ''}`}
-          aria-label="Toggle navigation menu"
+          aria-label={navActive ? "Close menu" : "Open menu"}
           aria-expanded={navActive}
-          onClick={handleHamburgerClick}
+          onClick={() => setNavActive(!navActive)}
         >
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <rect y="6" width="28" height="3.2" rx="1.6" fill="currentColor" />
-            <rect y="12.4" width="28" height="3.2" rx="1.6" fill="currentColor" />
-            <rect y="18.8" width="28" height="3.2" rx="1.6" fill="currentColor" />
-          </svg>
+          {navActive ? <X size={24} /> : <Menu size={24} />}
         </button>
+
         <nav
           ref={navRef}
-          className={navActive ? `${styles.mainNav} ${styles.active}` : styles.mainNav}
+          className={`${styles.mainNav} ${navActive ? styles.active : ''}`}
           aria-label="Main navigation"
-          aria-expanded={navActive}
         >
           <ul className={styles.navList}>
             {navLinks.map((link) => (
@@ -92,7 +106,7 @@ const Header = () => {
                 {link.type === 'route' ? (
                   <Link
                     to={link.to}
-                    className={styles.navLink}
+                    className={`${styles.navLink} ${location.pathname === link.to ? styles.navLinkActive : ''}`}
                     onClick={handleNavLinkClick}
                   >
                     {link.label}

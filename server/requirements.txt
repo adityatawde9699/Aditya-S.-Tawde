@@ -13,5 +13,6 @@ pytest>=7.4.0
 pytest-django>=4.5.0
 pytest-cov>=4.1.0
 django-unfold>=0.20.0
+bleach>=6.0.0
 
 

@@ -1,29 +1,44 @@
 /* Contact.module.css - Premium Cyber-Minimalist Design */
 
 /* Section styling - add to Contact.jsx parent section */
-#contact {
+/* Section styling */
+.contact-section {
   padding: 6rem 2rem;
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.02) 50%, transparent 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#contact h2 {
+.section-header {
   text-align: center;
-  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.section-header h2 {
+  font-size: 3rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 30%, var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-#contact h2::after {
-  content: "Let's work together";
+.section-header h2::after {
+  content: "Let's create something amazing";
   display: block;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: var(--text-secondary);
+  -webkit-text-fill-color: var(--text-secondary);
   margin-top: 0.75rem;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 /* --- Progress Bar --- */
@@ -119,6 +134,20 @@
   height: 100%;
   background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
   pointer-events: none;
+}
+
+/* Animation state */
+.fadeIn {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Input error state */
+.contact-form input.error,
+.contact-form textarea.error {
+  border-color: var(--error);
+  box-shadow: 0 0 0 1px var(--error);
+  background: rgba(239, 68, 68, 0.05);
 }
 
 .contact-form.fadeIn {
@@ -537,12 +566,12 @@
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
-  #contact {
+  .contact-section {
     padding: 4rem 1rem;
   }
 
-  #contact h2 {
-    font-size: 2rem;
+  .section-header h2 {
+    font-size: 2.25rem;
   }
 
   .contact-form {

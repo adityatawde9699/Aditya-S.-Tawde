@@ -145,6 +145,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'contact': '5/hour',  # Stricter rate for contact form
+    },
 }
 
 
@@ -285,6 +292,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 RECIPIENT_EMAIL = os.getenv('RECIPIENT_EMAIL', '')
+
+# Validate email configuration in production
+EMAIL_CONFIGURED = all([EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, RECIPIENT_EMAIL])
+
+if not DEBUG and not EMAIL_CONFIGURED:
+    import warnings
+    warnings.warn(
+        "Email settings (EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, RECIPIENT_EMAIL) "
+        "are not fully configured. Contact form emails will not be sent. "
+        "Set these environment variables for production.",
+        RuntimeWarning
+    )
 
 
 # Logging Configuration

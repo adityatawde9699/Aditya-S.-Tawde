@@ -23,7 +23,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com').split(',')
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://aditya-s-tawde.onrender.com",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 
 # Application definition

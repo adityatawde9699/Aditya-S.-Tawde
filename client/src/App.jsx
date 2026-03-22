@@ -7,6 +7,7 @@ import './components/tech_stack.css';
 import Skills from './components/Skills';
 import Education from './components/Education';
 import Footer from './components/Footer';
+import NotFound from './components/NotFound';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
@@ -75,6 +76,7 @@ function App() {
             <Route path="/certificates" element={<Certifications />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
         <Footer />

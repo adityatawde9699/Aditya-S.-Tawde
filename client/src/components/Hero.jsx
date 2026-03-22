@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Download, SendHorizonal } from 'lucide-react';
+import { RESUME_PATH, SOCIAL_LINKS } from '../config/social';
 import styles from './Hero.module.css';
 
 /**
@@ -24,7 +26,7 @@ const Typewriter = ({ roles }) => {
             setTypingSpeed(isDeleting ? 30 : 150);
 
             if (!isDeleting && text === fullText) {
-                setTimeout(() => setIsDeleting(true), 2000); // Pause at end
+                setTimeout(() => setIsDeleting(true), 2000);
             } else if (isDeleting && text === '') {
                 setIsDeleting(false);
                 setLoopNum(loopNum + 1);
@@ -44,17 +46,15 @@ const Typewriter = ({ roles }) => {
 
 const Hero = () => {
     const roles = [
-        "AI & Data Science Professional",
-        "Full Stack Developer",
-        "Problem Solver",
-        "Tech Enthusiast"
+        'AI & Data Science Professional',
+        'Full Stack Developer',
+        'Problem Solver',
+        'Tech Enthusiast',
     ];
 
     return (
         <section id="home" className={styles.hero} aria-labelledby="hero-heading">
-            {/* Main Content */}
             <div className={styles.heroContent}>
-                {/* Profile Image with float & glow */}
                 <div className={styles.profileContainer}>
                     <img
                         src="/images/profile-photo.jpg"
@@ -66,8 +66,7 @@ const Hero = () => {
                     />
                 </div>
 
-                {/* Typography */}
-                <span className={styles.eyebrow}>Hello, I'm</span>
+                <span className={styles.eyebrow}>Hello, I&apos;m</span>
 
                 <h1 id="hero-heading" className={styles.title}>
                     <span className={styles.titleGradient}>Aditya S. Tawde</span>
@@ -79,39 +78,39 @@ const Hero = () => {
                 </div>
 
                 <p className={styles.description}>
-                    Welcome! I'm a B.Tech candidate at JNEC with a passion for building
+                    Welcome! I&apos;m a B.Tech candidate at JNEC with a passion for building
                     intelligent systems and seamless web experiences.
                     Explore my work in AI, Data Science, and Development.
                 </p>
 
-                {/* Call to Actions */}
                 <div className={styles.actions}>
-                    <a href="/Aditya_Portfolio.pdf" className={styles.primaryBtn} download>
-                        <i className="fas fa-download"></i>
+                    <a href={RESUME_PATH} className={styles.primaryBtn} download>
+                        <Download size={18} aria-hidden="true" />
                         Download Resume
                     </a>
 
                     <a href="#contact" className={styles.secondaryBtn}>
-                        <i className="fas fa-paper-plane"></i>
+                        <SendHorizonal size={18} aria-hidden="true" />
                         Contact Me
                     </a>
                 </div>
 
-                {/* Social Links */}
                 <div className={styles.socials}>
-                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="LinkedIn">
-                        <i className="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="GitHub">
-                        <i className="fab fa-github"></i>
-                    </a>
-                    <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter">
-                        <i className="fab fa-twitter"></i>
-                    </a>
+                    {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
+                        <a
+                            key={name}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.socialLink}
+                            aria-label={name}
+                        >
+                            <Icon size={20} aria-hidden="true" />
+                        </a>
+                    ))}
                 </div>
             </div>
 
-            {/* Scroll/Mouse Indicator */}
             <div className={styles.scrollIndicator}>
                 <div className={styles.mouse}>
                     <div className={styles.wheel}></div>

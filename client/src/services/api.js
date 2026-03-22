@@ -82,7 +82,7 @@ api.interceptors.response.use(
         };
 
         if (import.meta.env.DEV) {
-            console.error(`❌ [API] Error:`, enhancedError.message);
+            console.error('❌ [API] Error:', enhancedError.message);
         }
 
         return Promise.reject(enhancedError);
@@ -109,7 +109,6 @@ function getErrorMessage(error) {
             if (typeof value === 'string') return value;
             if (Array.isArray(value)) return value.join(', ');
             if (typeof value === 'object') {
-                // Handle nested error objects like {field: ['error1', 'error2']}
                 const messages = Object.entries(value)
                     .map(([key, val]) => {
                         const msg = Array.isArray(val) ? val.join(', ') : val;
@@ -121,7 +120,6 @@ function getErrorMessage(error) {
             return String(value);
         };
 
-        // Try to get error message from response
         const errorMsg = extractMessage(data?.error);
         if (errorMsg) return errorMsg;
 
@@ -131,11 +129,9 @@ function getErrorMessage(error) {
         const detail = extractMessage(data?.detail);
         if (detail) return detail;
 
-        // Try non_field_errors (common in DRF)
         const nonFieldErrors = extractMessage(data?.non_field_errors);
         if (nonFieldErrors) return nonFieldErrors;
 
-        // Default messages based on status
         switch (status) {
             case 400: return 'Invalid request. Please check your input.';
             case 401: return 'Unauthorized. Please log in again.';
@@ -149,14 +145,18 @@ function getErrorMessage(error) {
     return 'An unexpected error occurred.';
 }
 
+const normalizeCollectionResponse = (response) => ({
+    ...response,
+    data: Array.isArray(response.data?.results) ? response.data.results : response.data,
+});
 
 // ============================================
 // API Methods
 // ============================================
 
 // Portfolio endpoints
-export const getProjects = (params = {}) => api.get('/portfolio/projects/', { params });
-export const getFeaturedProjects = () => api.get('/portfolio/projects/', { params: { featured: 'true' } });
+export const getProjects = (params = {}) => api.get('/portfolio/projects/', { params }).then(normalizeCollectionResponse);
+export const getFeaturedProjects = () => api.get('/portfolio/projects/', { params: { featured: 'true' } }).then(normalizeCollectionResponse);
 export const getSkills = () => api.get('/portfolio/skills/');
 export const getTechStack = () => api.get('/portfolio/tech-stack/');
 export const getCertifications = () => api.get('/portfolio/certifications/');

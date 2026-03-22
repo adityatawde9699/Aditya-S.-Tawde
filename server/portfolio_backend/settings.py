@@ -25,11 +25,13 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com').split(',')
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://aditya-s-tawde.onrender.com",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+CSRF_TRUSTED_ORIGINS = ["https://aditya-s-tawde.onrender.com"]
+
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS += [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
 
 
 # Application definition
@@ -93,6 +95,14 @@ DATABASES = {
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600,
     )
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'portfolio-api-cache',
+        'TIMEOUT': 60 * 60,
+    }
 }
 
 
@@ -254,12 +264,16 @@ UNFOLD = {
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
     "https://aditya-s-tawde.onrender.com",
 ]
+
+if DEBUG:
+    CORS_ALLOWED_ORIGINS += [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
 
 # Add production frontend URL via environment variable
 PROD_CLIENT_URL = os.getenv('PROD_CLIENT_URL')

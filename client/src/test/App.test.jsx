@@ -1,32 +1,60 @@
-import { describe, it, expect, vi } from 'vitest'
+import React from 'react';
+import { act } from 'react';
+import { createRoot } from 'react-dom/client';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-// Simple unit tests that don't require DOM rendering
-// This avoids the jsdom ESM compatibility issues
+vi.mock('../components/Header', () => ({ default: () => <div>Header</div> }));
+vi.mock('../components/Hero', () => ({ default: () => <div>Hero</div> }));
+vi.mock('../components/About', () => ({ default: () => <div>About</div> }));
+vi.mock('../components/TechStack', () => ({ default: () => <div>TechStack</div> }));
+vi.mock('../components/Skills', () => ({ default: () => <div>Skills</div> }));
+vi.mock('../components/Education', () => ({ default: () => <div>Education</div> }));
+vi.mock('../components/Footer', () => ({ default: () => <div>Footer</div> }));
+vi.mock('../components/ErrorBoundary', () => ({ default: ({ children }) => <>{children}</> }));
+vi.mock('../components/Certifications', () => ({ default: () => <div>Certifications</div> }));
+vi.mock('../components/Projects', () => ({ default: () => <div>Projects</div> }));
+vi.mock('../components/Contact', () => ({ default: () => <div>Contact</div> }));
 
-describe('App Configuration', () => {
-    it('should have correct document type', () => {
-        expect(typeof document).toBe('object')
-    })
+import App from '../App';
 
-    it('should have window object available', () => {
-        expect(typeof window).toBe('object')
-    })
+let container;
+let root;
 
-    it('API URL should be configurable via environment', () => {
-        // Test that we can access import.meta.env
-        expect(typeof import.meta.env).toBe('object')
-    })
-})
+const renderApp = async (path = '/') => {
+  window.history.pushState({}, '', path);
+  container = document.createElement('div');
+  document.body.appendChild(container);
+  root = createRoot(container);
 
-describe('Utils', () => {
-    it('should handle basic React import', async () => {
-        const React = await import('react')
-        expect(React).toBeDefined()
-        expect(typeof React.createElement).toBe('function')
-    })
+  await act(async () => {
+    root.render(<App />);
+  });
+};
 
-    it('should handle react-router-dom import', async () => {
-        const { BrowserRouter } = await import('react-router-dom')
-        expect(BrowserRouter).toBeDefined()
-    })
-})
+afterEach(async () => {
+  if (root) {
+    await act(async () => {
+      root.unmount();
+    });
+  }
+  container?.remove();
+  container = null;
+  root = null;
+  window.history.pushState({}, '', '/');
+});
+
+describe('App routing', () => {
+  it('renders homepage sections on the root route', async () => {
+    await renderApp('/');
+
+    expect(container.textContent).toContain('Hero');
+    expect(container.textContent).toContain('Education');
+  });
+
+  it('renders the not found route for unknown paths', async () => {
+    await renderApp('/missing-route');
+
+    expect(container.textContent).toContain('Page not found');
+    expect(container.textContent).toContain('Return home');
+  });
+});

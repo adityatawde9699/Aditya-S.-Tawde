@@ -1,45 +1,60 @@
 import React from 'react';
+import { useApi } from '../hooks';
+import { getEducation } from '../services/api';
 import styles from './Education.module.css';
 
-const Education = () => (
-    <section id="education" aria-labelledby="education-heading" className={styles['education-section']}>
-        <h2 id="education-heading">Education</h2>
-        <div className={styles['education-timeline']}>
-            <div className={styles['education-item']}>
-                <div className={styles['education-year']}>2024 - Present</div>
-                <div className={styles['education-content']}>
-                    <h3>B.Tech in AI & Data Science</h3>
-                    <h4>Jawaharlal Nehru Engineering College, MGMU</h4>
-                    <p>Pursuing specialization in Artificial Intelligence and Data Science with focus on machine learning, deep learning, and data analysis methodologies.</p>
-                    <div className={styles['education-highlights']}>
-                        <span>CGPA: 7.19/10</span>
+const formatEducationPeriod = (startDate, endDate) => {
+    const startYear = startDate ? new Date(startDate).getFullYear() : 'Present';
+    const endYear = endDate ? new Date(endDate).getFullYear() : 'Present';
+    return `${startYear} - ${endYear}`;
+};
+
+const Education = () => {
+    const { data: education = [], loading, error } = useApi(getEducation, {
+        cacheTime: 5 * 60 * 1000,
+    });
+
+    if (loading) {
+        return (
+            <section id="education" aria-labelledby="education-heading" className={styles['education-section']}>
+                <h2 id="education-heading">Education</h2>
+                <div className={styles['education-timeline']}>Loading education...</div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section id="education" aria-labelledby="education-heading" className={styles['education-section']}>
+                <h2 id="education-heading">Education</h2>
+                <div className={styles['education-timeline']}>Could not load education details right now.</div>
+            </section>
+        );
+    }
+
+    if (!education.length) {
+        return null;
+    }
+
+    return (
+        <section id="education" aria-labelledby="education-heading" className={styles['education-section']}>
+            <h2 id="education-heading">Education</h2>
+            <div className={styles['education-timeline']}>
+                {education.map((entry) => (
+                    <div key={entry.id} className={styles['education-item']}>
+                        <div className={styles['education-year']}>
+                            {formatEducationPeriod(entry.start_date, entry.end_date)}
+                        </div>
+                        <div className={styles['education-content']}>
+                            <h3>{entry.degree}</h3>
+                            <h4>{entry.institution}</h4>
+                            {entry.description && <p>{entry.description}</p>}
+                        </div>
                     </div>
-                </div>
+                ))}
             </div>
-            <div className={styles['education-item']}>
-                <div className={styles['education-year']}>2019 - 2021</div>
-                <div className={styles['education-content']}>
-                    <h3>Higher Secondary Education</h3>
-                    <h4>Maharashtra State Board</h4>
-                    <p>Completed Higher Secondary with focus on Science and Mathematics, laying the foundation for technical education.</p>
-                    <div className={styles['education-highlights']}>
-                        <span>77.17% Aggregate</span>
-                    </div>
-                </div>
-            </div>
-            <div className={styles['education-item']}>
-                <div className={styles['education-year']}>2021</div>
-                <div className={styles['education-content']}>
-                    <h3>Secondary School Certificate</h3>
-                    <h4>Maharashtra State Board</h4>
-                    <p>Completed SSC with distinction, showing early aptitude in science and technology subjects.</p>
-                    <div className={styles['education-highlights']}>
-                        <span>86% Aggregate</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 export default Education;

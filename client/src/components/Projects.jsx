@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { ExternalLink, Github } from 'lucide-react';
 import { getProjects } from '../services/api';
 import { useApi } from '../hooks';
 import styles from './Projects.module.css';
@@ -121,12 +122,12 @@ const Projects = () => {
                 <div className={styles['project-links']}>
                   {project.github_link && (
                     <a href={project.github_link} className={styles['project-link']} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-github"></i> Source Code
+                      <Github size={16} aria-hidden="true" /> Source Code
                     </a>
                   )}
                   {project.live_link && (
                     <a href={project.live_link} className={styles['project-link']} target="_blank" rel="noopener noreferrer">
-                      <i className="fas fa-external-link-alt"></i> Live Demo
+                      <ExternalLink size={16} aria-hidden="true" /> Live Demo
                     </a>
                   )}
                 </div>

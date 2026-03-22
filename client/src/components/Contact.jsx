@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     User,
     Mail,
@@ -24,6 +24,26 @@ const Contact = () => {
     const [statusType, setStatusType] = useState(''); // 'success' | 'error'
     const [loading, setLoading] = useState(false);
     const [focused, setFocused] = useState({});
+    const [isVisible, setIsVisible] = useState(false);
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        if (formRef.current) {
+            observer.observe(formRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     // Validation Effect
     useEffect(() => {
@@ -116,7 +136,8 @@ const Contact = () => {
             <div className={styles['contact-form-container']}>
                 <form
                     onSubmit={handleSubmit}
-                    className={`${styles['contact-form']} ${styles.fadeIn}`}
+                    ref={formRef}
+                    className={`${styles['contact-form']} ${isVisible ? styles.fadeIn : ''}`}
                     noValidate
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

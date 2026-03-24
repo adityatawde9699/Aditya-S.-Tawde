@@ -2,11 +2,14 @@ from datetime import date
 from unittest.mock import patch
 
 import pytest
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory
 
 from portfolio.models import Certification, ContactSubmission, Education, Project, Skill, TechStack
+
+User = get_user_model()
 
 
 @pytest.fixture
@@ -281,6 +284,49 @@ class TestContactAPI:
         request.user = AnonymousUser()
         assert throttle.allow_request(request, api_view) is False
         assert throttle.wait() > 3590
+
+
+class TestAdminAuthenticationAPI:
+    def test_admin_login_logout_and_status(self, api_client, db):
+        admin = User.objects.create_user(
+            username='admin',
+            password='p@ssword123',
+            is_staff=True,
+            is_active=True,
+        )
+
+        login_response = api_client.post('/api/admin/login/', {
+            'username': 'admin',
+            'password': 'p@ssword123',
+        }, format='json')
+
+        assert login_response.status_code == status.HTTP_200_OK
+        assert login_response.data['is_staff'] is True
+
+        status_response = api_client.get('/api/admin/status/')
+        assert status_response.status_code == status.HTTP_200_OK
+        assert status_response.data['username'] == 'admin'
+
+        logout_response = api_client.post('/api/admin/logout/')
+        assert logout_response.status_code == status.HTTP_200_OK
+
+        status_after_logout = api_client.get('/api/admin/status/')
+        assert status_after_logout.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_admin_login_invalid_credentials(self, api_client, db):
+        User.objects.create_user(
+            username='admin',
+            password='p@ssword123',
+            is_staff=True,
+            is_active=True,
+        )
+
+        invalid_login = api_client.post('/api/admin/login/', {
+            'username': 'admin',
+            'password': 'wrong-password',
+        }, format='json')
+
+        assert invalid_login.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 class TestSkillsAPI:

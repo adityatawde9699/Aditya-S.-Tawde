@@ -1,11 +1,15 @@
 import logging
 
 from django.conf import settings
-from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.core.mail import send_mail
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
@@ -203,3 +207,52 @@ class HealthCheckView(APIView):
             return Response(health_status, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         return Response(health_status, status=status.HTTP_200_OK)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AdminLoginView(APIView):
+    """POST /api/admin/login/ - Authenticate admin users and establish Django session."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if not username or not password:
+            return Response({'detail': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is None or not user.is_active or not user.is_staff:
+            return Response({'detail': 'Invalid admin credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        login(request, user)
+        return Response({
+            'detail': 'Admin login successful.',
+            'username': user.username,
+            'is_staff': user.is_staff,
+        }, status=status.HTTP_200_OK)
+
+
+class AdminLogoutView(APIView):
+    """POST /api/admin/logout/ - Log out the current user."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
+
+
+class AdminStatusView(APIView):
+    """GET /api/admin/status/ - Check logged in admin status."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not request.user.is_staff:
+            return Response({'detail': 'Admin privileges required.'}, status=status.HTTP_403_FORBIDDEN)
+
+        return Response({
+            'is_authenticated': True,
+            'username': request.user.username,
+            'is_staff': request.user.is_staff,
+        }, status=status.HTTP_200_OK)

@@ -1,16 +1,25 @@
 from django.urls import path
 from .views import (
     TechStackListView,
-    ProjectListView, 
-    SkillListView, 
+    ProjectListView,
+    SkillListView,
     EducationListView,
-    CertificationListView, 
+    CertificationListView,
     ContactView,
-    HealthCheckView
+    HealthCheckView,
+    AdminLoginView,
+    AdminLogoutView,
+    AdminStatusView,
 )
 
 urlpatterns = [
     path('health/', HealthCheckView.as_view(), name='health-check'),
+
+    # Admin authentication endpoints
+    path('admin/login/', AdminLoginView.as_view(), name='admin-login'),
+    path('admin/logout/', AdminLogoutView.as_view(), name='admin-logout'),
+    path('admin/status/', AdminStatusView.as_view(), name='admin-status'),
+
     path('portfolio/tech-stack/', TechStackListView.as_view(), name='techstack-list'),
     path('portfolio/projects/', ProjectListView.as_view(), name='project-list'),
     path('portfolio/skills/', SkillListView.as_view(), name='skill-list'),

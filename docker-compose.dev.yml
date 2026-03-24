@@ -6,11 +6,17 @@ version: '3.8'
 services:
   server:
     # Override production command with development server
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model(); username='${DJANGO_SUPERUSER_USERNAME}'; password='${DJANGO_SUPERUSER_PASSWORD}'; email='${DJANGO_SUPERUSER_EMAIL}'; user, created = User.objects.get_or_create(username=username, defaults={'email': email, 'is_staff': True, 'is_superuser': True}); user.email = email; user.is_staff = True; user.is_superuser = True; user.set_password(password); user.save()\" &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./server:/app
     environment:
       - DEBUG=True
+      - DJANGO_SUPERUSER_USERNAME=adityatawde9699
+      - DJANGO_SUPERUSER_PASSWORD=Adityast@9158
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
     # Disable health check for faster development iteration
     healthcheck:
       disable: true

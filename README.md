@@ -45,6 +45,10 @@ Access:
 - **Backend API**: http://localhost:8000/api/
 - **Admin Panel**: http://localhost:8000/admin/
 
+Default admin credentials (auto-created when Docker starts):
+- **Username**: `adityatawde9699`
+- **Password**: `Adityast@9158`
+
 ### Manual Setup
 
 #### Backend (Django)

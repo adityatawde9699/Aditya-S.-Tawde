@@ -7,6 +7,7 @@ services:
     # Use gunicorn for production instead of Django's development server
     command: >
       sh -c "python manage.py migrate &&
+             python manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model(); username='${DJANGO_SUPERUSER_USERNAME}'; password='${DJANGO_SUPERUSER_PASSWORD}'; email='${DJANGO_SUPERUSER_EMAIL}'; user, created = User.objects.get_or_create(username=username, defaults={'email': email, 'is_staff': True, 'is_superuser': True}); user.email = email; user.is_staff = True; user.is_superuser = True; user.set_password(password); user.save()\" &&
              python manage.py collectstatic --noinput &&
              gunicorn portfolio_backend.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 2 --access-logfile - --error-logfile -"
     ports:
@@ -15,6 +16,9 @@ services:
       - .env
     environment:
       - DEBUG=False
+      - DJANGO_SUPERUSER_USERNAME=adityatawde9699
+      - DJANGO_SUPERUSER_PASSWORD=Adityast@9158
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
     depends_on:
       db:
         condition: service_healthy
@@ -61,4 +65,3 @@ services:
 
 volumes:
   postgres_data:
-

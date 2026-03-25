@@ -9,3 +9,6 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
+
+# Seed database with initial portfolio data
+python seed_db.py

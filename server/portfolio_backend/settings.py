@@ -7,6 +7,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
+from django.core.exceptions import ImproperlyConfigured
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -18,10 +20,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-dev-key')
+# In production, SECRET_KEY MUST be set as a real environment variable.
+# The insecure fallback is only permitted when DEBUG=True (local dev only).
+_secret_key = os.environ.get('SECRET_KEY')
+_debug_mode = os.environ.get('DEBUG', 'False') == 'True'
+
+if not _secret_key:
+    if not _debug_mode:
+        raise ImproperlyConfigured(
+            "SECRET_KEY environment variable is not set. "
+            "This is required in production. Set SECRET_KEY in your environment."
+        )
+    _secret_key = 'django-insecure-local-dev-only-key-do-not-use-in-production'
+
+SECRET_KEY = _secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = _debug_mode
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com').split(',')
 
@@ -96,6 +111,16 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+
+# Enforce a real database in production.
+# SQLite is only permitted in local development (DEBUG=True).
+# In production, DATABASE_URL must be set to a PostgreSQL connection string.
+if not _debug_mode and not os.environ.get('DATABASE_URL'):
+    raise ImproperlyConfigured(
+        "DATABASE_URL environment variable is not set. "
+        "SQLite is not permitted in production. "
+        "Set DATABASE_URL to a PostgreSQL connection string."
+    )
 
 CACHES = {
     'default': {

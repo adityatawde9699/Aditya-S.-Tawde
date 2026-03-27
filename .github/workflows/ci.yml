@@ -41,7 +41,9 @@ jobs:
       - name: Run tests with pytest
         env:
           SECRET_KEY: test-secret-key-for-ci
-          DEBUG: 'False'
+          # Tests run with DEBUG=True so Django uses SQLite (fast, isolated).
+          # The DATABASE_URL production guard only fires when DEBUG=False.
+          DEBUG: 'True'
         run: pytest --tb=short -q
 
   # Frontend Tests

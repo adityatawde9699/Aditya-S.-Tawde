@@ -1,0 +1,79 @@
+# render.yaml — Render Infrastructure-as-Code
+# Docs: https://render.com/docs/blueprint-spec
+#
+# After pushing this file, connect your GitHub repo to Render and choose
+# "Blueprint" as the deployment type. Render will auto-detect this file.
+#
+# REQUIRED: Set the following secret environment variables in the Render
+# dashboard under Environment → Environment Variables (or use Secret Files):
+#   - SECRET_KEY
+#   - DATABASE_URL         (auto-set if using a Render PostgreSQL database)
+#   - EMAIL_HOST_USER
+#   - EMAIL_HOST_PASSWORD
+#   - RECIPIENT_EMAIL
+
+services:
+  # ─── Backend (Django + Gunicorn) ─────────────────────────────────────────
+  - type: web
+    name: portfolio-backend
+    runtime: python
+    region: singapore
+    plan: free
+
+    rootDir: server
+    buildCommand: |
+      pip install -r requirements.txt &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate
+    startCommand: >
+      gunicorn portfolio_backend.wsgi:application
+      --bind 0.0.0.0:$PORT
+      --workers 2
+      --threads 2
+      --access-logfile -
+      --error-logfile -
+
+    healthCheckPath: /api/health/
+
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: SECRET_KEY
+        sync: false          # Set manually in the Render dashboard
+      - key: DATABASE_URL
+        sync: false          # Set manually or link to a Render PostgreSQL DB
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: RECIPIENT_EMAIL
+        sync: false
+      - key: PROD_CLIENT_URL
+        sync: false          # e.g. https://portfolio-frontend.onrender.com
+
+  # ─── Frontend (Vite + Nginx) ──────────────────────────────────────────────
+  - type: web
+    name: portfolio-frontend
+    runtime: static
+    region: singapore
+    plan: free
+
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+
+    # SPA routing: serve index.html for all routes so React Router works.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

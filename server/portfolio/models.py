@@ -63,13 +63,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
-    
-    @property
-    def image_source(self):
-        """Returns the image URL - prioritizes uploaded image over external URL."""
-        if self.image:
-            return self.image.url
-        return self.image_url
 
 
 class Education(models.Model):
@@ -138,13 +131,6 @@ class Certification(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.issuer}"
-    
-    @property
-    def image_source(self):
-        """Returns the image URL - prioritizes uploaded image over external URL."""
-        if self.image:
-            return self.image.url
-        return self.image_url
 
 
 class ContactSubmission(models.Model):

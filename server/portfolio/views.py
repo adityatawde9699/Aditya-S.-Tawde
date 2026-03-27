@@ -1,11 +1,8 @@
 import logging
 
-from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.core.mail import send_mail
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
@@ -23,6 +20,7 @@ from .serializers import (
     SkillSerializer,
     TechStackSerializer,
 )
+from .services import ContactService
 
 logger = logging.getLogger(__name__)
 CACHE_TTL_SECONDS = 60 * 60
@@ -141,44 +139,17 @@ class ContactView(APIView):
 
     def post(self, request):
         serializer = ContactSerializer(data=request.data)
-        if serializer.is_valid():
-            submission = serializer.save()
-            logger.info('Contact submission saved: %s', submission.id)
-
-            try:
-                subject = f"New Contact from Portfolio: {submission.name}"
-                message = f"""
-You have received a new message from your portfolio website:
-
-Name: {submission.name}
-Email: {submission.email}
-
-Message:
-{submission.message}
-
----
-This email was sent automatically from your portfolio contact form.
-                """
-                send_mail(
-                    subject=subject,
-                    message=message,
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.RECIPIENT_EMAIL],
-                    fail_silently=False,
-                )
-                logger.info('Email notification sent for contact submission: %s', submission.id)
-            except Exception:
-                logger.exception('Email sending failed for contact submission: %s', submission.id)
-
+        if not serializer.is_valid():
+            logger.warning("Invalid contact form submission: %s", serializer.errors)
             return Response(
-                {'message': 'Message sent successfully!'},
-                status=status.HTTP_201_CREATED,
+                {"error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-        logger.warning('Invalid contact form submission: %s', serializer.errors)
+        ContactService.submit(serializer.validated_data)
         return Response(
-            {'error': serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
+            {"message": "Message sent successfully!"},
+            status=status.HTTP_201_CREATED,
         )
 
 

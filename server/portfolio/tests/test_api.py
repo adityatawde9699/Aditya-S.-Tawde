@@ -247,7 +247,7 @@ class TestContactAPI:
         submission = ContactSubmission.objects.first()
         assert submission.name == 'John Doe'
 
-    @patch('portfolio.views.send_mail')
+    @patch('portfolio.services.send_mail')
     def test_email_failure_does_not_fail_request(self, mock_send_mail, api_client, db):
         mock_send_mail.side_effect = Exception('SMTP error')
 

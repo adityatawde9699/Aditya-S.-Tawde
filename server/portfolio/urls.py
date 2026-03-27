@@ -1,15 +1,16 @@
 from django.urls import path
+
 from .views import (
-    TechStackListView,
-    ProjectListView,
-    SkillListView,
-    EducationListView,
-    CertificationListView,
-    ContactView,
-    HealthCheckView,
     AdminLoginView,
     AdminLogoutView,
     AdminStatusView,
+    CertificationListView,
+    ContactView,
+    EducationListView,
+    HealthCheckView,
+    ProjectListView,
+    SkillListView,
+    TechStackListView,
 )
 
 urlpatterns = [
@@ -24,7 +25,11 @@ urlpatterns = [
     path('portfolio/projects/', ProjectListView.as_view(), name='project-list'),
     path('portfolio/skills/', SkillListView.as_view(), name='skill-list'),
     path('portfolio/education/', EducationListView.as_view(), name='education-list'),
-    path('portfolio/certifications/', CertificationListView.as_view(), name='certification-list'),
+    path(
+        'portfolio/certifications/',
+        CertificationListView.as_view(),
+        name='certification-list',
+    ),
     path('contact/', ContactView.as_view(), name='contact'),
 ]
 

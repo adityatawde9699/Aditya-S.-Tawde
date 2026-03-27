@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { getProjects } from '../services/api';

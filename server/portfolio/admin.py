@@ -1,7 +1,15 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin
-from .models import TechStack, Project, Skill, Education, Certification, ContactSubmission
+
+from .models import (
+    Certification,
+    ContactSubmission,
+    Education,
+    Project,
+    Skill,
+    TechStack,
+)
 
 
 @admin.register(TechStack)
@@ -17,7 +25,10 @@ class TechStackAdmin(ModelAdmin):
 @admin.register(Project)
 class ProjectAdmin(ModelAdmin):
     """Admin interface for Project model."""
-    list_display = ('title', 'category', 'order', 'is_featured', 'image_preview', 'tech_count', 'created_at')
+    list_display = (
+        'title', 'category', 'order', 'is_featured',
+        'image_preview', 'tech_count', 'created_at',
+    )
     list_editable = ('order', 'is_featured', 'category')
     list_filter = ('category', 'is_featured', 'created_at')
     search_fields = ('title', 'description')
@@ -30,7 +41,10 @@ class ProjectAdmin(ModelAdmin):
         }),
         ('Image (choose one option)', {
             'fields': ('image', 'image_url'),
-            'description': 'Either upload an image file OR provide an external URL. Uploaded images take priority.'
+            'description': (
+                'Either upload an image file OR provide an external URL.'
+                ' Uploaded images take priority.'
+            )
         }),
         ('Links', {
             'fields': ('github_link', 'live_link')
@@ -50,7 +64,8 @@ class ProjectAdmin(ModelAdmin):
         image_url = obj.image.url if obj.image else obj.image_url
         if image_url:
             return format_html(
-                '<img src="{}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;" />',
+                '<img src="{}" style="width: 60px; height: 40px;'
+                ' object-fit: cover; border-radius: 4px;" />',
                 image_url
             )
         return "-"
@@ -96,21 +111,27 @@ class CertificationAdmin(ModelAdmin):
         }),
         ('Description', {
             'fields': ('description',),
-            'description': 'Describe what you learned or achieved with this certification.'
+            'description': (
+                'Describe what you learned or achieved with this certification.'
+            )
         }),
         ('Image (choose one option)', {
             'fields': ('image', 'image_url'),
-            'description': 'Either upload an image file OR provide an external URL. Uploaded images take priority.'
+            'description': (
+                'Either upload an image file OR provide an external URL.'
+                ' Uploaded images take priority.'
+            ),
         }),
     )
-    
+
     @admin.display(description='Preview')
     def image_preview(self, obj):
         """Display image thumbnail."""
         image_url = obj.image.url if obj.image else obj.image_url
         if image_url:
             return format_html(
-                '<img src="{}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;" />',
+                '<img src="{}" style="width: 60px; height: 40px;'
+                ' object-fit: cover; border-radius: 4px;" />',
                 image_url
             )
         return "-"

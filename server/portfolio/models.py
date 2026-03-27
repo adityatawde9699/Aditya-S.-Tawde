@@ -94,7 +94,9 @@ class Skill(models.Model):
     ]
     
     name = models.CharField(max_length=100)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='OTHER')
+    category = models.CharField(
+        max_length=20, choices=CATEGORY_CHOICES, default='OTHER'
+    )
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -113,7 +115,10 @@ class Certification(models.Model):
         blank=True,
         help_text="Description of what you learned or achieved with this certification"
     )
-    url = models.URLField(blank=True, null=True, help_text="Link to verify/view the certificate")
+    url = models.URLField(
+        blank=True, null=True,
+        help_text="Link to verify/view the certificate",
+    )
     image = models.ImageField(
         upload_to='certifications/', 
         blank=True, 

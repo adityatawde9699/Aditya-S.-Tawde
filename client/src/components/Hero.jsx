@@ -96,7 +96,7 @@ const Hero = () => {
                 </div>
 
                 <div className={styles.socials}>
-                    {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
+                    {SOCIAL_LINKS.map(({ name, href, icon: SocialIcon }) => (
                         <a
                             key={name}
                             href={href}
@@ -105,7 +105,7 @@ const Hero = () => {
                             className={styles.socialLink}
                             aria-label={name}
                         >
-                            <Icon size={20} aria-hidden="true" />
+                            <SocialIcon size={20} aria-hidden="true" />
                         </a>
                     ))}
                 </div>

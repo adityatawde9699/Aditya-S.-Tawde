@@ -7,7 +7,7 @@ called from any context (management commands, tasks, etc.).
 """
 
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from portfolio.models import ContactSubmission
 from portfolio.services import ContactService
@@ -41,7 +41,9 @@ class TestContactServiceSubmit:
         assert submission.email == "ada@example.com"
 
     @patch("portfolio.services.send_mail")
-    def test_sends_email_when_configured(self, mock_send_mail, db, valid_contact_data, settings):
+    def test_sends_email_when_configured(
+        self, mock_send_mail, db, valid_contact_data, settings
+    ):
         """When email is fully configured, send_mail must be called exactly once."""
         settings.EMAIL_CONFIGURED = True
         settings.EMAIL_HOST_USER = "from@example.com"
@@ -55,7 +57,9 @@ class TestContactServiceSubmit:
         assert call_kwargs["recipient_list"] == ["owner@example.com"]
 
     @patch("portfolio.services.send_mail")
-    def test_does_not_send_email_when_not_configured(self, mock_send_mail, db, valid_contact_data, settings):
+    def test_does_not_send_email_when_not_configured(
+        self, mock_send_mail, db, valid_contact_data, settings
+    ):
         """When email is NOT configured, send_mail must NOT be called."""
         settings.EMAIL_CONFIGURED = False
 
@@ -64,7 +68,9 @@ class TestContactServiceSubmit:
         mock_send_mail.assert_not_called()
 
     @patch("portfolio.services.send_mail")
-    def test_submission_persisted_even_when_email_fails(self, mock_send_mail, db, valid_contact_data, settings):
+    def test_submission_persisted_even_when_email_fails(
+        self, mock_send_mail, db, valid_contact_data, settings
+    ):
         """A transient email failure must not roll back the persisted submission."""
         settings.EMAIL_CONFIGURED = True
         settings.EMAIL_HOST_USER = "from@example.com"
@@ -78,7 +84,9 @@ class TestContactServiceSubmit:
         assert ContactSubmission.objects.filter(id=submission.id).exists()
 
     @patch("portfolio.services.send_mail")
-    def test_returns_persisted_submission_instance(self, mock_send_mail, db, valid_contact_data, settings):
+    def test_returns_persisted_submission_instance(
+        self, mock_send_mail, db, valid_contact_data, settings
+    ):
         """submit() must return the freshly-created ContactSubmission object."""
         settings.EMAIL_CONFIGURED = False
 

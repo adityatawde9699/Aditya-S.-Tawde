@@ -7,7 +7,14 @@ from django.core.cache import cache
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory
 
-from portfolio.models import Certification, ContactSubmission, Education, Project, Skill, TechStack
+from portfolio.models import (
+    Certification,
+    ContactSubmission,
+    Education,
+    Project,
+    Skill,
+    TechStack,
+)
 
 User = get_user_model()
 
@@ -29,8 +36,12 @@ def clear_cache():
 def sample_tech_stack(db):
     """Creates sample tech stack items."""
     return [
-        TechStack.objects.create(name="Python", icon_class="fab fa-python", is_visible=True),
-        TechStack.objects.create(name="React", icon_class="fab fa-react", is_visible=True),
+        TechStack.objects.create(
+            name="Python", icon_class="fab fa-python", is_visible=True
+        ),
+        TechStack.objects.create(
+            name="React", icon_class="fab fa-react", is_visible=True
+        ),
         TechStack.objects.create(name="Hidden Tech", icon_class="", is_visible=False),
     ]
 
@@ -276,11 +287,21 @@ class TestContactAPI:
         }
 
         for _ in range(5):
-            request = api_view.initialize_request(factory.post('/api/contact/', payload, format='json', REMOTE_ADDR='127.0.0.1'))
+            request = api_view.initialize_request(
+                factory.post(
+                    '/api/contact/', payload,
+                    format='json', REMOTE_ADDR='127.0.0.1',
+                )
+            )
             request.user = AnonymousUser()
             assert throttle.allow_request(request, api_view) is True
 
-        request = api_view.initialize_request(factory.post('/api/contact/', payload, format='json', REMOTE_ADDR='127.0.0.1'))
+        request = api_view.initialize_request(
+            factory.post(
+                '/api/contact/', payload,
+                format='json', REMOTE_ADDR='127.0.0.1',
+            )
+        )
         request.user = AnonymousUser()
         assert throttle.allow_request(request, api_view) is False
         assert throttle.wait() > 3590
@@ -288,7 +309,7 @@ class TestContactAPI:
 
 class TestAdminAuthenticationAPI:
     def test_admin_login_logout_and_status(self, api_client, db):
-        admin = User.objects.create_user(
+        User.objects.create_user(
             username='admin',
             password='p@ssword123',
             is_staff=True,

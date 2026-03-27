@@ -50,7 +50,11 @@ class ContactService:
             to fail.
         """
         submission = ContactSubmission.objects.create(**validated_data)
-        logger.info("Contact submission persisted | id=%s name='%s'", submission.id, submission.name)
+        logger.info(
+            "Contact submission persisted | id=%s name='%s'",
+            submission.id,
+            submission.name,
+        )
 
         ContactService._send_notification(submission)
 
@@ -67,7 +71,8 @@ class ContactService:
         """
         if not settings.EMAIL_CONFIGURED:
             logger.warning(
-                "Email notification skipped for submission id=%s — email is not configured.",
+                "Email notification skipped for submission id=%s"
+                " — email is not configured.",
                 submission.id,
             )
             return
@@ -89,8 +94,12 @@ class ContactService:
                 recipient_list=[settings.RECIPIENT_EMAIL],
                 fail_silently=False,
             )
-            logger.info("Email notification dispatched | submission_id=%s", submission.id)
+            logger.info(
+                "Email notification dispatched | submission_id=%s",
+                submission.id,
+            )
         except Exception:
             logger.exception(
-                "Failed to dispatch email notification | submission_id=%s", submission.id
+                "Failed to dispatch email notification | submission_id=%s",
+                submission.id,
             )

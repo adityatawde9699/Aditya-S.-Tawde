@@ -2,9 +2,9 @@
 Pytest configuration for portfolio app tests.
 """
 import pytest
-from django.core.cache import cache
-from rest_framework.test import APIClient
 from unittest.mock import patch
+
+from django.core.cache import cache
 
 
 @pytest.fixture(autouse=True)

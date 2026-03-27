@@ -55,7 +55,7 @@ beforeEach(() => {
     unobserve = () => {};
   }
 
-  global.IntersectionObserver = MockIntersectionObserver;
+  window.IntersectionObserver = MockIntersectionObserver;
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);

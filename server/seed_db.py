@@ -1,10 +1,11 @@
-import os
 import django
+import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_backend.settings')
 django.setup()
 
-from portfolio.models import Project, TechStack
+from portfolio.models import Project, TechStack  # noqa: E402
+
 
 def seed():
     print("Setting up tech stacks...")
@@ -25,7 +26,7 @@ def seed():
     projects_data = [
         {
             "title": "Amadeus-AI: Hybrid AI Assistant",
-            "description": "A modular, voice-enabled AI assistant utilizing a hybrid architecture. Combines local ML classifiers for rapid intent routing with Google Gemini for complex reasoning and context management. Built with a scalable Python backend.",
+            "description": "A modular, voice-enabled AI assistant utilizing a hybrid architecture. Combines local ML classifiers for rapid intent routing with Google Gemini for complex reasoning and context management. Built with a scalable Python backend.",  # noqa: E501
             "category": "AI_ML",
             "github_link": "https://github.com/adityatawde9699/Amadeus-AI",
             "techs": ["Python", "FastAPI", "SQLAlchemy", "Docker", "Gemini API"],
@@ -34,7 +35,7 @@ def seed():
         },
         {
             "title": "System-32 AI Interview Coach",
-            "description": "Real-time AI interview coach featuring context-aware question generation. Implements local speech transcription via Whisper and utilizes Gemini 2.0 for zero-latency coaching feedback on speaking delivery.",
+            "description": "Real-time AI interview coach featuring context-aware question generation. Implements local speech transcription via Whisper and utilizes Gemini 2.0 for zero-latency coaching feedback on speaking delivery.",  # noqa: E501
             "category": "AI_ML",
             "github_link": "https://github.com/adityatawde9699/System-32-Inter-View-AI",
             "techs": ["Python", "FastAPI", "HTML/CSS/JS", "Whisper AI", "Gemini API"],
@@ -43,7 +44,7 @@ def seed():
         },
         {
             "title": "Cognate Smart Task Manager",
-            "description": "Native, offline-capable smart task manager designed for cross-platform desktop use. Features a glassmorphism UI and a robust fallback storage mechanism bridging SQLite and localStorage.",
+            "description": "Native, offline-capable smart task manager designed for cross-platform desktop use. Features a glassmorphism UI and a robust fallback storage mechanism bridging SQLite and localStorage.",  # noqa: E501
             "category": "DESKTOP",
             "github_link": "https://github.com/adityatawde9699/Cognate",
             "techs": ["TypeScript", "Tauri 2.0", "SQLite", "React"],
@@ -52,7 +53,7 @@ def seed():
         },
         {
             "title": "CrystalReadymades E-Commerce Platform",
-            "description": "Full-stack e-commerce platform built for high-performance transaction processing. Features a robust relational database schema and a decoupled frontend-backend architecture.",
+            "description": "Full-stack e-commerce platform built for high-performance transaction processing. Features a robust relational database schema and a decoupled frontend-backend architecture.",  # noqa: E501
             "category": "WEB",
             "github_link": "https://github.com/adityatawde9699/crystalreadymades.com",
             "techs": ["FastAPI", "PostgreSQL", "React", "TypeScript"],
@@ -61,7 +62,7 @@ def seed():
         },
         {
             "title": "Arth-Neeti Financial Simulation Game",
-            "description": "A simulation cards-based quizzer game designed to test and improve financial literacy. Built with a decoupled architecture utilizing a React frontend and Django REST backend.",
+            "description": "A simulation cards-based quizzer game designed to test and improve financial literacy. Built with a decoupled architecture utilizing a React frontend and Django REST backend.",  # noqa: E501
             "category": "WEB",
             "github_link": "https://github.com/adityatawde9699/arth-neeti-game",
             "techs": ["React", "Node.js", "Python", "Django", "Vite"],
@@ -70,7 +71,7 @@ def seed():
         },
         {
             "title": "Market & Job Data Scraper",
-            "description": "A Python-based automation toolkit that scrapes real-time stock market data via Alpha Vantage and extracts job listings using Selenium. Generates programmatic visualizations.",
+            "description": "A Python-based automation toolkit that scrapes real-time stock market data via Alpha Vantage and extracts job listings using Selenium. Generates programmatic visualizations.",  # noqa: E501
             "category": "DATA",
             "github_link": "https://github.com/adityatawde9699/DataScraperViz",
             "techs": ["Python", "Selenium", "Pandas", "Matplotlib", "Seaborn"],
@@ -87,7 +88,7 @@ def seed():
         },
         {
             "title": "QueueBite Canteen System",
-            "description": "Smart queue management system featuring live order tracking, digital token generation, and real-time state synchronization between customers and staff.",
+            "description": "Smart queue management system featuring live order tracking, digital token generation, and real-time state synchronization between customers and staff.",  # noqa: E501
             "category": "WEB",
             "techs": ["JavaScript", "HTML/CSS", "Node.js"],
             "order": 8,
@@ -95,7 +96,7 @@ def seed():
         },
         {
             "title": "WeatherForesite Dashboard",
-            "description": "Real-time global weather forecasting application integrating third-party REST APIs to handle dynamic location data and alerts.",
+            "description": "Real-time global weather forecasting application integrating third-party REST APIs to handle dynamic location data and alerts.",  # noqa: E501
             "category": "WEB",
             "techs": ["JavaScript", "HTML/CSS", "REST APIs"],
             "order": 9,

@@ -4,10 +4,11 @@ Django settings for portfolio_backend project.
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-import dj_database_url
 
+import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
+from django.urls import reverse_lazy
+from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,7 +27,10 @@ _secret_key = os.environ.get('SECRET_KEY')
 _debug_mode = os.environ.get('DEBUG', 'False') == 'True'
 
 # Check if we are in a Render build environment
-IS_RENDER_BUILD = os.environ.get('RENDER') == 'true' and os.environ.get('RENDER_BUILD') == 'true'
+IS_RENDER_BUILD = (
+    os.environ.get('RENDER') == 'true'
+    and os.environ.get('RENDER_BUILD') == 'true'
+)
 
 if not _secret_key:
     if not _debug_mode and not IS_RENDER_BUILD:
@@ -42,7 +46,9 @@ SECRET_KEY = _secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = _debug_mode
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com').split(',')
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com'
+).split(',')
 
 CSRF_TRUSTED_ORIGINS = ["https://aditya-s-tawde.onrender.com"]
 
@@ -140,7 +146,10 @@ CACHES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation'
+            '.UserAttributeSimilarityValidator'
+        ),
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -201,8 +210,6 @@ REST_FRAMEWORK = {
 
 
 # Unfold Admin Theme Configuration
-from django.templatetags.static import static
-from django.urls import reverse_lazy
 
 UNFOLD = {
     "SITE_TITLE": "Aditya's Portfolio",
@@ -270,7 +277,9 @@ UNFOLD = {
                     {
                         "title": "Certifications",
                         "icon": "workspace_premium",
-                        "link": reverse_lazy("admin:portfolio_certification_changelist"),
+                        "link": reverse_lazy(
+                            "admin:portfolio_certification_changelist"
+                        ),
                     },
                 ],
             },
@@ -281,7 +290,9 @@ UNFOLD = {
                     {
                         "title": "Contact Messages",
                         "icon": "mail",
-                        "link": reverse_lazy("admin:portfolio_contactsubmission_changelist"),
+                        "link": reverse_lazy(
+                            "admin:portfolio_contactsubmission_changelist"
+                        ),
                     },
                 ],
             },
@@ -369,7 +380,10 @@ LOGGING = {
             'style': '{',
         },
         'json': {
-            'format': '{"level": "%(levelname)s", "time": "%(asctime)s", "module": "%(module)s", "message": "%(message)s"}',
+            'format': (
+                '{"level": "%(levelname)s", "time": "%(asctime)s",'
+                ' "module": "%(module)s", "message": "%(message)s"}'
+            ),
         },
     },
     'filters': {

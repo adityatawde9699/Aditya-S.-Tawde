@@ -1,7 +1,14 @@
-from rest_framework import serializers
 import bleach
+from rest_framework import serializers
 
-from .models import TechStack, Project, Skill, Education, Certification, ContactSubmission
+from .models import (
+    Certification,
+    ContactSubmission,
+    Education,
+    Project,
+    Skill,
+    TechStack,
+)
 
 
 class TechStackSerializer(serializers.ModelSerializer):
@@ -16,7 +23,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     """Serializer for Project model with nested tech_stack."""
     tech_stack = TechStackSerializer(many=True, read_only=True)
     image = serializers.SerializerMethodField()
-    category_display = serializers.CharField(source='get_category_display', read_only=True)
+    category_display = serializers.CharField(
+        source='get_category_display', read_only=True
+    )
     
     class Meta:
         model = Project
@@ -53,7 +62,10 @@ class EducationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Education
-        fields = ['id', 'institution', 'degree', 'start_date', 'end_date', 'description', 'order']
+        fields = [
+            'id', 'institution', 'degree',
+            'start_date', 'end_date', 'description', 'order',
+        ]
 
 
 class CertificationSerializer(serializers.ModelSerializer):

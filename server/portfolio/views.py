@@ -182,7 +182,9 @@ class HealthCheckView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AdminLoginView(APIView):
-    """POST /api/admin/login/ — Authenticate admin users and establish Django session."""
+    """
+    POST /api/admin/login/ — Authenticate admin users and establish Django session.
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):

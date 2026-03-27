@@ -318,7 +318,7 @@ if DEBUG:
 # Add production frontend URL via environment variable
 PROD_CLIENT_URL = os.getenv('PROD_CLIENT_URL')
 if PROD_CLIENT_URL:
-    CORS_ALLOWED_ORIGINS.append(PROD_CLIENT_URL)
+    CORS_ALLOWED_ORIGINS.append(PROD_CLIENT_URL.rstrip('/'))
 
 CORS_ALLOW_CREDENTIALS = True
 

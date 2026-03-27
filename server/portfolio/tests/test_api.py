@@ -274,8 +274,9 @@ class TestContactAPI:
     @pytest.mark.django_db
     def test_contact_rate_limit_returns_429_on_sixth_request(self):
         from django.contrib.auth.models import AnonymousUser
-        from portfolio.views import ContactRateThrottle
         from rest_framework.views import APIView
+
+        from portfolio.views import ContactRateThrottle
 
         factory = APIRequestFactory()
         api_view = APIView()

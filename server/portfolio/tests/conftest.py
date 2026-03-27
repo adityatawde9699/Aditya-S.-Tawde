@@ -1,8 +1,9 @@
 """
 Pytest configuration for portfolio app tests.
 """
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from django.core.cache import cache
 

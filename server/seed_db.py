@@ -1,5 +1,6 @@
-import django
 import os
+
+import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_backend.settings')
 django.setup()
@@ -80,7 +81,10 @@ def seed():
         },
         {
             "title": "NLP Fake Review Detector",
-            "description": "NLP-powered Streamlit application for instant sentiment analysis. Predicts positive, neutral, or negative classifications from raw text inputs.",
+            "description": (
+                "NLP-powered Streamlit application for instant sentiment analysis. "
+                "Predicts positive, neutral, or negative classifications from raw text inputs."
+            ),
             "category": "AI_ML",
             "techs": ["Python", "Streamlit", "Scikit-learn"],
             "order": 7,

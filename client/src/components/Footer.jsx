@@ -27,7 +27,7 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className={styles['social-icons']}>
-                {SOCIAL_LINKS.map(({ name, href, icon: SocialIcon }) => (
+                {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
                     <a
                         key={name}
                         href={href}
@@ -35,7 +35,7 @@ const Footer = () => {
                         rel="noopener noreferrer"
                         aria-label={`${name} Profile`}
                     >
-                        <SocialIcon size={24} />
+                        <Icon size={24} />
                     </a>
                 ))}
             </div>

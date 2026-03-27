@@ -120,10 +120,13 @@ class Certification(models.Model):
         help_text="Link to verify/view the certificate",
     )
     image = models.ImageField(
-        upload_to='certifications/', 
-        blank=True, 
+        upload_to='certifications/',
+        blank=True,
         null=True,
-        help_text="Upload a certificate image (any format: JPG, PNG, GIF, WebP, SVG, etc.)"
+        help_text=(
+            "Upload a certificate image "
+            "(any format: JPG, PNG, GIF, WebP, SVG, etc.)"
+        ),
     )
     image_url = models.URLField(
         blank=True, 

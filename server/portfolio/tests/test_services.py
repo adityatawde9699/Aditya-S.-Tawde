@@ -6,8 +6,9 @@ No APIClient or request factory is needed — proving the service can be
 called from any context (management commands, tasks, etc.).
 """
 
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from portfolio.models import ContactSubmission
 from portfolio.services import ContactService

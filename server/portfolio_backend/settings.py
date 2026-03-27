@@ -25,13 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 _secret_key = os.environ.get('SECRET_KEY')
 _debug_mode = os.environ.get('DEBUG', 'False') == 'True'
 
+# Check if we are in a Render build environment
+IS_RENDER_BUILD = os.environ.get('RENDER') == 'true' and os.environ.get('RENDER_BUILD') == 'true'
+
 if not _secret_key:
-    if not _debug_mode:
+    if not _debug_mode and not IS_RENDER_BUILD:
         raise ImproperlyConfigured(
             "SECRET_KEY environment variable is not set. "
             "This is required in production. Set SECRET_KEY in your environment."
         )
-    _secret_key = 'django-insecure-local-dev-only-key-do-not-use-in-production'
+    # Temporary fallback for development and initial build
+    _secret_key = 'django-insecure-temporary-fallback-key-for-build-purposes'
 
 SECRET_KEY = _secret_key
 
@@ -115,7 +119,7 @@ DATABASES = {
 # Enforce a real database in production.
 # SQLite is only permitted in local development (DEBUG=True).
 # In production, DATABASE_URL must be set to a PostgreSQL connection string.
-if not _debug_mode and not os.environ.get('DATABASE_URL'):
+if not _debug_mode and not os.environ.get('DATABASE_URL') and not IS_RENDER_BUILD:
     raise ImproperlyConfigured(
         "DATABASE_URL environment variable is not set. "
         "SQLite is not permitted in production. "

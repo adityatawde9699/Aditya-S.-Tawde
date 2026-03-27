@@ -19,6 +19,7 @@ services:
     runtime: python
     region: singapore
     plan: free
+    pythonVersion: "3.12.9"
 
     rootDir: server
     buildCommand: |

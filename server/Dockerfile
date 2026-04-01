@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -23,4 +23,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 
 # Run the application
-CMD ["gunicorn", "portfolio_backend.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "portfolio_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "30", "--worker-tmp-dir", "/dev/shm", "--access-logfile", "-", "--error-logfile", "-", "--max-requests", "1000", "--max-requests-jitter", "100"]

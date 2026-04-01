@@ -39,12 +39,9 @@ class ProjectAdmin(ModelAdmin):
         ('Basic Information', {
             'fields': ('title', 'description', 'category')
         }),
-        ('Image (choose one option)', {
-            'fields': ('image', 'image_url'),
-            'description': (
-                'Either upload an image file OR provide an external URL.'
-                ' Uploaded images take priority.'
-            )
+        ('Image (External URL Only — Uploads not supported in production)', {
+            'fields': ('image_url',),
+            'description': 'Provide an external image URL. File uploads are not available.'
         }),
         ('Links', {
             'fields': ('github_link', 'live_link')
@@ -57,6 +54,7 @@ class ProjectAdmin(ModelAdmin):
             'fields': ('order', 'is_featured')
         }),
     )
+    exclude = ('image',)
     
     @admin.display(description='Preview')
     def image_preview(self, obj):
@@ -115,14 +113,12 @@ class CertificationAdmin(ModelAdmin):
                 'Describe what you learned or achieved with this certification.'
             )
         }),
-        ('Image (choose one option)', {
-            'fields': ('image', 'image_url'),
-            'description': (
-                'Either upload an image file OR provide an external URL.'
-                ' Uploaded images take priority.'
-            ),
+        ('Image (External URL Only — Uploads not supported in production)', {
+            'fields': ('image_url',),
+            'description': 'Provide an external image URL. File uploads are not available.'
         }),
     )
+    exclude = ('image',)
 
     @admin.display(description='Preview')
     def image_preview(self, obj):

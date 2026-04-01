@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-// API Base URL - uses environment variable or falls back to defaults
-const API_URL = import.meta.env.VITE_API_URL ||
-    (import.meta.env.PROD
-        ? 'https://aditya-s-tawde-backend.onrender.com/api'
-        : 'http://127.0.0.1:8000/api');
+// API Base URL
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL && import.meta.env.PROD) {
+    console.error('VITE_API_URL is not set. API calls will fail.');
+}
+
+// Development fallback only
+const BASE_URL = API_URL || 'http://127.0.0.1:8000/api';
 
 // Create axios instance with default config
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: BASE_URL,
     timeout: 15000, // 15 second timeout
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },

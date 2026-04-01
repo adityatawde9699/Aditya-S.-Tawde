@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Download, SendHorizonal } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { RESUME_PATH, SOCIAL_LINKS } from '../config/social';
 import styles from './Hero.module.css';
 
@@ -89,10 +90,10 @@ const Hero = () => {
                         Download Resume
                     </a>
 
-                    <a href="#contact" className={styles.secondaryBtn}>
+                    <Link to="/contact" className={styles.secondaryBtn}>
                         <SendHorizonal size={18} aria-hidden="true" />
                         Contact Me
-                    </a>
+                    </Link>
                 </div>
 
                 <div className={styles.socials}>

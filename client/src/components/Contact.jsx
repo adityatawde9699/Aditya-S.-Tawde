@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
     User,
     Mail,
-    Phone,
-    Building,
     MessageSquare,
     Send,
     CheckCircle,
@@ -13,7 +11,7 @@ import {
 import { sendContact } from '../services/api';
 import styles from './Contact.module.css';
 
-const initialForm = { firstName: '', lastName: '', company: '', email: '', phone: '', message: '' };
+const initialForm = { firstName: '', lastName: '', email: '', message: '' };
 const validateEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
 
 const Contact = () => {
@@ -83,9 +81,7 @@ const Contact = () => {
         setTouched({
             firstName: true,
             lastName: true,
-            company: true,
             email: true,
-            phone: true,
             message: true
         });
 
@@ -100,10 +96,7 @@ const Contact = () => {
             const payload = {
                 name: `${form.firstName} ${form.lastName}`.trim(),
                 email: form.email,
-                message: form.message,
-                // Add extra fields if backend supports them, typically mapped to message body
-                company: form.company,
-                phone: form.phone
+                message: form.message
             };
 
             const response = await sendContact(payload);
@@ -215,47 +208,6 @@ const Contact = () => {
                             {errors.email && <div className={styles['field-error']}>{errors.email}</div>}
                         </div>
 
-                        {/* Phone */}
-                        <div className={styles['form-group']}>
-                            <div className={styles['input-wrapper']}>
-                                <div className={styles['input-icon']}>
-                                    <Phone size={18} />
-                                </div>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    value={form.phone}
-                                    onChange={handleChange}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                />
-                                <label htmlFor="phone" className={isFloat('phone') ? styles.float : ''}>
-                                    Phone Number
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Company */}
-                    <div className={styles['form-group']}>
-                        <div className={styles['input-wrapper']}>
-                            <div className={styles['input-icon']}>
-                                <Building size={18} />
-                            </div>
-                            <input
-                                type="text"
-                                id="company"
-                                name="company"
-                                value={form.company}
-                                onChange={handleChange}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                            />
-                            <label htmlFor="company" className={isFloat('company') ? styles.float : ''}>
-                                Company / Organization
-                            </label>
-                        </div>
                     </div>
 
                     {/* Message */}

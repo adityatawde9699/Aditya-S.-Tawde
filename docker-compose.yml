@@ -1,64 +1,20 @@
-version: '3.8'
-
 services:
-  server:
-    build:
-      context: ./server
-    # Use gunicorn for production instead of Django's development server
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py collectstatic --noinput &&
-             gunicorn portfolio_backend.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 2 --access-logfile - --error-logfile -"
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    environment:
-      - DEBUG=False
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+  backend:
+    build: ./server
+    ports: ["8000:8000"]
+    env_file: ./server/.env
+    volumes:
+      - ./server:/app
+    command: python manage.py runserver 0.0.0.0:8000
 
-  # Development override: use 'docker-compose -f docker-compose.yml -f docker-compose.dev.yml up'
-  # to run with dev server and volume mounts
-
-  client:
+  frontend:
     build:
       context: ./client
-      target: production
-    ports:
-      - "80:80"
-    depends_on:
-      - server
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-  db:
-    image: postgres:15-alpine
+      target: builder
+    ports: ["5173:5173"]
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./client:/app
+      - /app/node_modules
+    command: npm run dev -- --host
     environment:
-      - POSTGRES_DB=portfolio_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  postgres_data:
-
+      - VITE_API_URL=http://localhost:8000/api

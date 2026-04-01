@@ -26,25 +26,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 _secret_key = os.environ.get('SECRET_KEY')
 _debug_mode = os.environ.get('DEBUG', 'False') == 'True'
 
-# Check if we are in a Render build environment
-IS_RENDER_BUILD = (
-    os.environ.get('RENDER') == 'true'
-    and os.environ.get('RENDER_BUILD') == 'true'
-)
-
 if not _secret_key:
-    if not _debug_mode and not IS_RENDER_BUILD:
+    if not _debug_mode:
         raise ImproperlyConfigured(
             "SECRET_KEY environment variable is not set. "
             "This is required in production. Set SECRET_KEY in your environment."
         )
-    # Temporary fallback for development and initial build
+    # Temporary fallback for development
     _secret_key = 'django-insecure-temporary-fallback-key-for-build-purposes'
 
 SECRET_KEY = _secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = _debug_mode
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_BROWSER_XSS_FILTER = True
 
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com'
@@ -125,7 +130,7 @@ DATABASES = {
 # Enforce a real database in production.
 # SQLite is only permitted in local development (DEBUG=True).
 # In production, DATABASE_URL must be set to a PostgreSQL connection string.
-if not _debug_mode and not os.environ.get('DATABASE_URL') and not IS_RENDER_BUILD:
+if not _debug_mode and not os.environ.get('DATABASE_URL'):
     raise ImproperlyConfigured(
         "DATABASE_URL environment variable is not set. "
         "SQLite is not permitted in production. "
@@ -134,9 +139,12 @@ if not _debug_mode and not os.environ.get('DATABASE_URL') and not IS_RENDER_BUIL
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'portfolio-api-cache',
-        'TIMEOUT': 60 * 60,
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/django_cache',
+        'TIMEOUT': 3600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
     }
 }
 
@@ -371,57 +379,20 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
+        'standard': {
             'format': '{levelname} {asctime} {module} {message}',
             'style': '{',
-        },
-        'json': {
-            'format': (
-                '{"level": "%(levelname)s", "time": "%(asctime)s",'
-                ' "module": "%(module)s", "message": "%(message)s"}'
-            ),
-        },
-    },
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
         },
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'django.log',
-            'formatter': 'verbose',
+            'formatter': 'standard',
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
+    'root': {'handlers': ['console'], 'level': 'INFO'},
     'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'django.request': {
-            'handlers': ['console', 'file'] if not DEBUG else ['console'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
+        'django': {'handlers': ['console'], 'level': 'WARNING', 'propagate': False},
         'portfolio': {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
@@ -429,8 +400,4 @@ LOGGING = {
         },
     },
 }
-
-# Ensure logs directory exists
-LOGS_DIR = BASE_DIR / 'logs'
-LOGS_DIR.mkdir(exist_ok=True)
 

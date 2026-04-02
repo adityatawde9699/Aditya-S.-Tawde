@@ -1,16 +1,4 @@
-# render.yaml — Render Infrastructure-as-Code
-# Docs: https://render.com/docs/blueprint-spec
-#
-# After pushing this file, connect your GitHub repo to Render and choose
-# "Blueprint" as the deployment type. Render will auto-detect this file.
-#
-# REQUIRED: Set the following secret environment variables in the Render
-# dashboard under Environment → Environment Variables (or use Secret Files):
-#   - SECRET_KEY
-#   - DATABASE_URL         (auto-set if using a Render PostgreSQL database)
-#   - EMAIL_HOST_USER
-#   - EMAIL_HOST_PASSWORD
-#   - RECIPIENT_EMAIL
+
 
 services:
   # ─── Backend (Django + Gunicorn) ─────────────────────────────────────────
@@ -53,28 +41,3 @@ services:
         sync: false
       - key: PROD_CLIENT_URL
         sync: false          # e.g. https://portfolio-frontend.onrender.com
-
-  # ─── Frontend (Vite + Nginx) ──────────────────────────────────────────────
-  - type: web
-    name: portfolio-frontend
-    runtime: static
-    region: singapore
-    plan: free
-
-    rootDir: client
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
-
-    # SPA routing: serve index.html for all routes so React Router works.
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff

@@ -34,4 +34,4 @@ services:
       - key: RECIPIENT_EMAIL
         sync: false
       - key: PROD_CLIENT_URL
-        sync: false  # e.g. https://portfolio-frontend.onrender.com
+        value: https://aditya-s-tawde.vercel.app/

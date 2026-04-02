@@ -1,7 +1,4 @@
-
-
 services:
-  # ─── Backend (Django + Gunicorn) ─────────────────────────────────────────
   - type: web
     name: portfolio-backend
     runtime: python

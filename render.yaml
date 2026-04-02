@@ -4,7 +4,6 @@ services:
     runtime: python
     region: singapore
     plan: free
-
     rootDir: server
     buildCommand: |
       pip install -r requirements.txt &&
@@ -18,7 +17,7 @@ services:
       --access-logfile -
       --error-logfile -
     healthCheckPath: /api/health/
-   envVars:
+    envVars:
       - key: PYTHON_VERSION
         value: "3.12.9"
       - key: DEBUG

@@ -5,7 +5,6 @@ services:
     region: singapore
     plan: free
     pythonVersion: "3.12.9"
-
     rootDir: server
     buildCommand: |
       pip install -r requirements.txt &&
@@ -18,18 +17,16 @@ services:
       --threads 2
       --access-logfile -
       --error-logfile -
-
     healthCheckPath: /api/health/
-
     envVars:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       - key: SECRET_KEY
-        sync: false          # Set manually in the Render dashboard
+        value: "4r1_9y*6z7-(^!&uf4(0uqrn_x9=$ry_ez$=w2id^%0!cfr866"
       - key: DATABASE_URL
-        sync: false          # Set manually or link to a Render PostgreSQL DB
+        value: "postgresql://neondb_owner:npg_tuzfwE0J3jcB@ep-long-butterfly-a1ghl8yt.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
       - key: EMAIL_HOST_USER
         sync: false
       - key: EMAIL_HOST_PASSWORD
@@ -37,4 +34,4 @@ services:
       - key: RECIPIENT_EMAIL
         sync: false
       - key: PROD_CLIENT_URL
-        sync: false          # e.g. https://portfolio-frontend.onrender.com
+        sync: false  # e.g. https://portfolio-frontend.onrender.com

@@ -26,18 +26,32 @@ class TechStackAdmin(ModelAdmin):
 class ProjectAdmin(ModelAdmin):
     """Admin interface for Project model."""
     list_display = (
-        'title', 'category', 'order', 'is_featured',
+        'title', 'status', 'category', 'order', 'is_featured',
         'image_preview', 'tech_count', 'created_at',
     )
-    list_editable = ('order', 'is_featured', 'category')
-    list_filter = ('category', 'is_featured', 'created_at')
+    list_editable = ('status', 'order', 'is_featured', 'category')
+    list_filter = ('status', 'category', 'is_featured', 'created_at')
     search_fields = ('title', 'description')
     ordering = ('order',)
     filter_horizontal = ('tech_stack',)
     
+    actions = ['make_published', 'make_draft']
+
+    @admin.action(description="Mark selected projects as Published")
+    def make_published(self, request, queryset):
+        queryset.update(status='PUBLISHED')
+
+    @admin.action(description="Mark selected projects as Draft")
+    def make_draft(self, request, queryset):
+        queryset.update(status='DRAFT')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('tech_stack')
+    
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'description', 'category')
+            'fields': ('title', 'description', 'status', 'category')
         }),
         ('Image (External URL Only — Uploads not supported in production)', {
             'fields': ('image_url',),

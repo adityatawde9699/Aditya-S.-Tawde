@@ -31,12 +31,25 @@ class Project(models.Model):
         ('OTHER', 'Other'),
     ]
     
+    STATUS_CHOICES = [
+        ('DRAFT', 'Draft'),
+        ('PUBLISHED', 'Published'),
+    ]
+    
     title = models.CharField(max_length=200)
     description = models.TextField()
+    status = models.CharField(
+        max_length=10, 
+        choices=STATUS_CHOICES, 
+        default='PUBLISHED', 
+        db_index=True,
+        help_text="Draft projects won't appear on the frontend"
+    )
     category = models.CharField(
         max_length=20, 
         choices=CATEGORY_CHOICES, 
         default='WEB',
+        db_index=True,
         help_text="Category for filtering projects"
     )
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
@@ -54,7 +67,7 @@ class Project(models.Model):
         help_text="Select technologies used in this project"
     )
     order = models.PositiveIntegerField(default=0)
-    is_featured = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

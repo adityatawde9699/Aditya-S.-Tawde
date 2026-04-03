@@ -45,12 +45,21 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    # CRITICAL: Required for Django to recognize HTTPS over Render's proxy
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = os.environ.get(
-    'ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com'
+    'ALLOWED_HOSTS', 'localhost,127.0.0.1,.vercel.app'
 ).split(',')
 
-CSRF_TRUSTED_ORIGINS = ["https://aditya-s-tawde.onrender.com"]
+# Render dynamic hostname support
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+CSRF_TRUSTED_ORIGINS = ["https://aditya-s-tawde.vercel.app"]
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 if DEBUG:
     CSRF_TRUSTED_ORIGINS += [
@@ -119,6 +128,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600,
+        conn_health_checks=True,  # Prevent timeout errors with Neon PostgreSQL
     )
 }
 
@@ -216,86 +226,110 @@ REST_FRAMEWORK = {
 
 UNFOLD = {
     "SITE_TITLE": "Aditya's Portfolio",
-    "SITE_HEADER": "Portfolio Admin",
-    "SITE_SUBHEADER": "Content Management System",
-    "SITE_DROPDOWN": None,
-    "SITE_SYMBOL": "rocket_launch",
+    "SITE_HEADER": "System Architecture",
+    "SITE_SUBHEADER": "Premium CMS Dashboard",
+    "SITE_ICON": {
+        "light": lambda request: STATIC_URL + "img/logo-light.svg",
+        "dark": lambda request: STATIC_URL + "img/logo-dark.svg",
+    },
+    "SITE_SYMBOL": "speed",  # Google Material Symbol
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
     "ENVIRONMENT": "development" if DEBUG else "production",
     "COLORS": {
         "primary": {
-            "50": "250 245 255",
-            "100": "243 232 255",
-            "200": "233 213 255",
-            "300": "216 180 254",
-            "400": "192 132 252",
-            "500": "168 85 247",
-            "600": "147 51 234",
-            "700": "126 34 206",
-            "800": "107 33 168",
-            "900": "88 28 135",
-            "950": "59 7 100",
+            "50": "238 242 255",
+            "100": "224 231 255",
+            "200": "199 210 254",
+            "300": "165 180 252",
+            "400": "129 140 248",
+            "500": "99 102 241",  # Indigo 500
+            "600": "79 70 229",
+            "700": "67 56 202",
+            "800": "55 48 163",
+            "900": "49 46 129",
+            "950": "30 27 75",
         },
+    },
+    "EXTENSIONS": {
+        "modeltranslation": False,
     },
     "SIDEBAR": {
         "show_search": True,
-        "show_all_applications": True,
+        "show_all_applications": False,
         "navigation": [
             {
-                "title": "Dashboard",
+                "title": "Platform Dashboard",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Home",
-                        "icon": "home",
+                        "title": "Control Center",
+                        "icon": "dashboard",
                         "link": reverse_lazy("admin:index"),
                     },
                 ],
             },
             {
-                "title": "Content",
+                "title": "Content Management",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Projects",
-                        "icon": "folder",
+                        "title": "Projects Catalog",
+                        "icon": "work",
                         "link": reverse_lazy("admin:portfolio_project_changelist"),
                     },
                     {
-                        "title": "Skills",
-                        "icon": "code",
+                        "title": "Skill Matrix",
+                        "icon": "military_tech",
                         "link": reverse_lazy("admin:portfolio_skill_changelist"),
                     },
                     {
                         "title": "Tech Stack",
-                        "icon": "layers",
+                        "icon": "memory",
                         "link": reverse_lazy("admin:portfolio_techstack_changelist"),
-                    },
-                    {
-                        "title": "Education",
-                        "icon": "school",
-                        "link": reverse_lazy("admin:portfolio_education_changelist"),
-                    },
-                    {
-                        "title": "Certifications",
-                        "icon": "workspace_premium",
-                        "link": reverse_lazy(
-                            "admin:portfolio_certification_changelist"
-                        ),
                     },
                 ],
             },
             {
-                "title": "Messages",
+                "title": "Records & Credentials",
                 "separator": True,
                 "items": [
                     {
-                        "title": "Contact Messages",
-                        "icon": "mail",
-                        "link": reverse_lazy(
-                            "admin:portfolio_contactsubmission_changelist"
-                        ),
+                        "title": "Educational History",
+                        "icon": "school",
+                        "link": reverse_lazy("admin:portfolio_education_changelist"),
+                    },
+                    {
+                        "title": "Certifications Tracker",
+                        "icon": "workspace_premium",
+                        "link": reverse_lazy("admin:portfolio_certification_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Inbox & CRM",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Client Messages",
+                        "icon": "mark_email_unread",
+                        "link": reverse_lazy("admin:portfolio_contactsubmission_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "System Access",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Administrators",
+                        "icon": "admin_panel_settings",
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                    },
+                    {
+                        "title": "Roles & Groups",
+                        "icon": "groups",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
                     },
                 ],
             },
@@ -307,7 +341,7 @@ UNFOLD = {
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [
-    "https://aditya-s-tawde.onrender.com",
+    "https://aditya-s-tawde.vercel.app",
 ]
 
 if DEBUG:

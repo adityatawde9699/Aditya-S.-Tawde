@@ -5,7 +5,6 @@
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -26,7 +25,6 @@
         opacity: 0;
         transform: translate3d(0, 30px, 0);
     }
-
     to {
         opacity: 1;
         transform: translate3d(0, 0, 0);
@@ -43,7 +41,6 @@
         opacity: 0;
         transform: scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
@@ -54,19 +51,43 @@
     animation: fadeInScale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
+/* Slide In Left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
 /* Float / Hover (Continuous) */
 @keyframes float {
-    0% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0px);
-    }
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
 .animate-float {
@@ -75,36 +96,44 @@
 
 /* Pulse Glow (Continuous) */
 @keyframes pulseGlow {
-    0% {
-        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4);
-    }
-
-    70% {
-        box-shadow: 0 0 0 15px rgba(56, 189, 248, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
-    }
+    0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+    70%  { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
 }
 
 .animate-pulse-glow {
     animation: pulseGlow 2s infinite;
 }
 
+/* Neural Node Pulse (AI theme) */
+@keyframes neuralPulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+/* Grid Shimmer (AI hero background) */
+@keyframes gridPulse {
+    0%, 100% { opacity: 0.03; }
+    50%       { opacity: 0.06; }
+}
+
+/* Rotating Conic Gradient (profile ring) */
+@keyframes rotateConic {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
 /* Gradient Mesh (Background) */
 @keyframes gradientMesh {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .animate-gradient-mesh {
@@ -114,15 +143,8 @@
 
 /* Typing Cursor */
 @keyframes cursorBlink {
-
-    0%,
-    100% {
-        border-color: transparent;
-    }
-
-    50% {
-        border-color: var(--primary);
-    }
+    0%, 100% { border-color: transparent; }
+    50%       { border-color: var(--primary); }
 }
 
 .typing-cursor {
@@ -130,25 +152,36 @@
     animation: cursorBlink 0.8s step-end infinite;
 }
 
+/* Background Scroll */
+@keyframes bgScroll {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50px); }
+}
+
+/* Scroll Wheel */
+@keyframes scrollWheel {
+    0%   { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(16px); opacity: 0; }
+}
+
+/* Stat Count-up shimmer */
+@keyframes statShimmer {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ============================================
    Delays
    ============================================ */
-.delay-100 {
-    animation-delay: 100ms;
-}
-
-.delay-200 {
-    animation-delay: 200ms;
-}
-
-.delay-300 {
-    animation-delay: 300ms;
-}
-
-.delay-500 {
-    animation-delay: 500ms;
-}
-
-.delay-700 {
-    animation-delay: 700ms;
-}
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-1000 { animation-delay: 1000ms; }

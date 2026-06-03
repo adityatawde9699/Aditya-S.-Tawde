@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 
 const navLinks = [
   { to: '/', label: 'Home', type: 'route' },
   { to: '/certificates', label: 'Certificates', type: 'route' },
   { to: '/projects', label: 'Projects', type: 'route' },
-  { to: '/contact', label: 'Contact', type: 'route' },
 ];
 
 const Header = () => {
@@ -22,20 +21,14 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Determine if scrolled (for background)
       setScrolled(currentScrollY > 20);
-
-      // Determine visibility
       if (currentScrollY > lastScrollY.current && currentScrollY > 100 && !navActive) {
-        setVisible(false); // Scrolling down
+        setVisible(false);
       } else {
-        setVisible(true); // Scrolling up or at top
+        setVisible(true);
       }
-
       lastScrollY.current = currentScrollY;
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [navActive]);
@@ -82,13 +75,16 @@ const Header = () => {
       id="navbar"
     >
       <div className={styles.headerContent}>
+        {/* Logo */}
         <Link to="/" className={styles.logo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          Aditya S. Tawde
+          <span className={styles.logoMonogram} aria-hidden="true">AST</span>
+          <span className={styles.logoText}>Aditya S. Tawde</span>
+          <span className={styles.logoBadge}>AI Engineer</span>
         </Link>
 
         <button
           className={`${styles.hamburgerMenu} ${navActive ? styles.active : ''}`}
-          aria-label={navActive ? "Close menu" : "Open menu"}
+          aria-label={navActive ? 'Close menu' : 'Open menu'}
           aria-expanded={navActive}
           onClick={() => setNavActive(!navActive)}
         >
@@ -122,6 +118,16 @@ const Header = () => {
                 )}
               </li>
             ))}
+            <li>
+              <Link
+                to="/contact"
+                className={styles.hireBtn}
+                onClick={handleNavLinkClick}
+              >
+                <Sparkles size={14} aria-hidden="true" />
+                Hire Me
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

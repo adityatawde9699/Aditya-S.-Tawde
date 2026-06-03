@@ -1,55 +1,57 @@
 /* ============================================
-   Hero Section - Cyber-Minimalist Theme
-   Advanced Design & Animation
+   Hero Section - AI Engineer Theme
    ============================================ */
 
 .hero {
     min-height: 100dvh;
-    /* Dynamic viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: var(--space-8) var(--space-4);
-    /* Mesh Gradient Background */
     background:
-        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 15% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 70%, rgba(124, 58, 237, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(129, 140, 248, 0.06) 0%, transparent 60%),
         var(--bg-dark);
     position: relative;
     overflow: hidden;
-    /* Contain paint for performance */
-    contain: layout paint;
 }
 
-/* Background Elements for Depth */
-.hero::before {
-    content: '';
+/* ============================================
+   Neural Grid Background
+   ============================================ */
+.neuralGrid {
     position: absolute;
-    width: 150%;
-    height: 150%;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zzM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.4;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridPulse 4s ease-in-out infinite;
     z-index: 0;
-    animation: bgScroll 60s linear infinite;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 75%);
 }
 
-@keyframes bgScroll {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-50px);
-    }
-}
-
+/* ============================================
+   Content
+   ============================================ */
 .heroContent {
     position: relative;
     z-index: 10;
     text-align: center;
-    max-width: 800px;
+    max-width: 820px;
     width: 100%;
-    padding-bottom: 4rem; /* Buffer to prevent overlap with scroll indicator */
+    padding-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+/* Eyebrow badge row */
+.eyebrowRow {
+    margin-bottom: var(--space-6);
 }
 
 /* ============================================
@@ -57,24 +59,34 @@
    ============================================ */
 .profileContainer {
     position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto var(--space-8);
-    /* Standard Animation Class utilized in JSX if needed, or applied here */
+    width: 180px;
+    height: 180px;
+    margin: 0 auto var(--space-6);
     animation: float 6s ease-in-out infinite;
 }
 
-/* Glowing Ring */
-.profileContainer::before {
+/* Conic gradient animated ring */
+.profileRing {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        var(--primary) 0%,
+        var(--secondary) 33%,
+        var(--accent-violet) 66%,
+        var(--primary) 100%
+    );
+    animation: rotateConic 4s linear infinite;
+    z-index: -1;
+}
+
+.profileRing::after {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: 3px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    z-index: -1;
-    opacity: 0.7;
-    filter: blur(10px);
-    animation: pulseGlow 3s infinite;
+    background: var(--bg-dark);
 }
 
 .profileImage {
@@ -82,9 +94,9 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid rgba(30, 41, 59, 0.8);
-    /* Glass border effect */
-    box-shadow: var(--shadow-xl);
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-xl), var(--shadow-glow-ai);
 }
 
 /* ============================================
@@ -95,64 +107,61 @@
     font-family: var(--font-mono);
     color: var(--primary);
     font-size: var(--text-sm);
-    margin-bottom: var(--space-4);
-    letter-spacing: 0.05em;
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 0.2s;
+    margin-bottom: var(--space-3);
+    letter-spacing: 0.08em;
 }
 
 .title {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 9vw, 5rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.05;
     margin-bottom: var(--space-4);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 0.4s;
 }
 
 .titleGradient {
-    /* Using utility class pattern via compose or direct usage */
-    background: linear-gradient(135deg, #fff 30%, var(--secondary));
+    background: var(--gradient-hero);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
     color: var(--text-secondary);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
     font-weight: 400;
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 0.6s;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
+    min-height: 2.5rem;
 }
 
 .typingText {
     color: var(--primary-light);
-    font-weight: 600;
+    font-weight: 700;
     border-right: 3px solid var(--primary);
     padding-right: 4px;
     white-space: nowrap;
     overflow: hidden;
-    /* Simple blink animation from standard library */
     animation: cursorBlink 1s step-end infinite;
 }
 
 .description {
     font-size: var(--text-lg);
     color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto var(--space-10);
-    line-height: 1.6;
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 0.8s;
+    max-width: 580px;
+    margin: 0 auto var(--space-8);
+    line-height: 1.7;
+}
+
+.description strong {
+    color: var(--text-secondary);
+    font-weight: 600;
 }
 
 /* ============================================
@@ -162,16 +171,15 @@
     display: flex;
     gap: var(--space-4);
     justify-content: center;
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 1s;
+    flex-wrap: wrap;
 }
 
 .primaryBtn,
 .secondaryBtn {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 2rem;
+    gap: 0.6rem;
+    padding: 0.875rem 1.8rem;
     border-radius: var(--radius-full);
     font-weight: 600;
     font-size: var(--text-base);
@@ -181,30 +189,33 @@
     overflow: hidden;
 }
 
-/* Primary Button - Glowing Gradient */
+/* Primary Button — Gradient fill */
 .primaryBtn {
-    background: var(--primary);
-    color: #0F172A;
-    /* Dark text for contrast */
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    background: var(--gradient-ai);
+    color: #fff;
+    box-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
 }
 
 .primaryBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
-    background: var(--primary-light);
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.55);
 }
 
-/* Secondary Button - Glassy */
+.primaryBtn:active {
+    transform: translateY(0);
+}
+
+/* Secondary Button — Glassy */
 .secondaryBtn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text-primary);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .secondaryBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(56, 189, 248, 0.08);
     border-color: var(--primary);
     transform: translateY(-2px);
     color: var(--primary-light);
@@ -215,25 +226,84 @@
    ============================================ */
 .socials {
     display: flex;
-    gap: var(--space-6);
+    gap: var(--space-5);
     justify-content: center;
-    margin-top: var(--space-10);
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 1.2s;
+    margin-top: var(--space-8);
 }
 
 .socialLink {
-    color: var(--text-secondary);
-    font-size: 1.5rem;
-    transition: all 0.2s var(--ease-out);
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    transition: all 0.25s var(--ease-out);
     padding: 0.5rem;
     border-radius: 8px;
+    border: 1px solid transparent;
 }
 
 .socialLink:hover {
     color: var(--primary);
     transform: translateY(-3px);
-    background: rgba(56, 189, 248, 0.1);
+    background: rgba(56, 189, 248, 0.08);
+    border-color: var(--glass-border-ai);
+}
+
+/* ============================================
+   Stats Row
+   ============================================ */
+.statsRow {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: var(--space-4) var(--space-5);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-width: 100px;
+    transition: all 0.25s var(--ease-out);
+}
+
+.statItem:hover {
+    border-color: var(--glass-border-ai);
+    background: rgba(56, 189, 248, 0.05);
+    transform: translateY(-2px);
+}
+
+.statIcon {
+    color: var(--primary);
+    margin-bottom: 2px;
+}
+
+.statValue {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    background: var(--gradient-ai);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+
+.statLabel {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
 }
 
 /* ============================================
@@ -248,14 +318,13 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards 1.4s;
+    animation: fadeInUp 0.8s ease-out both 1.8s;
 }
 
 .mouse {
     width: 26px;
     height: 40px;
-    border: 2px solid var(--text-secondary);
+    border: 2px solid var(--text-muted);
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -268,18 +337,6 @@
     background: var(--primary);
     border-radius: 2px;
     animation: scrollWheel 2s infinite;
-}
-
-@keyframes scrollWheel {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(16px);
-        opacity: 0;
-    }
 }
 
 /* ============================================
@@ -296,23 +353,38 @@
         width: 100%;
         justify-content: center;
     }
+
+    .statsRow {
+        gap: var(--space-3);
+    }
+
+    .statItem {
+        padding: var(--space-3) var(--space-4);
+        min-width: 80px;
+    }
+
+    .profileContainer {
+        width: 150px;
+        height: 150px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-    .hero::before,
     .profileContainer,
-    .profileContainer::before,
+    .profileRing,
+    .wheel,
+    .neuralGrid {
+        animation: none;
+    }
+    .eyebrowRow,
     .eyebrow,
     .title,
     .subtitle,
     .description,
     .actions,
     .socials,
-    .scrollIndicator,
-    .wheel {
+    .statsRow,
+    .scrollIndicator {
         animation: none;
-        opacity: 1;
-        transform: none;
     }
 }

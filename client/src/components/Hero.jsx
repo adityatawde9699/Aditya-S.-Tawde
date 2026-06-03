@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Download, SendHorizonal } from 'lucide-react';
+import { Download, SendHorizonal, Cpu, Database, BrainCircuit, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RESUME_PATH, SOCIAL_LINKS } from '../config/social';
 import styles from './Hero.module.css';
@@ -45,18 +45,35 @@ const Typewriter = ({ roles }) => {
     );
 };
 
+const STATS = [
+    { icon: BrainCircuit, value: '10+', label: 'AI Projects' },
+    { icon: Layers,       value: '15+', label: 'Certifications' },
+    { icon: Cpu,          value: '2+',  label: 'Years Coding' },
+    { icon: Database,     value: '5+',  label: 'ML Models Built' },
+];
+
 const Hero = () => {
     const roles = [
-        'AI & Data Science Professional',
+        'AI & Data Science Engineer',
+        'Machine Learning Builder',
+        'Deep Learning Practitioner',
         'Full Stack Developer',
-        'Problem Solver',
-        'Tech Enthusiast',
     ];
 
     return (
         <section id="home" className={styles.hero} aria-labelledby="hero-heading">
+            {/* Neural dot-grid background */}
+            <div className={styles.neuralGrid} aria-hidden="true" />
+
             <div className={styles.heroContent}>
+                {/* Eyebrow badge */}
+                <div className={styles.eyebrowRow}>
+                    <span className="ai-badge">Available for Internships & Opportunities</span>
+                </div>
+
+                {/* Profile Image */}
                 <div className={styles.profileContainer}>
+                    <div className={styles.profileRing} aria-hidden="true" />
                     <img
                         src="/images/profile-photo.jpg"
                         alt="Aditya Tawde"
@@ -74,14 +91,13 @@ const Hero = () => {
                 </h1>
 
                 <div className={styles.subtitle}>
-                    <span>I am an</span>
+                    <span>I build</span>
                     <Typewriter roles={roles} />
                 </div>
 
                 <p className={styles.description}>
-                    Welcome! I&apos;m a B.Tech candidate at JNEC with a passion for building
-                    intelligent systems and seamless web experiences.
-                    Explore my work in AI, Data Science, and Development.
+                    B.Tech candidate at JNEC specializing in <strong>AI, Machine Learning &amp; Full Stack Development</strong>.
+                    I turn raw data into intelligent systems and ideas into production-ready applications.
                 </p>
 
                 <div className={styles.actions}>
@@ -92,7 +108,7 @@ const Hero = () => {
 
                     <Link to="/contact" className={styles.secondaryBtn}>
                         <SendHorizonal size={18} aria-hidden="true" />
-                        Contact Me
+                        Let&apos;s Talk
                     </Link>
                 </div>
 
@@ -108,6 +124,17 @@ const Hero = () => {
                         >
                             <Icon size={20} aria-hidden="true" />
                         </a>
+                    ))}
+                </div>
+
+                {/* Stats Row */}
+                <div className={styles.statsRow}>
+                    {STATS.map(({ icon: Icon, value, label }) => (
+                        <div key={label} className={styles.statItem}>
+                            <Icon size={16} className={styles.statIcon} aria-hidden="true" />
+                            <strong className={styles.statValue}>{value}</strong>
+                            <span className={styles.statLabel}>{label}</span>
+                        </div>
                     ))}
                 </div>
             </div>

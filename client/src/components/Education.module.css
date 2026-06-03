@@ -197,33 +197,83 @@
 /* Typography */
 .education-content h3 {
   color: var(--text-primary);
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
   line-height: 1.4;
 }
 
-.education-content h3::before {
-  content: '🎓';
-  font-size: 1.1rem;
+.degreeRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.degreeIcon {
+  color: var(--primary);
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .education-content h4 {
   color: var(--primary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;
+  margin-top: 0.25rem;
 }
 
 .education-content p {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.7;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.currentBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.875rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--accent-emerald);
+  letter-spacing: 0.04em;
+}
+
+/* Loading skeleton */
+.loadingPill {
+  width: 120px;
+  height: 32px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-full);
+}
+
+.loadingLine {
+  height: 1rem;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
 }
 
 /* Education Highlights */
@@ -474,3 +524,20 @@
   outline: 2px solid var(--primary);
   outline-offset: 4px;
 }
+
+/* Section Header — shared pattern */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 1;
+}
+
+.headingCenter {
+  display: inline-block;
+}
+
+.headingCenter::after {
+  left: 50%;
+  transform: translateX(-50%);
+}

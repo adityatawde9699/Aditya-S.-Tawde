@@ -1,220 +1,252 @@
 /* ============================================
-   Footer.module.css - Cyber-Minimalist Theme
-   Cross-browser compatible, accessible
+   Footer — AI Engineer Theme
    ============================================ */
 
-footer {
-  background: rgba(11, 17, 32, 0.95);
-  border-top: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: var(--space-12, 3rem) var(--space-8, 2rem) var(--space-8, 2rem);
-  text-align: center;
-  position: relative;
-  /* Contain for performance */
-  contain: layout style;
+.footer {
+    position: relative;
+    padding: var(--space-12) var(--space-8) var(--space-8);
+    background: var(--bg-darker);
+    border-top: 1px solid transparent;
+    background-clip: padding-box;
+    /* Gradient top border */
+    border-image: var(--gradient-ai) 1;
+    overflow: hidden;
 }
 
-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  opacity: 0.5;
+/* Gradient top border via pseudo-element (better browser support) */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-ai);
+    opacity: 0.6;
+}
+
+.footer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.footerInner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   Brand
+   ============================================ */
+.brand {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.brandLogo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.brandMonogram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--gradient-ai);
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+}
+
+.brandName {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.tagline {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    margin: 0;
+    font-style: italic;
+}
+
+/* Open to work badge */
+.openBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.3rem 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--accent-emerald);
+    letter-spacing: 0.04em;
 }
 
 /* ============================================
    Social Icons
    ============================================ */
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-6, 1.5rem);
-  margin-bottom: var(--space-6, 1.5rem);
+.socialIcons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
 }
 
-.social-icons a {
-  color: var(--text-secondary);
-  font-size: 1.5rem;
-  transition: color 0.2s var(--ease-out, ease),
-    transform 0.2s var(--ease-out, ease);
-  padding: 0.5rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Touch target */
-  min-width: 44px;
-  min-height: 44px;
+.socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    transition: all 0.25s var(--ease-out);
+    text-decoration: none;
 }
 
-.social-icons a:hover {
-  color: var(--primary);
-  transform: translateY(-3px);
+.socialLink:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-.social-icons a:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+/* LinkedIn */
+.socialLinkedIn:hover {
+    color: #0A66C2;
+    border-color: #0A66C2;
+    background: rgba(10, 102, 194, 0.1);
 }
 
-.social-icons a img {
-  width: 32px;
-  height: 32px;
-  filter: grayscale(100%) brightness(0.7);
-  transition: filter 0.2s var(--ease-out, ease);
+/* GitHub */
+.socialGitHub:hover {
+    color: #f0f6fc;
+    border-color: rgba(240, 246, 252, 0.3);
+    background: rgba(240, 246, 252, 0.05);
 }
 
-.social-icons a:hover img {
-  filter: none;
+/* Instagram */
+.socialInstagram:hover {
+    color: #E1306C;
+    border-color: #E1306C;
+    background: rgba(225, 48, 108, 0.1);
 }
 
 /* ============================================
-   Footer Text
+   Divider
    ============================================ */
-footer p {
-  margin: 0;
-  font-size: var(--text-base, 0.95rem);
-  color: var(--text-secondary);
+.divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+}
+
+/* ============================================
+   Bottom Row
+   ============================================ */
+.footerBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.copyright {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin: 0;
 }
 
 .builtby {
-  margin-top: 0.75rem;
-  font-size: var(--text-base, 1rem);
-  color: var(--text-secondary);
-  letter-spacing: 0.01em;
-}
-
-.author {
-  font-weight: 600;
-  color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin: 0;
 }
 
 /* ============================================
    Back to Top Button
    ============================================ */
 .backToTop {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  background: var(--primary);
-  color: #000;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: var(--shadow-glow, 0 0 20px var(--primary-glow));
-  z-index: var(--z-fixed, 1000);
-  transition: all 0.2s var(--ease-out, ease);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  /* GPU acceleration */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--gradient-ai);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+}
+
+.backToTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .backToTop:hover {
-  background: var(--primary-light, #7DD3FC);
-  transform: translateY(-3px) translateZ(0);
-  box-shadow: 0 0 30px var(--primary-glow);
-}
-
-.backToTop:focus-visible {
-  outline: 2px solid var(--text-primary);
-  outline-offset: 2px;
-}
-
-.backToTop:active {
-  transform: translateY(0) translateZ(0);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(56, 189, 248, 0.5);
 }
 
 /* ============================================
-   Responsive Design
+   Responsive
    ============================================ */
-@media (max-width: 600px) {
-  footer {
-    padding: var(--space-8, 2rem) var(--space-4, 1rem) var(--space-6, 1.5rem);
-  }
-
-  .social-icons {
-    gap: var(--space-4, 1rem);
-  }
-
-  .social-icons a img {
-    width: 28px;
-    height: 28px;
-  }
-
-  .builtby {
-    font-size: var(--text-sm, 0.9rem);
-  }
-
-  .backToTop {
-    right: 20px;
-    bottom: 20px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.25rem;
-  }
-}
-
-/* ============================================
-   Safe Area Support (Notched Phones)
-   ============================================ */
-@supports (padding: max(0px)) {
-  footer {
-    padding-bottom: max(var(--space-8, 2rem), calc(env(safe-area-inset-bottom) + 1rem));
-  }
-
-  .backToTop {
-    bottom: max(32px, calc(env(safe-area-inset-bottom) + 16px));
-    right: max(32px, env(safe-area-inset-right));
-  }
-
-  @media (max-width: 600px) {
-    .backToTop {
-      bottom: max(20px, calc(env(safe-area-inset-bottom) + 12px));
-      right: max(20px, env(safe-area-inset-right));
+@media (max-width: 640px) {
+    .footer {
+        padding: var(--space-10) var(--space-4) var(--space-6);
     }
-  }
-}
 
-/* ============================================
-   Accessibility
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
+    .footerBottom {
+        flex-direction: column;
+        text-align: center;
+    }
 
-  .social-icons a,
-  .backToTop {
-    transition: none;
-  }
-
-  .social-icons a:hover,
-  .backToTop:hover {
-    transform: none;
-  }
-}
-
-/* Touch device optimization */
-@media (hover: none) {
-  .social-icons a:hover {
-    transform: none;
-  }
-}
-
-/* Print styles */
-@media print {
-  footer {
-    background: none;
-    border: none;
-  }
-
-  .backToTop {
-    display: none !important;
-  }
+    .backToTop {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
 }

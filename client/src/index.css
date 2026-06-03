@@ -1,11 +1,12 @@
 /* ============================================
    Global Styles & Design System
    ============================================ */
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import './styles/variables.css';
 @import './styles/animations.css';
 @import './styles/utilities.css';
+@import 'tailwindcss';
+
 
 /* ============================================
    Root Configuration

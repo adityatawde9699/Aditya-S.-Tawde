@@ -75,25 +75,42 @@
   margin-bottom: 5rem;
   display: flex;
   align-items: center;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .education-item {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+  
+  .education-item:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  .education-item:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  .education-item:nth-child(3) {
+    animation-delay: 0.6s;
+  }
 }
 
 .education-item:last-child {
   margin-bottom: 0;
 }
 
-.education-item:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.education-item:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.education-item:nth-child(3) {
-  animation-delay: 0.6s;
-}
 
 /* Timeline Dots */
 .education-item::before {

@@ -252,7 +252,12 @@ UNFOLD = {
         },
     },
     "EXTENSIONS": {
-        "modeltranslation": False,
+        "modeltranslation": {
+            "flags": {
+                "en": "GB",
+                "es": "ES",
+            }
+        },
     },
     "SIDEBAR": {
         "show_search": True,

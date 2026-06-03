@@ -33,6 +33,7 @@ venv/
 ENV/
 env/
 .venv/
+.env
 
 # Django specific
 *.log

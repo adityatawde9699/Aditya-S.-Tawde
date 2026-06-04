@@ -41,7 +41,6 @@ SECRET_KEY = _secret_key
 DEBUG = _debug_mode
 
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True

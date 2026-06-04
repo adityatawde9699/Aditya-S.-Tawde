@@ -10,7 +10,6 @@ services:
       python manage.py collectstatic --noinput &&
       python manage.py migrate
     startCommand: "gunicorn portfolio_backend.wsgi:application --workers 2 --threads 2 --access-logfile - --error-logfile -"
-    healthCheckPath: /api/health/
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.9"
@@ -19,9 +18,9 @@ services:
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       - key: SECRET_KEY
-        value: "4r1_9y*6z7-(^!&uf4(0uqrn_x9=$ry_ez$=w2id^%0!cfr866"
+        sync: false
       - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_tuzfwE0J3jcB@ep-long-butterfly-a1ghl8yt.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+        sync: false
       - key: EMAIL_HOST_USER
         sync: false
       - key: EMAIL_HOST_PASSWORD

@@ -6,18 +6,14 @@ from .views import (
     AdminStatusView,
     CertificationListView,
     ContactView,
-    DetailedHealthView,
     EducationListView,
     ExperienceListView,
-    HealthCheckView,
     ProjectListView,
     SkillListView,
     TechStackListView,
 )
 
 urlpatterns = [
-    path('health/', HealthCheckView.as_view(), name='health-check'),
-    path('health/detailed/', DetailedHealthView.as_view(), name='detailed-health'),
 
     # Admin authentication endpoints
     path('admin/login/', AdminLoginView.as_view(), name='admin-login'),

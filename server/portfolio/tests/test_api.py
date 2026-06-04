@@ -398,13 +398,4 @@ class TestCertificationAPI:
         assert response.data[0]['name'] == 'AWS Certified'
 
 
-class TestHealthCheckAPI:
-    def test_health_check_includes_database_status_by_default(self, db):
-        from portfolio.views import HealthCheckView
 
-        request = APIRequestFactory().get('/api/health/')
-        response = HealthCheckView().get(request)
-
-        assert response.status_code == status.HTTP_200_OK
-        assert response.data['status'] == 'healthy'
-        assert response.data['database'] == 'connected'

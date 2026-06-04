@@ -1,68 +1,103 @@
 /* ============================================
-   Design System Variables
-   Cross-browser compatible, performance-first
+   Design System — Dracula × AI Engineer
+   Refined palette with depth layers
    ============================================ */
 :root {
   /* ========================================
-     Color Palette
+     Core Background System
      ======================================== */
+  --bg-primary: #1F2330;
+  --bg-secondary: #252A3A;
+  --bg-tertiary: #2D3348;
 
-  /* Backgrounds */
-  --bg-dark: #0B1120;
-  --bg-darker: #060910;
-  --bg-card: rgba(30, 41, 59, 0.4);
-  --bg-card-solid: #1E293B;
-  --bg-card-hover: rgba(30, 41, 59, 0.7);
+  /* Surface Layers */
+  --surface-glass: rgba(45, 51, 72, 0.55);
+  --surface-solid: #343B54;
+  --surface-hover: #3B4361;
+  --surface-border: rgba(139, 233, 253, 0.08);
 
-  /* Typography */
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-accent: #38BDF8;
-  --text-muted: #64748B;
-
-  /* Brand Colors */
-  --primary: #38BDF8;
-  --primary-light: #7DD3FC;
-  --primary-dark: #0EA5E9;
-  --primary-glow: rgba(56, 189, 248, 0.3);
-  --secondary: #818CF8;
-  --secondary-glow: rgba(129, 140, 248, 0.3);
-
-  /* AI/DS Accent Colors */
-  --accent-violet: #7C3AED;
-  --accent-violet-glow: rgba(124, 58, 237, 0.3);
-  --accent-emerald: #10B981;
-  --accent-emerald-glow: rgba(16, 185, 129, 0.25);
-
-  /* AI-themed Gradients */
-  --gradient-ai: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #7C3AED 100%);
-  --gradient-data: linear-gradient(135deg, #38BDF8 0%, #10B981 100%);
-  --gradient-hero: linear-gradient(135deg, #fff 20%, #7DD3FC 60%, #818CF8 100%);
-  --gradient-card: linear-gradient(135deg, rgba(56,189,248,0.08) 0%, rgba(129,140,248,0.05) 100%);
-
-  /* Semantic Colors */
-  --success: #10B981;
-  --success-glow: rgba(16, 185, 129, 0.3);
-  --warning: #F59E0B;
-  --warning-glow: rgba(245, 158, 11, 0.3);
-  --error: #EF4444;
-  --error-glow: rgba(239, 68, 68, 0.3);
-  --info: #3B82F6;
-  --info-glow: rgba(59, 130, 246, 0.3);
+  /* Legacy aliases */
+  --bg-dark: var(--bg-primary);
+  --bg-darker: #181B26;
+  --bg-card: var(--surface-glass);
+  --bg-card-solid: var(--surface-solid);
+  --bg-card-hover: var(--surface-hover);
 
   /* ========================================
-     Borders & Effects
+     Typography Colors
      ======================================== */
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-color-hover: rgba(255, 255, 255, 0.15);
-  --border-color-focus: var(--primary);
+  --text-primary: #F8F8F2;
+  --text-secondary: #C6C9E3;
+  --text-muted: #7F8AA3;
+  --text-accent: var(--accent-cyan);
 
-  /* Glass morphism */
-  --glass-blur: 20px;
+  /* ========================================
+     Dracula Accent System
+     ======================================== */
+  --accent-primary: #BD93F9;     /* Purple — primary brand */
+  --accent-secondary: #FF79C6;   /* Pink — secondary CTA */
+  --accent-cyan: #8BE9FD;        /* Cyan — links, highlights */
+  --accent-green: #50FA7B;       /* Green — success, active */
+  --accent-orange: #FFB86C;      /* Orange — warnings */
+  --accent-red: #FF5555;         /* Red — errors */
+  --accent-yellow: #F1FA8C;      /* Yellow — info */
+
+  /* Legacy aliases for backward compat */
+  --primary: var(--accent-primary);
+  --primary-light: #D4B8FF;
+  --primary-dark: #9B6FE0;
+  --primary-glow: rgba(189, 147, 249, 0.3);
+  --secondary: var(--accent-secondary);
+  --secondary-glow: rgba(255, 121, 198, 0.3);
+
+  /* ========================================
+     AI / Futuristic Gradients
+     ======================================== */
+  --gradient-primary: linear-gradient(135deg, #BD93F9 0%, #8BE9FD 100%);
+  --gradient-neural: linear-gradient(135deg, #BD93F9 0%, #FF79C6 45%, #8BE9FD 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(189,147,249,0.10), rgba(139,233,253,0.05));
+  --gradient-ai: var(--gradient-neural);
+  --gradient-hero: var(--gradient-neural);
+  --gradient-data: linear-gradient(135deg, #8BE9FD 0%, #50FA7B 100%);
+  --gradient-card: var(--gradient-surface);
+
+  /* ========================================
+     Semantic Colors
+     ======================================== */
+  --success: #50FA7B;
+  --success-glow: rgba(80, 250, 123, 0.25);
+  --warning: #FFB86C;
+  --warning-glow: rgba(255, 184, 108, 0.25);
+  --error: #FF5555;
+  --error-glow: rgba(255, 85, 85, 0.25);
+  --info: #8BE9FD;
+  --info-glow: rgba(139, 233, 253, 0.25);
+
+  /* ========================================
+     Borders & Glass Effects
+     ======================================== */
+  --border-color: rgba(139, 233, 253, 0.08);
+  --border-color-hover: rgba(189, 147, 249, 0.2);
+  --border-color-focus: var(--accent-primary);
+
+  --glass-blur: 18px;
   --glass-blur-strong: 32px;
-  --glass-bg: rgba(15, 23, 42, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-ai: rgba(56, 189, 248, 0.15);
+  --glass-bg: rgba(31, 35, 48, 0.6);
+  --glass-border: rgba(139, 233, 253, 0.08);
+  --glass-border-ai: rgba(189, 147, 249, 0.15);
+  --blur-glass: blur(18px);
+
+  /* ========================================
+     Shadows
+     ======================================== */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.25);
+  --shadow-glow: 0 0 40px rgba(189, 147, 249, 0.18);
+  --shadow-glow-secondary: 0 0 40px rgba(255, 121, 198, 0.18);
+  --shadow-glow-ai: 0 0 60px rgba(189, 147, 249, 0.15), 0 0 120px rgba(139, 233, 253, 0.08);
 
   /* ========================================
      Spacing Scale (8px base)
@@ -85,23 +120,12 @@
      ======================================== */
   --radius-sm: 6px;
   --radius-md: 12px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
   /* ========================================
-     Shadows
-     ======================================== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px var(--primary-glow);
-  --shadow-glow-secondary: 0 0 40px var(--secondary-glow);
-  --shadow-glow-ai: 0 0 60px rgba(56, 189, 248, 0.2), 0 0 120px rgba(124, 58, 237, 0.1);
-
-  /* ========================================
-     Typography Scale
+     Typography
      ======================================== */
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -150,7 +174,7 @@
    Body Base Styles
    ============================================ */
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
   margin: 0;
@@ -167,8 +191,8 @@ h1, h2, h3 {
 @media (prefers-contrast: high) {
   :root {
     --border-color: rgba(255, 255, 255, 0.25);
-    --bg-card: rgba(30, 41, 59, 0.8);
-    --text-secondary: #CBD5E1;
+    --surface-glass: rgba(45, 51, 72, 0.85);
+    --text-secondary: #E0E3F0;
   }
 }
 
@@ -177,9 +201,9 @@ h1, h2, h3 {
    ============================================ */
 @media (forced-colors: active) {
   :root {
-    --primary: CanvasText;
+    --accent-primary: CanvasText;
     --text-primary: CanvasText;
-    --bg-dark: Canvas;
+    --bg-primary: Canvas;
     --border-color: CanvasText;
   }
 }

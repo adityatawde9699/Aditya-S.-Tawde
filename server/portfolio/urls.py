@@ -6,7 +6,9 @@ from .views import (
     AdminStatusView,
     CertificationListView,
     ContactView,
+    DetailedHealthView,
     EducationListView,
+    ExperienceListView,
     HealthCheckView,
     ProjectListView,
     SkillListView,
@@ -15,6 +17,7 @@ from .views import (
 
 urlpatterns = [
     path('health/', HealthCheckView.as_view(), name='health-check'),
+    path('health/detailed/', DetailedHealthView.as_view(), name='detailed-health'),
 
     # Admin authentication endpoints
     path('admin/login/', AdminLoginView.as_view(), name='admin-login'),
@@ -25,6 +28,7 @@ urlpatterns = [
     path('portfolio/projects/', ProjectListView.as_view(), name='project-list'),
     path('portfolio/skills/', SkillListView.as_view(), name='skill-list'),
     path('portfolio/education/', EducationListView.as_view(), name='education-list'),
+    path('portfolio/experience/', ExperienceListView.as_view(), name='experience-list'),
     path(
         'portfolio/certifications/',
         CertificationListView.as_view(),

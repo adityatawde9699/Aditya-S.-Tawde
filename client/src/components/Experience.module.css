@@ -1,0 +1,180 @@
+/* ============================================
+   Experience — Timeline Layout
+   ============================================ */
+
+.section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================
+   Timeline
+   ============================================ */
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.timelineLine {
+  position: absolute;
+  top: 0;
+  left: 11px;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-primary),
+    var(--accent-cyan),
+    var(--accent-green),
+    var(--accent-secondary)
+  );
+  opacity: 0.2;
+  border-radius: var(--radius-full);
+}
+
+/* ============================================
+   Timeline Group
+   ============================================ */
+.timelineGroup {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timelineGroup:last-child {
+  margin-bottom: 0;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -2.5rem;
+  top: 1.5rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translateX(5px);
+  z-index: 2;
+}
+
+/* ============================================
+   Group Card
+   ============================================ */
+.groupCard {
+  background: var(--surface-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.groupCard:hover {
+  border-color: var(--border-color-hover);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.groupIcon {
+  font-size: 1.3rem;
+}
+
+.groupTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* ============================================
+   Items
+   ============================================ */
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.04);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.itemName {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.itemDate {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.itemDetail {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ============================================
+   Mobile Responsive
+   ============================================ */
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .timeline {
+    padding-left: 2rem;
+  }
+
+  .timelineDot {
+    left: -2rem;
+    width: 10px;
+    height: 10px;
+    transform: translateX(4px);
+  }
+
+  .timelineLine {
+    left: 9px;
+  }
+
+  .groupCard {
+    padding: 1.25rem;
+  }
+
+  .itemHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}

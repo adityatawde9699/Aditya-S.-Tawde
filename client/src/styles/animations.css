@@ -1,5 +1,5 @@
 /* ============================================
-   Core Animations Library
+   Core Animations Library — Dracula Edition
    Performance-optimized CSS animations
    ============================================ */
 
@@ -16,7 +16,7 @@
 }
 
 /* ============================================
-   Keyframes
+   Keyframes — Entrance Animations
    ============================================ */
 
 /* Fade In Up */
@@ -83,7 +83,11 @@
     animation: slideInRight 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-/* Float / Hover (Continuous) */
+/* ============================================
+   Keyframes — Continuous / Ambient
+   ============================================ */
+
+/* Float / Hover */
 @keyframes float {
     0%   { transform: translateY(0px); }
     50%  { transform: translateY(-10px); }
@@ -94,18 +98,18 @@
     animation: float 4s ease-in-out infinite;
 }
 
-/* Pulse Glow (Continuous) */
+/* Pulse Glow — Dracula Purple */
 @keyframes pulseGlow {
-    0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
-    70%  { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    0%   { box-shadow: 0 0 0 0 rgba(189, 147, 249, 0.4); }
+    70%  { box-shadow: 0 0 0 15px rgba(189, 147, 249, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(189, 147, 249, 0); }
 }
 
 .animate-pulse-glow {
     animation: pulseGlow 2s infinite;
 }
 
-/* Neural Node Pulse (AI theme) */
+/* Neural Node Pulse — Dracula Cyan */
 @keyframes neuralPulse {
     0%, 100% {
         opacity: 0.4;
@@ -117,10 +121,59 @@
     }
 }
 
-/* Grid Shimmer (AI hero background) */
+/* Terminal Cursor Blink */
+@keyframes terminalBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.15em;
+    background: var(--accent-primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: terminalBlink 1s step-end infinite;
+}
+
+/* Data Flow — particles moving along a path */
+@keyframes dataFlow {
+    0% {
+        transform: translateX(-100%) translateY(0);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% {
+        transform: translateX(100vw) translateY(0);
+        opacity: 0;
+    }
+}
+
+/* Neuron Pulse — expanding ring */
+@keyframes neuronPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.6;
+        box-shadow: 0 0 0 0 rgba(189, 147, 249, 0.3);
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 20px 5px rgba(189, 147, 249, 0.15);
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.6;
+        box-shadow: 0 0 0 0 rgba(189, 147, 249, 0);
+    }
+}
+
+/* Grid Shimmer (hero background) */
 @keyframes gridPulse {
     0%, 100% { opacity: 0.03; }
-    50%       { opacity: 0.06; }
+    50%       { opacity: 0.07; }
 }
 
 /* Rotating Conic Gradient (profile ring) */
@@ -141,21 +194,21 @@
     animation: gradientMesh 6s ease infinite;
 }
 
-/* Typing Cursor */
+/* Shimmer Loading */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Typing Cursor — Dracula Purple */
 @keyframes cursorBlink {
     0%, 100% { border-color: transparent; }
-    50%       { border-color: var(--primary); }
+    50%       { border-color: var(--accent-primary); }
 }
 
 .typing-cursor {
-    border-right: 3px solid var(--primary);
+    border-right: 3px solid var(--accent-primary);
     animation: cursorBlink 0.8s step-end infinite;
-}
-
-/* Background Scroll */
-@keyframes bgScroll {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-50px); }
 }
 
 /* Scroll Wheel */
@@ -174,6 +227,28 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Glow Breathe — subtle ambient glow */
+@keyframes glowBreathe {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(189, 147, 249, 0.08);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(189, 147, 249, 0.15);
+    }
+}
+
+/* Background Scroll */
+@keyframes bgScroll {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50px); }
+}
+
+/* Spin */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* ============================================

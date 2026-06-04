@@ -5,6 +5,7 @@ from .models import (
     Certification,
     ContactSubmission,
     Education,
+    Experience,
     Project,
     Skill,
     TechStack,
@@ -88,6 +89,14 @@ class CertificationSerializer(serializers.ModelSerializer):
         
         # Otherwise return external URL (already absolute)
         return obj.image_url
+
+
+class ExperienceSerializer(serializers.ModelSerializer):
+    """Serializer for Experience timeline model."""
+
+    class Meta:
+        model = Experience
+        fields = ['id', 'title', 'category', 'icon', 'color', 'items', 'order']
 
 
 def sanitize_text(value: str) -> str:

@@ -6,6 +6,7 @@ from .models import (
     Certification,
     ContactSubmission,
     Education,
+    Experience,
     Project,
     Skill,
     TechStack,
@@ -107,6 +108,16 @@ class EducationAdmin(ModelAdmin):
     list_filter = ('start_date',)
     search_fields = ('institution', 'degree', 'description')
     ordering = ('-start_date',)
+
+
+@admin.register(Experience)
+class ExperienceAdmin(ModelAdmin):
+    """Admin interface for Experience model."""
+    list_display = ('title', 'category', 'icon', 'order', 'is_visible')
+    list_editable = ('order', 'is_visible')
+    list_filter = ('category', 'is_visible')
+    search_fields = ('title', 'items')
+    ordering = ('order',)
 
 
 @admin.register(Certification)

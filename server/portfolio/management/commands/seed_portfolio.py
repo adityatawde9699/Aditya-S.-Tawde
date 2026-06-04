@@ -128,5 +128,141 @@ class Command(BaseCommand):
                 p.tech_stack.add(tech_objects[tech])
             
             self.stdout.write(f"{'Created' if created else 'Updated'} project: {p.title}")
+            
+        self.stdout.write("Setting up experiences...")
+        from portfolio.models import Experience
+        experiences_data = [
+            {
+                "title": "Hackathons & Competitions",
+                "category": "hackathons",
+                "icon": "🏆",
+                "color": "cyan",
+                "order": 1,
+                "items": [
+                    {
+                        "name": "Smart India Hackathon",
+                        "date": "2024",
+                        "detail": "Developed an AI-powered financial simulation game for rural literacy."
+                    },
+                    {
+                        "name": "MGMU Appathon",
+                        "date": "2023",
+                        "detail": "Built a smart queue management system for university canteens."
+                    }
+                ]
+            },
+            {
+                "title": "Open Source & Engineering",
+                "category": "engineering",
+                "icon": "💻",
+                "color": "purple",
+                "order": 2,
+                "items": [
+                    {
+                        "name": "Full-Stack Web Development",
+                        "date": "2024 - Present",
+                        "detail": "Architecting production-ready applications with React, Next.js, and Django."
+                    },
+                    {
+                        "name": "AI Model Deployment",
+                        "date": "2024",
+                        "detail": "Deploying local LLMs and multi-agent systems via FastAPI."
+                    }
+                ]
+            },
+            {
+                "title": "Academic Projects",
+                "category": "academic",
+                "icon": "🔬",
+                "color": "pink",
+                "order": 3,
+                "items": [
+                    {
+                        "name": "Predictive Maintenance Model",
+                        "date": "2025 (Expected)",
+                        "detail": "Developing machine learning models for industrial IoT sensors."
+                    },
+                    {
+                        "name": "Natural Language Processing",
+                        "date": "2024",
+                        "detail": "Implemented sentiment analysis pipelines for product reviews."
+                    }
+                ]
+            },
+            {
+                "title": "Education",
+                "category": "education",
+                "icon": "🎓",
+                "color": "green",
+                "order": 4,
+                "items": [
+                    {
+                        "name": "B.Tech AI & Data Science",
+                        "date": "2024 - 2028",
+                        "detail": "Jawaharlal Nehru Engineering College, MGMU · Chh. Sambhajinagar"
+                    },
+                    {
+                        "name": "Higher Secondary (HSC)",
+                        "date": "2022 - 2024",
+                        "detail": "Vasantrao Naik College · Science Stream"
+                    }
+                ]
+            }
+        ]
+
+        for e_data in experiences_data:
+            Experience.objects.update_or_create(
+                title=e_data['title'],
+                defaults={
+                    'category': e_data['category'],
+                    'icon': e_data['icon'],
+                    'color': e_data['color'],
+                    'items': e_data['items'],
+                    'order': e_data['order']
+                }
+            )
+        self.stdout.write("Created experience entries.")
         
+        self.stdout.write("Setting up skills...")
+        from portfolio.models import Skill
+        skills_data = [
+            # Frontend
+            {"name": "React 19", "category": "FRONTEND", "order": 1},
+            {"name": "Next.js", "category": "FRONTEND", "order": 2},
+            {"name": "TypeScript", "category": "FRONTEND", "order": 3},
+            {"name": "Tailwind CSS", "category": "FRONTEND", "order": 4},
+            {"name": "Framer Motion", "category": "FRONTEND", "order": 5},
+            
+            # Backend
+            {"name": "Python", "category": "BACKEND", "order": 1},
+            {"name": "FastAPI", "category": "BACKEND", "order": 2},
+            {"name": "Django", "category": "BACKEND", "order": 3},
+            {"name": "PostgreSQL", "category": "BACKEND", "order": 4},
+            {"name": "Node.js", "category": "BACKEND", "order": 5},
+            
+            # AI & Data
+            {"name": "PyTorch", "category": "AI_ML", "order": 1},
+            {"name": "Pandas/NumPy", "category": "AI_ML", "order": 2},
+            {"name": "Gemini API", "category": "AI_ML", "order": 3},
+            {"name": "Scikit-Learn", "category": "AI_ML", "order": 4},
+            {"name": "Agentic AI", "category": "AI_ML", "order": 5},
+            
+            # Tools
+            {"name": "Docker", "category": "TOOLS", "order": 1},
+            {"name": "Git/GitHub Actions", "category": "TOOLS", "order": 2},
+            {"name": "Linux", "category": "TOOLS", "order": 3},
+            {"name": "AWS (EC2/S3)", "category": "TOOLS", "order": 4},
+            {"name": "Vercel/Render", "category": "TOOLS", "order": 5},
+        ]
+        
+        for s_data in skills_data:
+            Skill.objects.update_or_create(
+                name=s_data['name'],
+                defaults={
+                    'category': s_data['category'],
+                    'order': s_data['order']
+                }
+            )
+        self.stdout.write("Created skills entries.")
+
         self.stdout.write(self.style.SUCCESS("Database seeding completed."))

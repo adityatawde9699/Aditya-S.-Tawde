@@ -11,11 +11,12 @@ from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 
-from .models import Certification, Education, Project, Skill, TechStack
+from .models import Certification, Education, Experience, Project, Skill, TechStack
 from .serializers import (
     CertificationSerializer,
     ContactSerializer,
     EducationSerializer,
+    ExperienceSerializer,
     ProjectSerializer,
     SkillSerializer,
     TechStackSerializer,
@@ -114,6 +115,20 @@ class EducationListView(generics.ListAPIView):
 
 
 @method_decorator(cache_page(CACHE_TTL_SECONDS), name='dispatch')
+class ExperienceListView(generics.ListAPIView):
+    """
+    GET /api/portfolio/experience/
+
+    Returns a list of all experience entries, ordered by order ascending.
+    """
+
+    serializer_class = ExperienceSerializer
+
+    def get_queryset(self):
+        return Experience.objects.filter(is_visible=True)
+
+
+@method_decorator(cache_page(CACHE_TTL_SECONDS), name='dispatch')
 class CertificationListView(generics.ListAPIView):
     """
     GET /api/portfolio/certifications/
@@ -162,9 +177,14 @@ class HealthCheckView(APIView):
     """
 
     def get(self, request):
+        import time
+        from django.utils import timezone
+        
+        start_time = time.time()
         health_status = {
             'status': 'healthy',
             'service': 'portfolio-api',
+            'timestamp': timezone.now().isoformat(),
         }
 
         try:
@@ -172,12 +192,53 @@ class HealthCheckView(APIView):
 
             connection.ensure_connection()
             health_status['database'] = 'connected'
+            health_status['db_latency_ms'] = round((time.time() - start_time) * 1000, 2)
         except Exception as exc:
             health_status['database'] = 'error'
             health_status['database_error'] = str(exc)
             return Response(health_status, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         return Response(health_status, status=status.HTTP_200_OK)
+
+
+class DetailedHealthView(APIView):
+    """
+    GET /api/health/detailed/
+    
+    Admin-only detailed health check returning memory usage and DB row counts.
+    """
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        import os
+        import platform
+        import sys
+        import django
+        
+        try:
+            import resource
+            memory_usage_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+        except ImportError:
+            memory_usage_mb = "Not available on this platform"
+
+        data = {
+            'status': 'healthy',
+            'service': 'portfolio-api',
+            'version': {
+                'django': django.get_version(),
+                'python': sys.version.split(' ')[0],
+                'platform': platform.platform()
+            },
+            'system': {
+                'memory_usage_mb': memory_usage_mb,
+            },
+            'database': {
+                'projects': Project.objects.count(),
+                'experiences': Experience.objects.count(),
+                'contact_submissions': ContactSubmission.objects.count(),
+            }
+        }
+        return Response(data, status=status.HTTP_200_OK)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

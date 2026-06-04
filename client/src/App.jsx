@@ -1,89 +1,55 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
-import TechStack from './components/TechStack';
-import './components/tech_stack.css';
 import Skills from './components/Skills';
-import Education from './components/Education';
 import Footer from './components/Footer';
-import NotFound from './components/NotFound';
+import ParticleBackground from './components/ParticleBackground';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Lazy load route-based components for code splitting
-const Certifications = lazy(() => import('./components/Certifications'));
+// Lazy-load heavier sections for performance
 const Projects = lazy(() => import('./components/Projects'));
+const Experience = lazy(() => import('./components/Experience'));
+const Resume = lazy(() => import('./components/Resume'));
 const Contact = lazy(() => import('./components/Contact'));
 
-// Simple loading fallback component
-const LoadingFallback = () => (
+// Loading fallback
+const SectionLoader = () => (
   <div className="loading-container" style={{
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '50vh',
-    fontSize: '1.2rem',
-    color: 'var(--accent-color, #646cff)'
+    minHeight: '30vh',
+    fontSize: '1rem',
+    color: 'var(--accent-primary)',
+    fontFamily: 'var(--font-mono)',
   }}>
-    Loading...
+    Loading
   </div>
 );
-
-function ScrollToTopOnLoad() {
-  useEffect(() => {
-    // Remove hash from URL if present and scroll to top smoothly
-    if (window.location.hash) {
-      history.replaceState(null, '', window.location.pathname);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Optionally, handle navigation events to scroll to top
-    const handlePopState = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
-  return null;
-}
 
 function App() {
   return (
     <ErrorBoundary>
-      <Router>
-        <ScrollToTopOnLoad />
+      <div className="app">
+        <ParticleBackground />
         <Header />
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <main className="container">
-                  <Hero />
-                  <About />
-                  <TechStack />
-                  <Skills />
-                  <Education />
-                </main>
-              }
-            />
-            <Route path="/certificates" element={<Certifications />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+        <Suspense fallback={<SectionLoader />}>
+          <main className="container">
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Experience />
+            <Resume />
+            <Contact />
+          </main>
         </Suspense>
         <Footer />
-      </Router>
+      </div>
     </ErrorBoundary>
   );
 }
 
 export default App;
-

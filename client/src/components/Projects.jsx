@@ -1,165 +1,153 @@
 import React, { useState, useMemo } from 'react';
-// eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
-import { getProjects } from '../services/api';
-import { useApi } from '../hooks';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Github, Layers } from 'lucide-react';
+import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from '../data/projectData';
+import SectionHeader from './SectionHeader';
 import styles from './Projects.module.css';
 
-/**
- * Projects component displays portfolio projects with category filtering.
- * 
- * Uses the useApi hook for data fetching with 5-minute caching.
- * Category display names come from backend to avoid duplication.
- */
+const COLOR_MAP = {
+  purple: '#BD93F9',
+  pink: '#FF79C6',
+  cyan: '#8BE9FD',
+  green: '#50FA7B',
+  orange: '#FFB86C',
+  yellow: '#F1FA8C',
+  red: '#FF5555',
+};
+
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('all');
 
-  // Use the custom hook with caching
-  const { data: projects, loading, error } = useApi(getProjects, {
-    cacheTime: 5 * 60 * 1000, // 5 minute cache
-  });
-
-  // Extract unique categories from projects
-  const categories = useMemo(() => {
-    if (!projects || projects.length === 0) return ['all'];
-    const uniqueCategories = [...new Set(projects.map(p => p.category))];
-    return ['all', ...uniqueCategories];
-  }, [projects]);
-
-  // Filter projects by category
   const filteredProjects = useMemo(() => {
-    if (!projects) return [];
-    return activeCategory === 'all'
-      ? projects
-      : projects.filter(project => project.category === activeCategory);
-  }, [projects, activeCategory]);
-
-  // Use backend's category_display when available, fallback to friendly names
-  const getCategoryDisplayName = (category) => {
-    if (category === 'all') return 'All Projects';
-
-    // Find a project with this category to get the display name
-    const project = projects?.find(p => p.category === category);
-    if (project?.category_display) return project.category_display;
-
-    // Fallback mapping
-    const displayNames = {
-      'WEB': 'Web Development',
-      'MOBILE': 'Mobile Apps',
-      'AI_ML': 'AI/ML',
-      'DATA': 'Data Science',
-      'DESKTOP': 'Desktop Apps',
-      'OTHER': 'Other'
-    };
-    return displayNames[category] || category;
-  };
-
-  if (loading) {
-    return (
-      <section className={styles['projects-section']}>
-        <h2>Featured Projects</h2>
-        <div className={styles['loading-state']}>
-          <div className="text-center p-10">Loading projects...</div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className={styles['projects-section']}>
-        <h2>Featured Projects</h2>
-        <div className="text-center p-10 text-red-500">
-          {error || 'Could not load projects. Please try again later.'}
-        </div>
-      </section>
-    );
-  }
+    if (activeCategory === 'all') return FEATURED_PROJECTS;
+    return FEATURED_PROJECTS.filter(p => p.category === activeCategory);
+  }, [activeCategory]);
 
   return (
-    <section id="projects" aria-labelledby="projects-heading" className={styles['projects-section']}>
-      <h2 id="projects-heading">Featured Projects</h2>
+    <section id="projects" className={styles.section} aria-labelledby="projects-heading">
+      <div className={styles.container}>
+        <SectionHeader
+          label="// projects"
+          title="Featured Projects"
+          subtitle="Production-grade systems, not toy demos. Each project solves real problems."
+          center
+        />
 
-      {/* Category Filter Tabs */}
-      <div className={styles['category-filter']}>
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`${styles['filter-btn']} ${activeCategory === category ? styles['active'] : ''}`}
-            onClick={() => setActiveCategory(category)}
-          >
-            {getCategoryDisplayName(category)}
-          </button>
-        ))}
-      </div>
-
-      <div className={styles['project-grid']}>
-        {filteredProjects.map((project, idx) => (
-          <motion.article
-            key={project.id || idx}
-            className={styles['project-card']}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            viewport={{ once: true }}
-            layout
-          >
-            <div className={styles['project-image']}>
-              {project.image ? (
-                <img src={project.image} alt={project.title} loading="lazy" />
-              ) : (
-                <div className={styles['project-placeholder']}></div>
-              )}
-
-              {/* Category Badge */}
-              {project.category_display && (
-                <span className={styles['category-badge']}>
-                  {project.category_display}
-                </span>
-              )}
-
-              <div className={styles['project-overlay']}>
-                <div className={styles['project-links']}>
-                  {project.github_link && (
-                    <a href={project.github_link} className={styles['project-link']} target="_blank" rel="noopener noreferrer">
-                      <Github size={16} aria-hidden="true" /> Source Code
-                    </a>
-                  )}
-                  {project.live_link && (
-                    <a href={project.live_link} className={styles['project-link']} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={16} aria-hidden="true" /> Live Demo
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className={styles['project-content']}>
-              <h3>{project.title}</h3>
-              <p className={styles['project-description']}>{project.description}</p>
-
-              {/* Tech Stack Display */}
-              <div className={styles['project-tech']}>
-                {Array.isArray(project.tech_stack) && project.tech_stack.map((tech, tIdx) => (
-                  <span key={tIdx} className={styles['tech-tag']}>
-                    {tech.icon_class && <i className={tech.icon_class}></i>}
-                    {tech.name || tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.article>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {filteredProjects.length === 0 && (
-        <div className={styles['empty-state']}>
-          <p>No projects found in this category.</p>
+        {/* Category Filters */}
+        <div className={styles.filterBar}>
+          {PROJECT_CATEGORIES.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`${styles.filterBtn} ${activeCategory === key ? styles.filterActive : ''}`}
+              onClick={() => setActiveCategory(key)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
-      )}
+
+        {/* Project Grid */}
+        <motion.div className={styles.projectGrid} layout>
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => {
+              const accentColor = COLOR_MAP[project.color] || COLOR_MAP.purple;
+
+              return (
+                <motion.article
+                  key={project.id}
+                  className={styles.projectCard}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                  style={{ '--project-accent': accentColor }}
+                >
+                  {/* Image / Placeholder */}
+                  <div className={styles.cardImage}>
+                    {project.image ? (
+                      <img src={project.image} alt={project.title} loading="lazy" />
+                    ) : (
+                      <div className={styles.imagePlaceholder}>
+                        <Layers size={32} aria-hidden="true" />
+                      </div>
+                    )}
+                    <span className={styles.categoryBadge} style={{ color: accentColor }}>
+                      {project.categoryDisplay}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className={styles.cardContent}>
+                    <h3 className={styles.cardTitle}>{project.title}</h3>
+                    <p className={styles.cardDescription}>{project.description}</p>
+
+                    {/* Architecture */}
+                    {project.architecture && (
+                      <div className={styles.architecture}>
+                        <span className={styles.archLabel}>Architecture:</span>
+                        <span className={styles.archText}>{project.architecture}</span>
+                      </div>
+                    )}
+
+                    {/* Impact */}
+                    {project.impact && (
+                      <div className={styles.impact}>
+                        <span className={styles.impactLabel}>↗</span>
+                        <span className={styles.impactText}>{project.impact}</span>
+                      </div>
+                    )}
+
+                    {/* Tech Stack */}
+                    <div className={styles.techStack}>
+                      {project.techStack.map(tech => (
+                        <span key={tech} className={styles.techTag}>{tech}</span>
+                      ))}
+                    </div>
+
+                    {/* Links */}
+                    <div className={styles.cardLinks}>
+                      {project.githubLink && (
+                        <a
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.cardLink}
+                          aria-label={`View ${project.title} source code`}
+                        >
+                          <Github size={16} aria-hidden="true" />
+                          Source
+                        </a>
+                      )}
+                      {project.liveLink && (
+                        <a
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${styles.cardLink} ${styles.liveLink}`}
+                          aria-label={`View ${project.title} live demo`}
+                        >
+                          <ExternalLink size={16} aria-hidden="true" />
+                          Demo
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Empty State */}
+        {filteredProjects.length === 0 && (
+          <div className={styles.emptyState}>
+            <p>No projects in this category yet.</p>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
 
-export default Projects; 
+export default Projects;

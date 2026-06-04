@@ -1,86 +1,87 @@
 /* ============================================
-   Header.module.css - AI-Branded Navigation
+   Header — Dracula Glassmorphic Nav
    ============================================ */
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: var(--z-sticky, 100);
-  background: rgba(11, 17, 32, 0.6);
-  backdrop-filter: blur(var(--glass-blur, 20px));
-  -webkit-backdrop-filter: blur(var(--glass-blur, 20px));
-  border-bottom: 1px solid var(--border-color);
-  transition: all 0.3s var(--ease-out, ease);
-  contain: layout style;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  padding: 0.75rem 0;
+  transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+  background: transparent;
 }
 
-@supports not (backdrop-filter: blur(20px)) {
-  .header {
-    background: rgba(11, 17, 32, 0.97);
-  }
+.header.scrolled {
+  background: rgba(31, 35, 48, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(139, 233, 253, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
 }
 
+.header.hide {
+  transform: translateY(-100%);
+}
+
+/* Header Content */
 .headerContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-4, 1rem) var(--space-8, 2rem);
   max-width: 1280px;
   margin: 0 auto;
-  position: relative;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
 }
 
 /* ============================================
-   Logo
+   Logo — Terminal Style
    ============================================ */
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  z-index: 102;
-  padding: 6px;
-  margin: -6px;
+  gap: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  min-height: auto;
+  min-width: auto;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
-.logoMonogram {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: var(--gradient-ai);
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+.logo:hover {
+  border-color: transparent;
+}
+
+.logo:hover .logoText {
+  color: var(--accent-primary);
+}
+
+.logoPrompt {
+  color: var(--accent-green);
+  margin-right: 0.3rem;
+  font-weight: 400;
 }
 
 .logoText {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
 }
 
-.logoBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: var(--radius-full);
-  font-size: 0.6rem;
-  font-weight: 600;
-  color: var(--primary);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
+.logoCursor {
+  color: var(--accent-primary);
+  animation: terminalBlink 1s step-end infinite;
+  font-weight: 400;
 }
 
 /* ============================================
@@ -93,316 +94,159 @@
 
 .navList {
   display: flex;
-  gap: var(--space-8, 2rem);
+  align-items: center;
+  gap: 0.25rem;
   list-style: none;
   margin: 0;
   padding: 0;
-  align-items: center;
 }
 
 .navLink {
+  background: none;
+  border: none;
   color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: color 0.2s var(--ease-out, ease);
-  padding: 8px;
-  margin: -8px;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.25s ease;
   position: relative;
-}
-
-.navLink::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--gradient-ai);
-  border-radius: var(--radius-full);
-  transition: width 0.25s var(--ease-out, ease), left 0.25s var(--ease-out, ease);
+  min-height: auto;
+  min-width: auto;
+  white-space: nowrap;
 }
 
 .navLink:hover {
   color: var(--text-primary);
-}
-
-.navLink:hover::after {
-  width: calc(100% - 16px);
-  left: 8px;
+  background: rgba(189, 147, 249, 0.06);
+  border-color: transparent;
 }
 
 .navLinkActive {
-  color: var(--primary);
+  color: var(--accent-primary);
+  background: rgba(189, 147, 249, 0.1);
 }
 
 .navLinkActive::after {
-  width: calc(100% - 16px);
-  left: 8px;
-  background: var(--primary);
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--accent-primary);
+  border-radius: var(--radius-full);
 }
 
-/* Hire Me CTA */
-.hireBtn {
+/* CV Download Button */
+.cvBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.45rem 1.1rem;
-  background: transparent;
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-full);
+  padding: 0.5rem 1.1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--bg-primary);
+  background: var(--gradient-primary);
+  border-radius: var(--radius-md);
+  border: none;
   text-decoration: none;
-  transition: all 0.25s var(--ease-out, ease);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
 }
 
-.hireBtn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--gradient-ai);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.hireBtn:hover {
-  color: #0B1120;
-  border-color: transparent;
-  box-shadow: 0 0 24px rgba(56, 189, 248, 0.5);
-  transform: translateY(-1px);
-}
-
-.hireBtn:hover::before {
-  opacity: 1;
-}
-
-.hireBtn > * {
-  position: relative;
-  z-index: 1;
+.cvBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(189, 147, 249, 0.3);
+  color: var(--bg-primary);
 }
 
 /* ============================================
-   Mobile Menu Button
+   Hamburger
    ============================================ */
-.hamburgerMenu {
+.hamburger {
   display: none;
-  background: transparent;
-  border: 1px solid var(--border-color);
+  background: none;
+  border: 1px solid var(--surface-border);
   color: var(--text-primary);
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s var(--ease-out, ease);
-  z-index: 102;
-  position: relative;
-  min-width: 44px;
-  min-height: 44px;
+  min-height: auto;
+  min-width: auto;
+  z-index: 201;
+  transition: all 0.3s ease;
 }
 
-.hamburgerMenu:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+.hamburger:hover {
+  border-color: var(--accent-primary);
+  background: rgba(189, 147, 249, 0.08);
 }
 
-.hamburgerMenu:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+.hamburger.active {
+  border-color: var(--accent-primary);
 }
 
 /* ============================================
-   Header States
+   Mobile Responsive
    ============================================ */
-.header.hide {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-100%);
-}
-
-.header.scrolled {
-  background: rgba(11, 17, 32, 0.96);
-  border-bottom-color: rgba(56, 189, 248, 0.08);
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
-@media (max-width: 900px) {
-  .headerContent {
-    padding: 0.875rem 1.5rem;
-  }
-  .navList {
-    gap: var(--space-5, 1.25rem);
-  }
-  .logoBadge {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
-  .hamburgerMenu {
+  .hamburger {
     display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .headerContent {
-    padding: 0.75rem 1rem;
-  }
-
-  .logoText {
-    font-size: 1rem;
-  }
-
-  .logoBadge {
-    display: none;
-  }
-
-  /* Fullscreen Navigation Overlay */
   .mainNav {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100vw;
+    right: -100%;
+    width: 280px;
     height: 100vh;
     height: 100dvh;
-    background: rgba(11, 17, 32, 0.98);
+    background: rgba(31, 35, 48, 0.97);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.3s var(--ease-out, ease), visibility 0.3s var(--ease-out, ease);
-    z-index: 100;
-    padding: 80px 20px 40px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    border-left: 1px solid rgba(139, 233, 253, 0.08);
+    padding: 5rem 2rem 2rem;
+    transition: right 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+    z-index: 200;
   }
 
   .mainNav.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    right: 0;
   }
 
   .navList {
     flex-direction: column;
-    gap: 0;
-    width: 100%;
-    max-width: 320px;
-    text-align: center;
-    margin: auto;
     align-items: stretch;
+    gap: 0.5rem;
   }
-
-  .navList li {
-    width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s var(--ease-out, ease), transform 0.3s var(--ease-out, ease);
-  }
-
-  .mainNav.active .navList li {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .mainNav.active .navList li:nth-child(1) { transition-delay: 0.1s; }
-  .mainNav.active .navList li:nth-child(2) { transition-delay: 0.15s; }
-  .mainNav.active .navList li:nth-child(3) { transition-delay: 0.2s; }
-  .mainNav.active .navList li:nth-child(4) { transition-delay: 0.25s; }
-  .mainNav.active .navList li:nth-child(5) { transition-delay: 0.3s; }
 
   .navLink {
-    display: block;
-    width: 100%;
-    padding: 1rem 1.5rem;
-    font-size: 1.2rem;
-    border-bottom: 1px solid var(--border-color);
-    transition: all 0.2s var(--ease-out, ease);
-    margin: 0;
-  }
-
-  .navLink::after {
-    display: none;
-  }
-
-  .navList li:first-child .navLink {
-    border-top: 1px solid var(--border-color);
-  }
-
-  .navLink:hover, .navLink:active {
-    background: rgba(56, 189, 248, 0.08);
-    color: var(--primary);
-  }
-
-  .hireBtn {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0.875rem 1.5rem;
     font-size: 1rem;
-    border-radius: 0;
-    border: none;
-    border-top: 1px solid var(--border-color);
-    background: rgba(56, 189, 248, 0.08);
-    color: var(--primary);
-    margin-top: var(--space-4);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    width: 100%;
     border-radius: var(--radius-md);
   }
 
-  .hireBtn::before {
+  .navLinkActive::after {
     display: none;
   }
 
-  .hireBtn:hover {
-    background: rgba(56, 189, 248, 0.15);
-    color: var(--primary);
-    box-shadow: none;
-    transform: none;
+  .navLinkActive {
+    border-left: 3px solid var(--accent-primary);
+    padding-left: calc(1rem - 3px);
   }
-}
 
-@media (max-width: 480px) {
-  .headerContent { padding: 0.625rem 0.75rem; }
-  .logoText { font-size: 0.95rem; }
-  .hamburgerMenu { padding: 0.4rem; }
-  .mainNav { padding: 70px 16px 30px; }
-  .navLink { font-size: 1.1rem; padding: 0.875rem 1.25rem; }
-  .navList { max-width: 280px; }
-}
-
-/* ============================================
-   Safe Area Support (Notched Phones)
-   ============================================ */
-@supports (padding: max(0px)) {
-  @media (max-width: 768px) {
-    .mainNav {
-      padding-top: max(80px, calc(env(safe-area-inset-top) + 60px));
-      padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px));
-      padding-left: max(20px, env(safe-area-inset-left));
-      padding-right: max(20px, env(safe-area-inset-right));
-    }
+  .cvBtn {
+    margin-left: 0;
+    margin-top: 1rem;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
   }
-}
-
-/* ============================================
-   Accessibility
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
-  .header, .mainNav, .navList li, .navLink, .hamburgerMenu { transition: none; }
-}
-
-.navLink:focus-visible, .hireBtn:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
 }

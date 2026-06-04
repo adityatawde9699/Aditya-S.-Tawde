@@ -1,291 +1,235 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
-    User,
-    Mail,
-    MessageSquare,
-    Send,
-    CheckCircle,
-    AlertCircle,
-    Loader2
+  User, Mail, MessageSquare, Send,
+  CheckCircle, AlertCircle, Loader2,
+  MapPin, Github, Linkedin,
 } from 'lucide-react';
 import { sendContact } from '../services/api';
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '../config/social';
+import SectionHeader from './SectionHeader';
 import styles from './Contact.module.css';
 
-const initialForm = { firstName: '', lastName: '', email: '', message: '' };
+const initialForm = { name: '', email: '', message: '' };
 const validateEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
 
+const CONTACT_CARDS = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
+    color: '#BD93F9',
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    value: 'Chh. Sambhajinagar, India',
+    href: null,
+    color: '#FF79C6',
+  },
+  {
+    icon: Github,
+    label: 'GitHub',
+    value: '@adityatawde9699',
+    href: 'https://github.com/adityatawde9699',
+    color: '#8BE9FD',
+  },
+  {
+    icon: Linkedin,
+    label: 'LinkedIn',
+    value: 'Aditya S. Tawde',
+    href: SOCIAL_LINKS.find(l => l.name === 'LinkedIn')?.href || '#',
+    color: '#50FA7B',
+  },
+];
+
 const Contact = () => {
-    const [form, setForm] = useState(initialForm);
-    const [touched, setTouched] = useState({});
-    const [errors, setErrors] = useState({});
-    const [status, setStatus] = useState('');
-    const [statusType, setStatusType] = useState(''); // 'success' | 'error'
-    const [loading, setLoading] = useState(false);
-    const [focused, setFocused] = useState({});
-    const [isVisible, setIsVisible] = useState(false);
-    const formRef = useRef(null);
+  const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState('');
+  const [statusType, setStatusType] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.2 }
-        );
+  const validate = () => {
+    const errs = {};
+    if (!form.name.trim()) errs.name = 'Name is required';
+    if (!form.email.trim()) errs.email = 'Email is required';
+    else if (!validateEmail(form.email)) errs.email = 'Invalid email';
+    if (!form.message.trim()) errs.message = 'Message is required';
+    return errs;
+  };
 
-        if (formRef.current) {
-            observer.observe(formRef.current);
-        }
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (status) { setStatus(''); setStatusType(''); }
+    if (errors[e.target.name]) {
+      setErrors(prev => { const n = { ...prev }; delete n[e.target.name]; return n; });
+    }
+  };
 
-        return () => observer.disconnect();
-    }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
-    // Validation Effect
-    useEffect(() => {
-        const newErrors = {};
-        if (touched.firstName && !form.firstName.trim()) newErrors.firstName = 'First name is required';
-        if (touched.email && !form.email.trim()) newErrors.email = 'Email is required';
-        else if (touched.email && !validateEmail(form.email)) newErrors.email = 'Invalid email address';
-        if (touched.message && !form.message.trim()) newErrors.message = 'Message is required';
+    setLoading(true);
+    setStatus('');
 
-        setErrors(newErrors);
-    }, [form, touched]);
+    try {
+      const response = await sendContact(form);
+      setStatus(response.data.message || 'Message sent successfully!');
+      setStatusType('success');
+      setForm(initialForm);
+    } catch (error) {
+      setStatus(error.message || 'Failed to send. Please try again.');
+      setStatusType('error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm(prev => ({ ...prev, [name]: value }));
+  return (
+    <section id="contact" className={styles.section} aria-labelledby="contact-heading">
+      <div className={styles.container}>
+        <SectionHeader
+          label="// contact"
+          title="Get In Touch"
+          subtitle="Have a project in mind or want to collaborate? Let's talk."
+          center
+        />
 
-        // Clear status when user starts typing again
-        if (status) {
-            setStatus('');
-            setStatusType('');
-        }
-    };
-
-    const handleFocus = (e) => {
-        setFocused(prev => ({ ...prev, [e.target.name]: true }));
-    };
-
-    const handleBlur = (e) => {
-        setFocused(prev => ({ ...prev, [e.target.name]: false }));
-        setTouched(prev => ({ ...prev, [e.target.name]: true }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        // Mark all as touched
-        setTouched({
-            firstName: true,
-            lastName: true,
-            email: true,
-            message: true
-        });
-
-        // Basic validation check
-        if (!form.firstName || !form.email || !form.message) return;
-        if (Object.keys(errors).length > 0) return;
-
-        setLoading(true);
-        setStatus('');
-
-        try {
-            const payload = {
-                name: `${form.firstName} ${form.lastName}`.trim(),
-                email: form.email,
-                message: form.message
-            };
-
-            const response = await sendContact(payload);
-            setStatus(response.data.message || 'Message sent successfully!');
-            setStatusType('success');
-            setForm(initialForm);
-            setTouched({});
-        } catch (error) {
-            console.error('Contact Error:', error);
-            setStatus(error.message || 'Failed to send message. Please try again.');
-            setStatusType('error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Helper to determine if label should float
-    const isFloat = (name) => focused[name] || form[name]?.length > 0;
-
-    return (
-        <section id="contact" className={styles['contact-section']}>
-            {/* Header */}
-            <div className={styles['section-header']}>
-                <h2>Get in Touch</h2>
-                <div className={styles['progress-bar']}>
-                    <div className={styles['progress-fill']}></div>
+        <div className={styles.grid}>
+          {/* Info Cards */}
+          <motion.div
+            className={styles.infoColumn}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            {CONTACT_CARDS.map(({ icon: Icon, label, value, href, color }) => (
+              <div key={label} className={styles.infoCard}>
+                <div className={styles.infoIcon} style={{ background: `${color}15`, color }}>
+                  <Icon size={20} aria-hidden="true" />
                 </div>
+                <div>
+                  <span className={styles.infoLabel}>{label}</span>
+                  {href ? (
+                    <a href={href} className={styles.infoValue} target="_blank" rel="noopener noreferrer">
+                      {value}
+                    </a>
+                  ) : (
+                    <span className={styles.infoValue}>{value}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {/* GitHub Activity */}
+            <div className={styles.githubGraph}>
+              <span className={styles.graphLabel}>
+                <Github size={14} aria-hidden="true" />
+                GitHub Contributions
+              </span>
+              <img
+                src="https://ghchart.rshah.org/BD93F9/adityatawde9699"
+                alt="Aditya's GitHub contribution graph"
+                className={styles.graphImage}
+                loading="lazy"
+              />
+            </div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            noValidate
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            {/* Name */}
+            <div className={styles.formGroup}>
+              <label htmlFor="contact-name" className={styles.label}>
+                <User size={14} aria-hidden="true" /> Name *
+              </label>
+              <input
+                type="text"
+                id="contact-name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+                placeholder="Your name"
+              />
+              {errors.name && <span className={styles.error}>{errors.name}</span>}
             </div>
 
-            <div className={styles['contact-form-container']}>
-                <form
-                    onSubmit={handleSubmit}
-                    ref={formRef}
-                    className={`${styles['contact-form']} ${isVisible ? styles.fadeIn : ''}`}
-                    noValidate
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* First Name */}
-                        <div className={styles['form-group']}>
-                            <div className={styles['input-wrapper']}>
-                                <div className={styles['input-icon']}>
-                                    <User size={18} />
-                                </div>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    value={form.firstName}
-                                    onChange={handleChange}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                    className={errors.firstName ? styles.error : ''}
-                                />
-                                <label htmlFor="firstName" className={isFloat('firstName') ? styles.float : ''}>
-                                    First Name *
-                                </label>
-                                {touched.firstName && !errors.firstName && (
-                                    <div className={styles['input-status']}>
-                                        <CheckCircle size={16} className="text-green-500" />
-                                    </div>
-                                )}
-                            </div>
-                            {errors.firstName && <div className={styles['field-error']}>{errors.firstName}</div>}
-                        </div>
-
-                        {/* Last Name */}
-                        <div className={styles['form-group']}>
-                            <div className={styles['input-wrapper']}>
-                                <div className={styles['input-icon']}>
-                                    <User size={18} />
-                                </div>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    value={form.lastName}
-                                    onChange={handleChange}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                />
-                                <label htmlFor="lastName" className={isFloat('lastName') ? styles.float : ''}>
-                                    Last Name
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Email */}
-                        <div className={styles['form-group']}>
-                            <div className={styles['input-wrapper']}>
-                                <div className={styles['input-icon']}>
-                                    <Mail size={18} />
-                                </div>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                    className={errors.email ? styles.error : ''}
-                                />
-                                <label htmlFor="email" className={isFloat('email') ? styles.float : ''}>
-                                    Email Address *
-                                </label>
-                            </div>
-                            {errors.email && <div className={styles['field-error']}>{errors.email}</div>}
-                        </div>
-
-                    </div>
-
-                    {/* Message */}
-                    <div className={styles['form-group']}>
-                        <div className={`${styles['input-wrapper']} items-start`}>
-                            {/* Icon aligned top for textarea */}
-                            <div className={`${styles['input-icon']}`} style={{ top: '25px', transform: 'none' }}>
-                                <MessageSquare size={18} />
-                            </div>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={form.message}
-                                onChange={handleChange}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                                className={errors.message ? styles.error : ''}
-                                rows={5}
-                            ></textarea>
-                            <label htmlFor="message" className={isFloat('message') ? styles.float : ''}>
-                                Your Message *
-                            </label>
-                        </div>
-                        {errors.message && <div className={styles['field-error']}>{errors.message}</div>}
-                    </div>
-
-                    {/* Status Message */}
-                    {status && (
-                        <div className={`${styles['form-status']} ${styles[statusType]}`}>
-                            {statusType === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
-                            <span>{status}</span>
-                        </div>
-                    )}
-
-                    {/* Submit Buttom */}
-                    <div className={styles['form-actions']}>
-                        <button
-                            type="submit"
-                            className={`${styles.btn} ${styles.primary}`}
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className={styles.spinner} size={20} />
-                                    <span>Sending...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span>Send Message</span>
-                                    <Send size={18} className="ml-2" />
-                                </>
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Success Overlay Animation */}
-                    {statusType === 'success' && (
-                        <div className={styles['success-anim']}>
-                            <CheckCircle size={64} className="text-green-500 mb-4" />
-                            <span>Message Sent!</span>
-                            <p className="text-gray-400 mt-2">I'll get back to you soon.</p>
-                        </div>
-                    )}
-                </form>
+            {/* Email */}
+            <div className={styles.formGroup}>
+              <label htmlFor="contact-email" className={styles.label}>
+                <Mail size={14} aria-hidden="true" /> Email *
+              </label>
+              <input
+                type="email"
+                id="contact-email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
+                placeholder="you@example.com"
+              />
+              {errors.email && <span className={styles.error}>{errors.email}</span>}
             </div>
 
-            {/* External Links (Optional) */}
-            {/* 
-            <div className={styles['external-contact']}>
-                <p>Or find me on these platforms</p>
-                <div className={styles['external-links']}>
-                    <a href="#" className={`${styles['external-btn']} ${styles.fiverr}`}>Fiverr</a>
-                    <a href="#" className={`${styles['external-btn']} ${styles.freelancer}`}>Freelancer</a>
-                </div>
-            </div> 
-            */}
-        </section>
-    );
+            {/* Message */}
+            <div className={styles.formGroup}>
+              <label htmlFor="contact-message" className={styles.label}>
+                <MessageSquare size={14} aria-hidden="true" /> Message *
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                className={`${styles.textarea} ${errors.message ? styles.inputError : ''}`}
+                placeholder="Tell me about your project..."
+                rows={5}
+              />
+              {errors.message && <span className={styles.error}>{errors.message}</span>}
+            </div>
+
+            {/* Status */}
+            {status && (
+              <div className={`${styles.status} ${styles[statusType]}`}>
+                {statusType === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+                <span>{status}</span>
+              </div>
+            )}
+
+            {/* Submit */}
+            <button type="submit" className={styles.submitBtn} disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 size={18} className={styles.spinner} />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  Send Message
+                  <Send size={16} aria-hidden="true" />
+                </>
+              )}
+            </button>
+          </motion.form>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Contact;

@@ -154,6 +154,62 @@ class Certification(models.Model):
         return f"{self.name} - {self.issuer}"
 
 
+class Experience(models.Model):
+    """Experience timeline model for hackathons, engineering, academic, etc."""
+
+    CATEGORY_CHOICES = [
+        ('hackathons', 'Hackathons & Competitions'),
+        ('engineering', 'Open Source & Self-Directed Engineering'),
+        ('academic', 'Academic Projects'),
+        ('education', 'Education'),
+    ]
+
+    COLOR_CHOICES = [
+        ('purple', 'Purple'),
+        ('cyan', 'Cyan'),
+        ('green', 'Green'),
+        ('pink', 'Pink'),
+        ('orange', 'Orange'),
+    ]
+
+    title = models.CharField(max_length=200)
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='engineering',
+        db_index=True,
+    )
+    icon = models.CharField(
+        max_length=10,
+        default='🔬',
+        help_text="Emoji icon for this experience group",
+    )
+    color = models.CharField(
+        max_length=10,
+        choices=COLOR_CHOICES,
+        default='purple',
+        help_text="Dracula accent color for UI",
+    )
+    items = models.JSONField(
+        default=list,
+        help_text=(
+            'List of items: [{"name": "...", "date": "...", "detail": "..."}]'
+        ),
+    )
+    order = models.PositiveIntegerField(default=0)
+    is_visible = models.BooleanField(default=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Experience'
+        verbose_name_plural = 'Experiences'
+
+    def __str__(self):
+        return f"{self.icon} {self.title}"
+
+
 class ContactSubmission(models.Model):
     """Contact form submission model."""
     name = models.CharField(max_length=100)

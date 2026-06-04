@@ -1,0 +1,248 @@
+/**
+ * Static project data — rich metadata for portfolio showcase.
+ * Used as primary data source; backend API enhances when available.
+ */
+export const FEATURED_PROJECTS = [
+  {
+    id: 'amadeus-ai',
+    title: 'Amadeus AI',
+    category: 'AI_ML',
+    categoryDisplay: 'AI / ML',
+    description:
+      'Production-grade AI assistant engineered as an OS-native persistent daemon. Features semantic tool routing, multi-LLM fallback chains, request-scoped dependency injection, and RAG-powered knowledge retrieval — all designed to run on 4GB RAM.',
+    architecture: 'Clean Architecture · Plugin-based tool packs · JWT Auth · HITL gates',
+    impact: 'Achieves 60-65% Open Interpreter capability on constrained hardware',
+    techStack: ['Python', 'FastAPI', 'llama-cpp', 'FAISS', 'RAG', 'Semantic Routing'],
+    githubLink: 'https://github.com/adityatawde9699/Amadeus-AI',
+    liveLink: null,
+    image: '/images/Amadeus.png',
+    featured: true,
+    color: 'purple',
+  },
+  {
+    id: 'ledger',
+    title: 'Ledger — Finance Manager',
+    category: 'FULLSTACK',
+    categoryDisplay: 'Full Stack',
+    description:
+      'Full-stack finance management platform with AI-powered insights. Features a free-tier LLM fallback chain (Groq → Gemini → Cerebras → Mistral) for intelligent transaction analysis and spending recommendations.',
+    architecture: 'React + Next.js frontend · FastAPI backend · Neon PostgreSQL · Vercel + Render',
+    impact: 'Zero-cost AI integration via multi-provider fallback strategy',
+    techStack: ['React', 'Next.js', 'FastAPI', 'PostgreSQL', 'Groq', 'Vercel'],
+    githubLink: 'https://github.com/adityatawde9699/ledger',
+    liveLink: null,
+    image: null,
+    featured: true,
+    color: 'green',
+  },
+  {
+    id: 'system32-interview-ai',
+    title: 'System-32 Inter-View AI',
+    category: 'AI_ML',
+    categoryDisplay: 'AI / ML',
+    description:
+      'Real-time AI interview coach integrating Gemini 2.0 for intelligent feedback and local Whisper-based transcription. Provides live analysis of responses, body language cues, and structured improvement suggestions.',
+    architecture: 'Gemini 2.0 API · Whisper local transcription · Real-time streaming',
+    impact: 'Interview preparation with zero-latency local transcription',
+    techStack: ['Python', 'Gemini 2.0', 'Whisper', 'Streaming', 'WebSocket'],
+    githubLink: 'https://github.com/adityatawde9699/System-32-Inter-View-AI',
+    liveLink: null,
+    image: null,
+    featured: true,
+    color: 'cyan',
+  },
+  {
+    id: 'docmind-ai',
+    title: 'DocMind AI',
+    category: 'AI_ML',
+    categoryDisplay: 'AI / ML',
+    description:
+      'Local-first document intelligence application targeting constrained hardware. Combines PaddleOCR for text extraction, FAISS for vector indexing, and llama-cpp for LLM inference — all running without cloud dependencies.',
+    architecture: 'OCR → PDF Pipeline → FAISS Embedding → Local LLM Query',
+    impact: 'Fully offline document RAG on consumer hardware',
+    techStack: ['PaddleOCR', 'FAISS', 'llama-cpp', 'Python', 'Embedding'],
+    githubLink: 'https://github.com/adityatawde9699/DocMind-AI',
+    liveLink: null,
+    image: null,
+    featured: true,
+    color: 'orange',
+  },
+  {
+    id: 'nexus-arena',
+    title: 'NexusArena',
+    category: 'WEB',
+    categoryDisplay: 'Web Dev',
+    description:
+      'E-sports tournament management platform for organizing, tracking, and managing competitive gaming events. Features bracket generation, team management, and real-time match tracking.',
+    architecture: 'React SPA · RESTful API · Real-time bracket updates',
+    impact: 'Full tournament lifecycle management',
+    techStack: ['React', 'Node.js', 'JavaScript', 'REST API'],
+    githubLink: 'https://github.com/adityatawde9699/NexusArena',
+    liveLink: null,
+    image: null,
+    featured: false,
+    color: 'pink',
+  },
+  {
+    id: 'stock-scraper',
+    title: 'Stock Scraper & Visualizer',
+    category: 'DATA',
+    categoryDisplay: 'Data Science',
+    description:
+      'Market data pipeline that scrapes real-time stock data using yFinance and generates interactive visualizations with Matplotlib, Seaborn, and Plotly. Supports trend analysis, volume correlation, and custom date ranges.',
+    architecture: 'yFinance scraper → Pandas processing → Multi-library visualization',
+    impact: 'Automated market analysis with interactive dashboards',
+    techStack: ['Python', 'yFinance', 'Pandas', 'Matplotlib', 'Seaborn', 'Plotly'],
+    githubLink: 'https://github.com/adityatawde9699',
+    liveLink: null,
+    image: '/images/price_vs_volume_interactive.png',
+    featured: false,
+    color: 'cyan',
+  },
+  {
+    id: 'linkedin-scraper',
+    title: 'LinkedIn Job Scraper',
+    category: 'AUTOMATION',
+    categoryDisplay: 'Automation',
+    description:
+      'Automated LinkedIn job discovery tool using Selenium for browser automation. Filters jobs by role, location, and experience level, then exports structured results for analysis.',
+    architecture: 'Selenium WebDriver · Headless Chrome · CSV/JSON export',
+    impact: 'Automated job search reducing manual browsing by 90%',
+    techStack: ['Python', 'Selenium', 'BeautifulSoup', 'Automation'],
+    githubLink: 'https://github.com/adityatawde9699',
+    liveLink: null,
+    image: null,
+    featured: false,
+    color: 'green',
+  },
+  {
+    id: 'pathfinding-visualizer',
+    title: 'Pathfinding Visualizer',
+    category: 'WEB',
+    categoryDisplay: 'Algorithms',
+    description:
+      'Interactive visualization of graph traversal algorithms including BFS, DFS, A*, and Greedy Best-First Search. Built in both React (web) and Python/Pygame (desktop) for cross-platform demonstration.',
+    architecture: 'React canvas rendering · Algorithm state machine · Step-by-step replay',
+    impact: 'Educational tool for algorithm comprehension',
+    techStack: ['React', 'Python', 'Pygame', 'Algorithms', 'Canvas'],
+    githubLink: 'https://github.com/adityatawde9699',
+    liveLink: null,
+    image: null,
+    featured: false,
+    color: 'yellow',
+  },
+  {
+    id: 'cognote',
+    title: 'Cognote — Smart Task Manager',
+    category: 'DESKTOP',
+    categoryDisplay: 'Desktop',
+    description:
+      'Native, offline-capable smart task manager built with Tauri 2.0 and Rust. Integrates Phi-3-mini via llama.cpp for local AI assistance. Designed for privacy-first operation targeting DPDP/GDPR compliance.',
+    architecture: 'Tauri 2 (Rust) · React frontend · Phi-3-mini local LLM · SQLite',
+    impact: 'Privacy-first productivity with on-device AI',
+    techStack: ['Tauri 2', 'Rust', 'React', 'Phi-3', 'llama.cpp', 'SQLite'],
+    githubLink: 'https://github.com/adityatawde9699',
+    liveLink: null,
+    image: null,
+    featured: false,
+    color: 'purple',
+  },
+];
+
+export const PROJECT_CATEGORIES = [
+  { key: 'all', label: 'All Projects' },
+  { key: 'AI_ML', label: 'AI / ML' },
+  { key: 'FULLSTACK', label: 'Full Stack' },
+  { key: 'DATA', label: 'Data Science' },
+  { key: 'WEB', label: 'Web Dev' },
+  { key: 'AUTOMATION', label: 'Automation' },
+  { key: 'DESKTOP', label: 'Desktop' },
+];
+
+export const EXPERIENCE_DATA = [
+  {
+    id: 'hackathons',
+    title: 'Hackathons & Competitions',
+    icon: '⚡',
+    color: 'purple',
+    items: [
+      { name: 'Dreamflow Buildathon', date: '2026', detail: 'AI application development' },
+      { name: 'TechSprint — GDGOC', date: 'Jan 2026', detail: 'Google Developer Group event' },
+      { name: 'Baseline Tooling Hackathon', date: '2025', detail: 'Developer tooling challenge' },
+    ],
+  },
+  {
+    id: 'engineering',
+    title: 'Open Source & Self-Directed Engineering',
+    icon: '🔬',
+    color: 'cyan',
+    items: [
+      { name: 'Amadeus AI v4.0 Architecture', date: '2026', detail: 'Clean Architecture redesign with DI, semantic routing, HITL' },
+      { name: 'GPT-2 Fine-tuning with LoRA', date: '2025', detail: 'Fine-tuned GPT-2 Small (r=16) on WikiText-103, Google Colab' },
+      { name: 'Local LLM Optimization', date: '2025–2026', detail: 'GGUF quantization, 4GB RAM inference, RamInspector concept' },
+    ],
+  },
+  {
+    id: 'academic',
+    title: 'Academic Projects',
+    icon: '🎓',
+    color: 'green',
+    items: [
+      { name: 'Cognote — Entrepreneurship Course', date: '2026', detail: 'Tauri 2 + Phi-3-mini desktop app, full business plan' },
+      { name: 'PM-AIMapper', date: '2025', detail: 'Completed — AI project mapping tool' },
+      { name: 'SkillForge', date: '2025', detail: 'Completed — Skill assessment platform' },
+    ],
+  },
+  {
+    id: 'education',
+    title: 'Education',
+    icon: '📚',
+    color: 'pink',
+    items: [
+      {
+        name: 'B.Tech — AI & Data Science',
+        date: '2024 – 2028',
+        detail: 'Jawaharlal Nehru Engineering College, MGMU · Chh. Sambhajinagar',
+      },
+    ],
+  },
+];
+
+export const SKILLS_DATA = [
+  {
+    title: 'AI & Machine Learning',
+    color: 'purple',
+    icon: 'brain',
+    badges: ['Python', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'Keras', 'OpenCV', 'Hugging Face', 'llama-cpp'],
+  },
+  {
+    title: 'Data Science',
+    color: 'cyan',
+    icon: 'chart',
+    badges: ['Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Plotly', 'SQL', 'Jupyter', 'FAISS'],
+  },
+  {
+    title: 'Web Development',
+    color: 'pink',
+    icon: 'globe',
+    badges: ['React', 'Next.js', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Vite', 'Tailwind'],
+  },
+  {
+    title: 'Backend & APIs',
+    color: 'green',
+    icon: 'server',
+    badges: ['FastAPI', 'Django', 'Flask', 'Node.js', 'REST APIs', 'PostgreSQL', 'SQLite', 'Qdrant'],
+  },
+  {
+    title: 'Cloud & DevOps',
+    color: 'orange',
+    icon: 'cloud',
+    badges: ['Docker', 'Git', 'GitHub Actions', 'Linux', 'Render', 'Vercel', 'Neon', 'UptimeRobot'],
+  },
+  {
+    title: 'Languages & Tools',
+    color: 'yellow',
+    icon: 'code',
+    badges: ['Python', 'JavaScript', 'TypeScript', 'Rust', 'C++', 'Bash', 'SQL', 'LaTeX'],
+  },
+];

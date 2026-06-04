@@ -1,155 +1,128 @@
 import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { Globe, Server, BrainCircuit, Cloud, BarChart2, Code2 } from 'lucide-react';
+import { SKILLS_DATA } from '../data/projectData';
 import { getSkills } from '../services/api';
 import { useApi } from '../hooks';
+import SectionHeader from './SectionHeader';
 import styles from './Skills.module.css';
 
-/**
- * Static fallback skills shown when backend is unavailable.
- * Keeps the portfolio functional even when the API is cold-starting.
- */
-const FALLBACK_SKILLS = [
-    {
-        icon: BrainCircuit,
-        title: 'AI & Machine Learning',
-        color: 'ai',
-        badges: ['Python', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'Keras', 'OpenCV', 'Hugging Face'],
-    },
-    {
-        icon: BarChart2,
-        title: 'Data Science',
-        color: 'data',
-        badges: ['Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'SQL', 'Jupyter', 'Plotly'],
-    },
-    {
-        icon: Globe,
-        title: 'Web Development',
-        color: 'web',
-        badges: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Vite', 'Tailwind'],
-    },
-    {
-        icon: Server,
-        title: 'Backend & APIs',
-        color: 'backend',
-        badges: ['FastAPI', 'Django', 'Node.js', 'REST APIs', 'PostgreSQL', 'MongoDB'],
-    },
-    {
-        icon: Cloud,
-        title: 'Cloud & DevOps',
-        color: 'cloud',
-        badges: ['Docker', 'Git', 'GitHub Actions', 'Linux', 'Render', 'Vercel'],
-    },
-    {
-        icon: Code2,
-        title: 'Languages & Tools',
-        color: 'tools',
-        badges: ['Python', 'JavaScript', 'TypeScript', 'Bash', 'SQL', 'LaTeX'],
-    },
-];
-
-const CATEGORY_ICON_MAP = {
-    FRONTEND:  Globe,
-    BACKEND:   Server,
-    AI_ML:     BrainCircuit,
-    TOOLS:     Cloud,
-    OTHER:     Code2,
-    default:   Code2,
+const ICON_MAP = {
+  brain: BrainCircuit,
+  chart: BarChart2,
+  globe: Globe,
+  server: Server,
+  cloud: Cloud,
+  code: Code2,
 };
 
-const CATEGORY_COLOR_MAP = {
-    FRONTEND: 'web',
-    BACKEND:  'backend',
-    AI_ML:    'ai',
-    TOOLS:    'cloud',
-    OTHER:    'tools',
+const COLOR_MAP = {
+  purple: { bg: 'rgba(189, 147, 249, 0.1)', border: 'rgba(189, 147, 249, 0.2)', text: '#BD93F9' },
+  cyan:   { bg: 'rgba(139, 233, 253, 0.1)', border: 'rgba(139, 233, 253, 0.2)', text: '#8BE9FD' },
+  pink:   { bg: 'rgba(255, 121, 198, 0.1)', border: 'rgba(255, 121, 198, 0.2)', text: '#FF79C6' },
+  green:  { bg: 'rgba(80, 250, 123, 0.1)',  border: 'rgba(80, 250, 123, 0.2)',  text: '#50FA7B' },
+  orange: { bg: 'rgba(255, 184, 108, 0.1)', border: 'rgba(255, 184, 108, 0.2)', text: '#FFB86C' },
+  yellow: { bg: 'rgba(241, 250, 140, 0.1)', border: 'rgba(241, 250, 140, 0.2)', text: '#F1FA8C' },
+};
+
+const CATEGORY_MAP = {
+  FRONTEND: { icon: 'globe', color: 'pink', title: 'Web Development' },
+  BACKEND:  { icon: 'server', color: 'green', title: 'Backend & APIs' },
+  AI_ML:    { icon: 'brain', color: 'purple', title: 'AI & Machine Learning' },
+  TOOLS:    { icon: 'cloud', color: 'orange', title: 'Cloud & DevOps' },
+  OTHER:    { icon: 'code', color: 'yellow', title: 'Languages & Tools' },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] } },
 };
 
 const Skills = () => {
-    const { data: rawSkills, loading, error } = useApi(getSkills, {
-        cacheTime: 5 * 60 * 1000,
+  const { data: rawSkills, loading } = useApi(getSkills, {
+    cacheTime: 5 * 60 * 1000,
+  });
+
+  const skillsData = useMemo(() => {
+    if (!rawSkills || rawSkills.length === 0) return SKILLS_DATA;
+
+    const groups = rawSkills.reduce((acc, skill) => {
+      const cat = skill.category || 'OTHER';
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(skill.name);
+      return acc;
+    }, {});
+
+    return Object.keys(groups).map(cat => {
+      const mapped = CATEGORY_MAP[cat] || CATEGORY_MAP.OTHER;
+      return {
+        icon: mapped.icon,
+        color: mapped.color,
+        title: mapped.title,
+        badges: groups[cat],
+      };
     });
+  }, [rawSkills]);
 
-    const skillsData = useMemo(() => {
-        if (!rawSkills || rawSkills.length === 0) return FALLBACK_SKILLS;
+  return (
+    <section id="skills" className={styles.section} aria-labelledby="skills-heading">
+      <div className={styles.container}>
+        <SectionHeader
+          label="// skills"
+          title="Skills & Technologies"
+          subtitle="Tools and technologies I use to build intelligent systems"
+          center
+        />
 
-        const groups = rawSkills.reduce((acc, skill) => {
-            const cat = skill.category || 'OTHER';
-            if (!acc[cat]) acc[cat] = [];
-            acc[cat].push(skill.name);
-            return acc;
-        }, {});
-
-        return Object.keys(groups).map(cat => {
-            const IconComponent = CATEGORY_ICON_MAP[cat] || CATEGORY_ICON_MAP.default;
-            return {
-                icon: IconComponent,
-                title: cat === 'AI_ML' ? 'AI & Machine Learning'
-                    : cat === 'FRONTEND' ? 'Web Development'
-                    : cat === 'BACKEND' ? 'Backend & APIs'
-                    : cat === 'TOOLS' ? 'Cloud & DevOps'
-                    : 'Other Skills',
-                color: CATEGORY_COLOR_MAP[cat] || 'tools',
-                badges: groups[cat],
-            };
-        });
-    }, [rawSkills]);
-
-    return (
-        <section id="skills" className={styles.skillsSection} aria-labelledby="skills-heading">
-            <div className={styles.sectionHeader}>
-                <span className="section-label">Expertise</span>
-                <h2 id="skills-heading" className={`section-heading ${styles.headingCenter}`}>
-                    Skills &amp; Technologies
-                </h2>
-                <p className={styles.sectionSubtitle}>
-                    Tools and technologies I work with to build intelligent systems
-                </p>
-            </div>
-
-            {loading ? (
-                <div className={styles.skillsGrid}>
-                    {[1, 2, 3, 4, 5, 6].map(i => (
-                        <div className={`${styles.skillCard} ${styles.loading}`} key={i}>
-                            <div className={styles.loadingIcon} />
-                            <div className={styles.loadingTitle} />
-                            <div className={styles.loadingBadges} />
-                        </div>
-                    ))}
+        <motion.div
+          className={styles.skillsGrid}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ staggerChildren: 0.08 }}
+        >
+          {(loading ? Array(6).fill(null) : skillsData).map((skill, idx) => {
+            if (!skill) {
+              return (
+                <div className={`${styles.skillCard} ${styles.skeleton}`} key={idx}>
+                  <div className={styles.skeletonIcon} />
+                  <div className={styles.skeletonTitle} />
+                  <div className={styles.skeletonBadges} />
                 </div>
-            ) : (
-                <div className={styles.skillsGrid}>
-                    {skillsData.map(skill => {
-                        const Icon = skill.icon;
-                        return (
-                            <div
-                                className={`${styles.skillCard} ${styles[`color-${skill.color}`]}`}
-                                tabIndex={0}
-                                key={skill.title}
-                            >
-                                <div className={styles.cardHeader}>
-                                    <div className={styles.iconWrapper}>
-                                        <Icon size={22} aria-hidden="true" />
-                                    </div>
-                                    <h3 className={styles.cardTitle}>{skill.title}</h3>
-                                </div>
-                                <div className={styles.skillBadges}>
-                                    {skill.badges.map(badge => (
-                                        <span className={styles.badge} key={badge}>{badge}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
+              );
+            }
 
-            {error && !loading && (
-                <p className={styles.errorNote}>
-                    Showing cached skills — live data temporarily unavailable
-                </p>
-            )}
-        </section>
-    );
+            const Icon = ICON_MAP[skill.icon] || Code2;
+            const color = COLOR_MAP[skill.color] || COLOR_MAP.purple;
+
+            return (
+              <motion.div
+                className={styles.skillCard}
+                key={skill.title}
+                variants={fadeUp}
+                style={{
+                  '--card-accent-bg': color.bg,
+                  '--card-accent-border': color.border,
+                  '--card-accent-text': color.text,
+                }}
+              >
+                <div className={styles.cardAccent} aria-hidden="true" />
+                <div className={styles.iconWrapper}>
+                  <Icon size={22} aria-hidden="true" />
+                </div>
+                <h3 className={styles.cardTitle}>{skill.title}</h3>
+                <div className={styles.badges}>
+                  {skill.badges.map(badge => (
+                    <span className={styles.badge} key={badge}>{badge}</span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
 export default Skills;

@@ -1,23 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
+import { RESUME_PATH } from '../config/social';
 
-const navLinks = [
-  { to: '/', label: 'Home', type: 'route' },
-  { to: '/certificates', label: 'Certificates', type: 'route' },
-  { to: '/projects', label: 'Projects', type: 'route' },
+const NAV_SECTIONS = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'contact', label: 'Contact' },
 ];
 
 const Header = () => {
   const [navActive, setNavActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [activeSection, setActiveSection] = useState('home');
   const navRef = useRef(null);
   const lastScrollY = useRef(0);
-  const location = useLocation();
 
-  // Handle Scroll (Hide/Show)
+  // Handle Scroll (Hide/Show + Active Section)
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -33,13 +36,29 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [navActive]);
 
-  // Lock Body Scroll when Mobile Menu is Active
+  // IntersectionObserver for active section highlighting
   useEffect(() => {
-    if (navActive) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    const observers = [];
+    NAV_SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  // Lock body scroll when mobile menu open
+  useEffect(() => {
+    document.body.style.overflow = navActive ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [navActive]);
 
@@ -47,7 +66,8 @@ const Header = () => {
   useEffect(() => {
     if (!navActive) return;
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target) && !event.target.closest(`.${styles.hamburgerMenu}`)) {
+      if (navRef.current && !navRef.current.contains(event.target) &&
+          !event.target.closest(`.${styles.hamburger}`)) {
         setNavActive(false);
       }
     };
@@ -55,18 +75,21 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [navActive]);
 
-  // Close nav on Escape
+  // Close on Escape
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setNavActive(false);
-    };
+    const handleKeyDown = (e) => { if (e.key === 'Escape') setNavActive(false); };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleNavLinkClick = () => {
+  const scrollToSection = (id) => {
     setNavActive(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -75,58 +98,49 @@ const Header = () => {
       id="navbar"
     >
       <div className={styles.headerContent}>
-        {/* Logo */}
-        <Link to="/" className={styles.logo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <span className={styles.logoMonogram} aria-hidden="true">AST</span>
-          <span className={styles.logoText}>Aditya S. Tawde</span>
-          <span className={styles.logoBadge}>AI Engineer</span>
-        </Link>
-
+        {/* Logo — Terminal Style */}
         <button
-          className={`${styles.hamburgerMenu} ${navActive ? styles.active : ''}`}
+          className={styles.logo}
+          onClick={() => scrollToSection('home')}
+          aria-label="Go to top"
+        >
+          <span className={styles.logoPrompt} aria-hidden="true">&gt;</span>
+          <span className={styles.logoText}>AST</span>
+          <span className={styles.logoCursor} aria-hidden="true">_</span>
+        </button>
+
+        {/* Hamburger */}
+        <button
+          className={`${styles.hamburger} ${navActive ? styles.active : ''}`}
           aria-label={navActive ? 'Close menu' : 'Open menu'}
           aria-expanded={navActive}
           onClick={() => setNavActive(!navActive)}
         >
-          {navActive ? <X size={24} /> : <Menu size={24} />}
+          {navActive ? <X size={22} /> : <Menu size={22} />}
         </button>
 
+        {/* Navigation */}
         <nav
           ref={navRef}
           className={`${styles.mainNav} ${navActive ? styles.active : ''}`}
           aria-label="Main navigation"
         >
           <ul className={styles.navList}>
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                {link.type === 'route' ? (
-                  <Link
-                    to={link.to}
-                    className={`${styles.navLink} ${location.pathname === link.to ? styles.navLinkActive : ''}`}
-                    onClick={handleNavLinkClick}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    href={link.href}
-                    className={styles.navLink}
-                    onClick={handleNavLinkClick}
-                  >
-                    {link.label}
-                  </a>
-                )}
+            {NAV_SECTIONS.map(({ id, label }) => (
+              <li key={id}>
+                <button
+                  className={`${styles.navLink} ${activeSection === id ? styles.navLinkActive : ''}`}
+                  onClick={() => scrollToSection(id)}
+                >
+                  {label}
+                </button>
               </li>
             ))}
             <li>
-              <Link
-                to="/contact"
-                className={styles.hireBtn}
-                onClick={handleNavLinkClick}
-              >
-                <Sparkles size={14} aria-hidden="true" />
-                Hire Me
-              </Link>
+              <a href={RESUME_PATH} className={styles.cvBtn} download>
+                <Download size={14} aria-hidden="true" />
+                Resume
+              </a>
             </li>
           </ul>
         </nav>

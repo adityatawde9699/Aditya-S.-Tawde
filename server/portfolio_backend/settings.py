@@ -300,6 +300,11 @@ UNFOLD = {
                 "separator": True,
                 "items": [
                     {
+                        "title": "Experience Timeline",
+                        "icon": "timeline",
+                        "link": reverse_lazy("admin:portfolio_experience_changelist"),
+                    },
+                    {
                         "title": "Educational History",
                         "icon": "school",
                         "link": reverse_lazy("admin:portfolio_education_changelist"),

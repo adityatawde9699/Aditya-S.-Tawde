@@ -1,0 +1,157 @@
+/* ============================================
+   Resume — Terminal CTA Card
+   ============================================ */
+
+.section {
+  padding: 4rem 0;
+  position: relative;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================
+   Card
+   ============================================ */
+.card {
+  background: var(--surface-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--border-color-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Terminal Bar */
+.terminalBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(31, 35, 48, 0.8);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.terminalDots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminalDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminalTitle {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Card Body */
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.iconArea {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  background: rgba(189, 147, 249, 0.08);
+  color: var(--accent-primary);
+}
+
+.textArea {
+  flex-grow: 1;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+/* Highlights */
+.highlights {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Download Button */
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.downloadBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(189, 147, 249, 0.3);
+  color: var(--bg-primary);
+}
+
+/* ============================================
+   Mobile Responsive
+   ============================================ */
+@media (max-width: 640px) {
+  .cardBody {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .highlights {
+    justify-content: center;
+  }
+
+  .downloadBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

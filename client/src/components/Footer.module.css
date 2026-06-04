@@ -1,252 +1,105 @@
 /* ============================================
-   Footer — AI Engineer Theme
+   Footer — Minimal Terminal Style
    ============================================ */
 
 .footer {
-    position: relative;
-    padding: var(--space-12) var(--space-8) var(--space-8);
-    background: var(--bg-darker);
-    border-top: 1px solid transparent;
-    background-clip: padding-box;
-    /* Gradient top border */
-    border-image: var(--gradient-ai) 1;
-    overflow: hidden;
+  padding: 0 1.5rem 2rem;
+  position: relative;
 }
 
-/* Gradient top border via pseudo-element (better browser support) */
-.footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--gradient-ai);
-    opacity: 0.6;
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(139, 233, 253, 0.08),
+    rgba(189, 147, 249, 0.12),
+    rgba(139, 233, 253, 0.08),
+    transparent
+  );
+  margin-bottom: 2rem;
 }
 
-.footer::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 200px;
-    background: radial-gradient(ellipse, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
-    pointer-events: none;
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
 }
 
-.footerInner {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-6);
-    position: relative;
-    z-index: 1;
-}
-
-/* ============================================
-   Brand
-   ============================================ */
+/* Brand */
 .brand {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.brandLogo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
+.logo {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.brandMonogram {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: var(--gradient-ai);
-    font-family: var(--font-display);
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: 0.05em;
-    box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+.prompt {
+  color: var(--accent-green);
+  font-weight: 400;
 }
 
-.brandName {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.3px;
+.cursor {
+  color: var(--accent-primary);
+  animation: terminalBlink 1s step-end infinite;
 }
 
 .tagline {
-    font-size: var(--text-base);
-    color: var(--text-muted);
-    margin: 0;
-    font-style: italic;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
-/* Open to work badge */
-.openBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: 0.3rem 1rem;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.25);
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--accent-emerald);
-    letter-spacing: 0.04em;
-}
-
-/* ============================================
-   Social Icons
-   ============================================ */
-.socialIcons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
+/* Social Links */
+.socials {
+  display: flex;
+  gap: 0.6rem;
 }
 
 .socialLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    color: var(--text-muted);
-    border: 1px solid var(--border-color);
-    background: var(--glass-bg);
-    transition: all 0.25s var(--ease-out);
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
 }
 
 .socialLink:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  color: var(--accent-primary);
+  background: rgba(189, 147, 249, 0.06);
+  border-color: rgba(189, 147, 249, 0.15);
+  transform: translateY(-2px);
 }
 
-/* LinkedIn */
-.socialLinkedIn:hover {
-    color: #0A66C2;
-    border-color: #0A66C2;
-    background: rgba(10, 102, 194, 0.1);
-}
-
-/* GitHub */
-.socialGitHub:hover {
-    color: #f0f6fc;
-    border-color: rgba(240, 246, 252, 0.3);
-    background: rgba(240, 246, 252, 0.05);
-}
-
-/* Instagram */
-.socialInstagram:hover {
-    color: #E1306C;
-    border-color: #E1306C;
-    background: rgba(225, 48, 108, 0.1);
-}
-
-/* ============================================
-   Divider
-   ============================================ */
-.divider {
-    width: 100%;
-    height: 1px;
-    background: var(--border-color);
-}
-
-/* ============================================
-   Bottom Row
-   ============================================ */
-.footerBottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-}
-
+/* Copyright */
 .copyright {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin: 0;
-}
-
-.builtby {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 
 /* ============================================
-   Back to Top Button
+   Mobile Responsive
    ============================================ */
-.backToTop {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--gradient-ai);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    pointer-events: none;
-    z-index: 100;
-    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
-}
-
-.backToTop.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.backToTop:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(56, 189, 248, 0.5);
-}
-
-/* ============================================
-   Responsive
-   ============================================ */
-@media (max-width: 640px) {
-    .footer {
-        padding: var(--space-10) var(--space-4) var(--space-6);
-    }
-
-    .footerBottom {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .backToTop {
-        bottom: 1.5rem;
-        right: 1.5rem;
-    }
+@media (max-width: 768px) {
+  .footer {
+    padding: 0 1rem 1.5rem;
+  }
 }

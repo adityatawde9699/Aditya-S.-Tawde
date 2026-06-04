@@ -166,6 +166,7 @@ export const getSkills = () => api.get('/portfolio/skills/');
 export const getTechStack = () => api.get('/portfolio/tech-stack/');
 export const getCertifications = () => api.get('/portfolio/certifications/');
 export const getEducation = () => api.get('/portfolio/education/');
+export const getExperience = () => api.get('/portfolio/experience/');
 
 // Contact endpoint
 export const sendContact = (data) => api.post('/contact/', data);

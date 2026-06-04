@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, Layers } from 'lucide-react';
 import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from '../data/projectData';
+import { getProjects } from '../services/api';
+import { useApi } from '../hooks';
 import SectionHeader from './SectionHeader';
 import styles from './Projects.module.css';
 
@@ -18,10 +20,26 @@ const COLOR_MAP = {
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('all');
 
+  const { data: apiData } = useApi(getProjects, { cacheTime: 300000 });
+
+  const formattedApiData = useMemo(() => {
+    if (!apiData || apiData.length === 0) return null;
+    return apiData.map(p => ({
+      ...p,
+      categoryDisplay: p.category_display || p.category,
+      githubLink: p.github_link,
+      liveLink: p.live_link,
+      techStack: p.tech_stack?.map(t => t.name) || [],
+      color: 'purple', // default color if backend doesn't provide
+    }));
+  }, [apiData]);
+
+  const projectsData = formattedApiData || FEATURED_PROJECTS;
+
   const filteredProjects = useMemo(() => {
-    if (activeCategory === 'all') return FEATURED_PROJECTS;
-    return FEATURED_PROJECTS.filter(p => p.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'all') return projectsData;
+    return projectsData.filter(p => p.category === activeCategory);
+  }, [activeCategory, projectsData]);
 
   return (
     <section id="projects" className={styles.section} aria-labelledby="projects-heading">

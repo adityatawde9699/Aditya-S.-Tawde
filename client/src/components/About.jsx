@@ -4,7 +4,10 @@ import { GraduationCap, Code2, Brain, Palette, Rocket, Zap } from 'lucide-react'
 import SectionHeader from './SectionHeader';
 import styles from './About.module.css';
 
-const TECH_STACK = [
+import { getTechStack, getEducation } from '../services/api';
+import { useApi } from '../hooks';
+
+const DEFAULT_TECH_STACK = [
   'Python', 'PyTorch', 'React', 'FastAPI', 'PostgreSQL',
   'Docker', 'Pandas', 'NumPy', 'Rust', 'TypeScript',
 ];
@@ -15,6 +18,13 @@ const fadeUp = {
 };
 
 const About = () => {
+  const { data: techData } = useApi(getTechStack, { cacheTime: 300000 });
+  const { data: eduData } = useApi(getEducation, { cacheTime: 300000 });
+
+  const techStack = techData?.length > 0 ? techData.map(t => t.name) : DEFAULT_TECH_STACK;
+  
+  const currentEdu = eduData?.length > 0 ? eduData[0] : null;
+
   return (
     <section id="about" className={styles.section} aria-labelledby="about-heading">
       <div className={styles.container}>
@@ -58,12 +68,14 @@ const About = () => {
             </div>
             <h3 className={styles.cardTitle}>Education</h3>
             <div className={styles.eduInfo}>
-              <p className={styles.eduDegree}>B.Tech — AI & Data Science</p>
+              <p className={styles.eduDegree}>{currentEdu ? currentEdu.degree : 'B.Tech — AI & Data Science'}</p>
               <p className={styles.eduCollege}>
-                Jawaharlal Nehru Engineering College
+                {currentEdu ? currentEdu.institution : 'Jawaharlal Nehru Engineering College'}
               </p>
-              <p className={styles.eduUni}>MGMU · Chh. Sambhajinagar</p>
-              <span className={styles.eduYear}>2024 – 2028</span>
+              {!currentEdu && <p className={styles.eduUni}>MGMU · Chh. Sambhajinagar</p>}
+              <span className={styles.eduYear}>
+                {currentEdu ? `${currentEdu.start_date.substring(0, 4)} – ${currentEdu.end_date ? currentEdu.end_date.substring(0, 4) : 'Present'}` : '2024 – 2028'}
+              </span>
             </div>
           </motion.div>
 
@@ -116,7 +128,7 @@ const About = () => {
               <span>Currently building with</span>
             </div>
             <div className={styles.techPills}>
-              {TECH_STACK.map(tech => (
+              {techStack.map(tech => (
                 <span key={tech} className={styles.techPill}>{tech}</span>
               ))}
             </div>

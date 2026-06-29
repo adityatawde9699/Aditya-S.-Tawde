@@ -9,57 +9,18 @@
 !.env.example
 
 # ===========================================
-# Python / Django (server/)
-# ===========================================
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
-ENV/
-env/
-.venv/
-
-# Django specific
-*.log
-local_settings.py
-db.sqlite3
-*.sqlite3
-staticfiles/
-media/
-
-# pytest
-.pytest_cache/
-.coverage
-htmlcov/
-
-# ===========================================
-# Node / React (client/)
+# Node / TypeScript (server/ + client/)
 # ===========================================
 node_modules/
 dist/
 dist-ssr/
+build/
 *.local
 .cache/
 .parcel-cache/
+
+# Data backups produced by `npm run db:dump`
+data-backup-*.json
 
 # Logs
 logs/
@@ -70,6 +31,13 @@ yarn-error.log*
 pnpm-debug.log*
 
 # ===========================================
+# Coverage & Testing
+# ===========================================
+coverage/
+.nyc_output/
+.pytest_cache/
+
+# ===========================================
 # IDE / Editor
 # ===========================================
 .idea/
@@ -77,9 +45,6 @@ pnpm-debug.log*
 *.swp
 *.swo
 *.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
 .DS_Store
 Thumbs.db
@@ -88,12 +53,6 @@ Thumbs.db
 # Docker
 # ===========================================
 .docker/
-
-# ===========================================
-# Coverage & Testing
-# ===========================================
-coverage/
-.nyc_output/
 
 # ===========================================
 # OS Files

@@ -5,7 +5,10 @@ services:
     region: singapore
     plan: free
     rootDir: server
-    buildCommand: npm install && npm run build && npm run db:migrate && npm run db:seed
+    # --include=dev forces devDependencies (typescript, tsx, drizzle-kit, @types/*)
+    # to install even though NODE_ENV=production, since the build/migrate/seed
+    # steps need them. Runtime (npm run start) uses only the compiled dist/.
+    buildCommand: npm install --include=dev && npm run build && npm run db:migrate && npm run db:seed
     startCommand: npm run start
     healthCheckPath: /api/health/
     envVars:

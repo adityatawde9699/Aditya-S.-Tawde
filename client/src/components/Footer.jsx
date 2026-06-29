@@ -16,7 +16,7 @@ const Footer = () => {
             <span className={styles.prompt}>&gt;</span> AST
             <span className={styles.cursor}>_</span>
           </span>
-          <span className={styles.tagline}>Built with React + Django</span>
+          <span className={styles.tagline}>Built with React + Hono</span>
         </div>
 
         {/* Social Links */}

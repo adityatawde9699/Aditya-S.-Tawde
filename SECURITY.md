@@ -10,9 +10,9 @@ For confidential issues, contact the maintainer directly via GitHub profile or e
 
 ## Supported Versions
 
-- This project follows upstream dependencies; keep Python, Django, Node, and React dependencies up to date.
+- This project follows upstream dependencies; keep Node, Hono, React, and related dependencies up to date.
 
 ## Dependency Updates
 
-- Run `pip install -U -r requirements.txt` and `npm update` on a regular basis.
+- Run `npm update` in `server/` and `client/` on a regular basis.
 - Use automated dependency scanners (Dependabot/GitHub Security) where possible.

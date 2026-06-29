@@ -7,13 +7,13 @@ Thank you for helping improve this project! Contributions can be made via issues
 1. Fork the repository.
 2. Create a branch: `git checkout -b feature/your-feature`.
 3. Set up the environment as described in README.
-4. Run tests before committing:
-   - Backend: `cd server && pytest`
+4. Build/test before committing:
+   - Backend: `cd server && npm run build`
    - Frontend: `cd client && npm test`
 
 ## Code style
 
-- Python: follow [PEP 8], use `ruff` linting.
+- TypeScript/Node: keep the Hono backend strictly typed (`npm run build` must pass).
 - JavaScript/React: use `eslint` + Prettier (via `npm run lint`).
 
 ## Submitting changes

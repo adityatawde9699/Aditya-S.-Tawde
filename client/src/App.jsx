@@ -4,7 +4,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Footer from './components/Footer';
-import ParticleBackground from './components/ParticleBackground';
+import Backdrop from './components/Backdrop';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
@@ -33,7 +33,7 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="app">
-        <ParticleBackground />
+        <Backdrop />
         <Header />
         <Suspense fallback={<SectionLoader />}>
           <main className="container">

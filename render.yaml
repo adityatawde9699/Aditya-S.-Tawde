@@ -1,26 +1,25 @@
 services:
   - type: web
     name: portfolio-backend
-    runtime: python
+    runtime: node
     region: singapore
     plan: free
     rootDir: server
-    buildCommand: |
-      pip install -r requirements.txt &&
-      python manage.py collectstatic --noinput &&
-      python manage.py migrate
-    startCommand: "gunicorn portfolio_backend.wsgi:application --workers 2 --threads 2 --access-logfile - --error-logfile -"
+    buildCommand: npm install && npm run build && npm run db:migrate && npm run db:seed
+    startCommand: npm run start
     healthCheckPath: /api/health/
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12.9"
-      - key: DEBUG
-        value: "False"
-      - key: ALLOWED_HOSTS
-        value: ".onrender.com"
-      - key: SECRET_KEY
-        sync: false
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
       - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
         sync: false
       - key: EMAIL_HOST_USER
         sync: false
@@ -29,4 +28,4 @@ services:
       - key: RECIPIENT_EMAIL
         sync: false
       - key: PROD_CLIENT_URL
-        value: https://aditya-s-tawde.vercel.app/
+        value: https://aditya-s-tawde.vercel.app

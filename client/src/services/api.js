@@ -150,25 +150,64 @@ function getErrorMessage(error) {
     return 'An unexpected error occurred.';
 }
 
-const normalizeCollectionResponse = (response) => ({
-    ...response,
-    data: Array.isArray(response.data?.results) ? response.data.results : response.data,
-});
+// ============================================
+// Aggregated portfolio loader (request coalescing)
+// ============================================
+// On page load every section calls its own getter. Instead of firing ~7
+// separate requests at a (possibly sleeping) free-tier backend, they all share
+// a SINGLE `/portfolio/all/` request via the in-flight promise below. The
+// result is briefly cached so a burst of getter calls collapses into one
+// network round-trip. Falls back to per-endpoint requests if `/all/` fails
+// (e.g. older backend), preserving full backward compatibility.
+
+const PORTFOLIO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+let portfolioPromise = null;
+let portfolioFetchedAt = 0;
+
+function loadPortfolio() {
+    const now = Date.now();
+    if (portfolioPromise && now - portfolioFetchedAt < PORTFOLIO_CACHE_TTL) {
+        return portfolioPromise;
+    }
+    portfolioFetchedAt = now;
+    portfolioPromise = api
+        .get('/portfolio/all/')
+        .then((response) => response.data)
+        .catch((error) => {
+            // Reset so a transient failure doesn't poison the cache.
+            portfolioPromise = null;
+            throw error;
+        });
+    return portfolioPromise;
+}
+
+// Resolve a single section from the aggregated payload, shaped as an
+// axios-like `{ data }` so callers/components stay unchanged.
+const section = (pick) => () => loadPortfolio().then((all) => ({ data: pick(all) }));
 
 // ============================================
 // API Methods
 // ============================================
 
-// Portfolio endpoints
-export const getProjects = (params = {}) => api.get('/portfolio/projects/', { params }).then(normalizeCollectionResponse);
-export const getFeaturedProjects = () => api.get('/portfolio/projects/', { params: { featured: 'true' } }).then(normalizeCollectionResponse);
-export const getSkills = () => api.get('/portfolio/skills/');
-export const getTechStack = () => api.get('/portfolio/tech-stack/');
-export const getCertifications = () => api.get('/portfolio/certifications/');
-export const getEducation = () => api.get('/portfolio/education/');
-export const getExperience = () => api.get('/portfolio/experience/');
+// Portfolio endpoints — all served from one aggregated `/portfolio/all/` call.
+export const getProjects = (params = {}) =>
+    loadPortfolio().then((all) => {
+        let projects = params.featured === 'true' || params.featured === true
+            ? all.featuredProjects
+            : all.projects;
+        if (params.category) {
+            projects = projects.filter((p) => p.category === String(params.category).toUpperCase());
+        }
+        return { data: projects };
+    });
+export const getFeaturedProjects = () => section((all) => all.featuredProjects)();
+export const getSkills = section((all) => all.skills);
+export const getTechStack = section((all) => all.techStack);
+export const getCertifications = section((all) => all.certifications);
+export const getEducation = section((all) => all.education);
+export const getExperience = section((all) => all.experience);
 
-// Contact endpoint
+// Contact endpoint (direct POST — not part of the aggregated read payload)
 export const sendContact = (data) => api.post('/contact/', data);
 
 // Export the configured axios instance

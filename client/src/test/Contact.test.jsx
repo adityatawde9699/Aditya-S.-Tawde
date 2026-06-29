@@ -15,7 +15,7 @@ let container;
 let root;
 
 const setNativeValue = (element, value) => {
-  const { set } = Object.getOwnPropertyDescriptor(element.__proto__, 'value');
+  const { set } = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), 'value');
   set.call(element, value);
 };
 
@@ -77,7 +77,7 @@ describe('Contact component', () => {
     const form = container.querySelector('form');
     await submitForm(form);
 
-    expect(container.textContent).toContain('First name is required');
+    expect(container.textContent).toContain('Name is required');
     expect(container.textContent).toContain('Email is required');
     expect(container.textContent).toContain('Message is required');
   });
@@ -90,9 +90,9 @@ describe('Contact component', () => {
     });
 
     const form = container.querySelector('form');
-    const firstName = container.querySelector('#firstName');
-    const email = container.querySelector('#email');
-    const message = container.querySelector('#message');
+    const firstName = container.querySelector('#contact-name');
+    const email = container.querySelector('#contact-email');
+    const message = container.querySelector('#contact-message');
 
     await changeValue(firstName, 'Aditya');
     await blurField(firstName);

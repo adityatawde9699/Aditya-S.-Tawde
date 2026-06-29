@@ -5,7 +5,8 @@ services:
     env_file: ./server/.env
     volumes:
       - ./server:/app
-    command: python manage.py runserver 0.0.0.0:8000
+      - /app/node_modules
+    command: npm run dev
 
   frontend:
     build:

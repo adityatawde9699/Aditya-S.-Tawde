@@ -1,26 +1,32 @@
-# Use an official Python runtime as a parent image
-FROM python:3.12-slim-bookworm
+# =============================================================================
+# Portfolio backend — Hono (Node.js)
+# Multi-stage build: compile TypeScript, then run a lean production image.
+# =============================================================================
+FROM node:20-slim AS builder
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    POETRY_VERSION=1.7.1
-
-# Set work directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Install deps separately for better layer caching.
+COPY package.json package-lock.json* ./
+RUN npm install
 
-# Install python dependencies from requirements.txt
-COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY . .
+RUN npm run build
 
-# Copy project
-COPY . /app/
 
-# Run the application
-CMD ["gunicorn", "portfolio_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "30", "--worker-tmp-dir", "/dev/shm", "--access-logfile", "-", "--error-logfile", "-", "--max-requests", "1000", "--max-requests-jitter", "100"]
+# =============================================================================
+# Production image — only runtime deps + compiled output.
+# =============================================================================
+FROM node:20-slim AS runner
+
+ENV NODE_ENV=production
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install --omit=dev
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/drizzle ./drizzle
+
+EXPOSE 8000
+CMD ["node", "dist/index.js"]

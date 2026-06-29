@@ -52,11 +52,20 @@ const STATS = [
   { icon: Database,     value: '5+',  label: 'ML Models' },
 ];
 
+/* Staggered container for each column */
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+  },
+};
+
+const deckContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.45 },
   },
 };
 
@@ -75,95 +84,126 @@ const Hero = () => {
 
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-heading">
-      <motion.div
-        className={styles.heroContent}
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Eyebrow badge */}
-        <motion.div variants={item} className={styles.eyebrowRow}>
-          <span className={styles.eyebrowBadge}>
-            <span className={styles.statusDot} aria-hidden="true" />
-            Available for Opportunities
-          </span>
-        </motion.div>
+      <div className={styles.heroGrid}>
+        {/* ============ Left: Identity ============ */}
+        <motion.div
+          className={styles.identity}
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {/* Eyebrow badge */}
+          <motion.div variants={item} className={styles.eyebrowRow}>
+            <span className={styles.eyebrowBadge}>
+              <span className={styles.statusDot} aria-hidden="true" />
+              Available for Opportunities
+            </span>
+          </motion.div>
 
-        {/* Terminal greeting */}
-        <motion.div variants={item} className={styles.terminalGreeting}>
-          <span className={styles.prompt}>&gt;</span> Hello, World
-          <span className="terminal-cursor" aria-hidden="true" />
-        </motion.div>
+          {/* Terminal greeting */}
+          <motion.div variants={item} className={styles.terminalGreeting}>
+            <span className={styles.prompt}>&gt;</span> Hello, World
+            <span className="terminal-cursor" aria-hidden="true" />
+          </motion.div>
 
-        {/* Profile Image */}
-        <motion.div variants={item} className={styles.profileContainer}>
-          <div className={styles.profileRing} aria-hidden="true" />
-          <img
-            src="/images/profile-photo.jpg"
-            alt="Aditya S. Tawde"
-            className={styles.profileImage}
-            loading="eager"
-            width="180"
-            height="180"
-          />
-        </motion.div>
+          {/* Name */}
+          <motion.h1 variants={item} id="hero-heading" className={styles.title}>
+            <span className={styles.titleGradient}>Aditya S. Tawde</span>
+          </motion.h1>
 
-        {/* Name */}
-        <motion.h1 variants={item} id="hero-heading" className={styles.title}>
-          <span className={styles.titleGradient}>Aditya S. Tawde</span>
-        </motion.h1>
+          {/* Typewriter subtitle */}
+          <motion.div variants={item} className={styles.subtitle}>
+            <span className={styles.subtitleLabel}>I build </span>
+            <Typewriter roles={roles} />
+          </motion.div>
 
-        {/* Typewriter subtitle */}
-        <motion.div variants={item} className={styles.subtitle}>
-          <span className={styles.subtitleLabel}>I build </span>
-          <Typewriter roles={roles} />
-        </motion.div>
+          {/* Description */}
+          <motion.p variants={item} className={styles.description}>
+            B.Tech AI &amp; Data Science student at <strong>JNEC, MGMU</strong>.
+            I turn raw data into intelligent systems and ideas into production-ready applications.
+          </motion.p>
 
-        {/* Description */}
-        <motion.p variants={item} className={styles.description}>
-          B.Tech AI & Data Science student at <strong>JNEC, MGMU</strong>.
-          I turn raw data into intelligent systems and ideas into production-ready applications.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div variants={item} className={styles.actions}>
-          <a href={RESUME_PATH} className={styles.primaryBtn} download>
-            <Download size={18} aria-hidden="true" />
-            Download Resume
-          </a>
-          <a href="#contact" className={styles.secondaryBtn}>
-            <SendHorizonal size={18} aria-hidden="true" />
-            Let&apos;s Talk
-          </a>
-        </motion.div>
-
-        {/* Social Links */}
-        <motion.div variants={item} className={styles.socials}>
-          {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
-            <a
-              key={name}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.socialLink}
-              aria-label={name}
-            >
-              <Icon size={20} aria-hidden="true" />
+          {/* CTA Buttons */}
+          <motion.div variants={item} className={styles.actions}>
+            <a href={RESUME_PATH} className={styles.primaryBtn} download>
+              <Download size={18} aria-hidden="true" />
+              Download Resume
             </a>
-          ))}
+            <a href="#contact" className={styles.secondaryBtn}>
+              <SendHorizonal size={18} aria-hidden="true" />
+              Let&apos;s Talk
+            </a>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div variants={item} className={styles.socials}>
+            {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
+              <a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.socialLink}
+                aria-label={name}
+              >
+                <Icon size={20} aria-hidden="true" />
+              </a>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div variants={item} className={styles.statsRow}>
-          {STATS.map(({ icon: Icon, value, label }) => (
-            <div key={label} className={styles.statItem}>
-              <Icon size={16} className={styles.statIcon} aria-hidden="true" />
-              <strong className={styles.statValue}>{value}</strong>
-              <span className={styles.statLabel}>{label}</span>
+        {/* ============ Right: Command Deck ============ */}
+        <motion.aside
+          className={styles.deck}
+          variants={deckContainer}
+          initial="hidden"
+          animate="show"
+          aria-label="Profile overview"
+        >
+          {/* Profile card */}
+          <motion.div variants={item} className={styles.profileCard}>
+            <div className={styles.profileContainer}>
+              <div className={styles.profileRing} aria-hidden="true" />
+              <img
+                src="/images/profile-photo.jpg"
+                alt="Aditya S. Tawde"
+                className={styles.profileImage}
+                loading="eager"
+                width="160"
+                height="160"
+              />
             </div>
-          ))}
-        </motion.div>
-      </motion.div>
+
+            {/* Status readout */}
+            <div className={styles.readout} aria-hidden="true">
+              <div className={styles.readoutRow}>
+                <span className={styles.readoutDot} />
+                <span className={styles.readoutKey}>status</span>
+                <span className={styles.readoutOnline}>online</span>
+              </div>
+              <div className={styles.readoutRow}>
+                <span className={styles.readoutKey}>base</span>
+                <span className={styles.readoutVal}>JNEC · MGMU</span>
+              </div>
+              <div className={styles.readoutRow}>
+                <span className={styles.readoutKey}>focus</span>
+                <span className={styles.readoutTag}>AI / Data Science</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Stats bento */}
+          <motion.div variants={item} className={styles.statsRow}>
+            {STATS.map(({ icon: Icon, value, label }) => (
+              <div key={label} className={styles.statItem}>
+                <Icon size={16} className={styles.statIcon} aria-hidden="true" />
+                <strong className={styles.statValue}>{value}</strong>
+                <span className={styles.statLabel}>{label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.aside>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div
@@ -171,6 +211,7 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
+        aria-hidden="true"
       >
         <div className={styles.mouse}>
           <div className={styles.wheel} />

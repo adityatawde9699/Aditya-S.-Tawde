@@ -5,6 +5,7 @@ import { hashPassword } from '../lib/auth.js';
 import { db } from './client.js';
 import {
   adminUsers,
+  education,
   experiences,
   projects,
   projectTechStacks,
@@ -210,6 +211,35 @@ const SKILLS: SkillSeed[] = [
   { name: 'Vercel/Render', category: 'TOOLS', order: 5 },
 ];
 
+type EducationSeed = {
+  institution: string;
+  degree: string;
+  startDate: string; // YYYY-MM-DD
+  endDate: string | null;
+  description: string;
+  order: number;
+};
+
+const EDUCATION: EducationSeed[] = [
+  {
+    institution: 'Jawaharlal Nehru Engineering College',
+    degree: 'B.Tech — AI & Data Science',
+    startDate: '2024-08-01',
+    endDate: '2028-06-01',
+    description: 'MGMU · Chh. Sambhajinagar',
+    order: 1,
+  },
+  {
+    institution: 'Rajarshi Shahu Secondary and Higher Secondary Vidyalaya, Pathri',
+    degree: '12th (HSC)',
+    startDate: '2021-07-15',
+    endDate: '2024-05-17',
+    description:
+      'Higher Secondary Certificate (HSC) with a focus on Physics, Chemistry, Biology and Mathematics. Developed a strong foundation in analytical thinking, problem-solving, mathematics, and core scientific principles essential for engineering studies.',
+    order: 2,
+  },
+];
+
 async function upsertTechStacks(): Promise<Map<string, number>> {
   const map = new Map<string, number>();
   for (const name of TECHS) {
@@ -287,6 +317,26 @@ async function upsertSkills(): Promise<void> {
   console.log('Created skills entries.');
 }
 
+async function upsertEducation(): Promise<void> {
+  for (const e of EDUCATION) {
+    const [existing] = await db.select().from(education).where(eq(education.degree, e.degree)).limit(1);
+    const values = {
+      institution: e.institution,
+      degree: e.degree,
+      startDate: e.startDate,
+      endDate: e.endDate,
+      description: e.description,
+      order: e.order,
+    };
+    if (existing) {
+      await db.update(education).set(values).where(eq(education.id, existing.id));
+    } else {
+      await db.insert(education).values(values);
+    }
+  }
+  console.log('Created education entries.');
+}
+
 async function ensureAdminUser(): Promise<void> {
   const [existing] = await db
     .select()
@@ -320,6 +370,8 @@ async function main() {
   await upsertExperiences();
   console.log('Setting up skills…');
   await upsertSkills();
+  console.log('Setting up education…');
+  await upsertEducation();
   await ensureAdminUser();
   console.log('Database seeding completed.');
 }

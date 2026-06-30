@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Aditya S. Tawde monogram">
+  <defs>
+    <linearGradient id="ast-grad-sq" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#BD93F9"/>
+      <stop offset="0.5" stop-color="#FF79C6"/>
+      <stop offset="1" stop-color="#8BE9FD"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" fill="url(#ast-grad-sq)"/>
+  <g fill="none" stroke="#1F2330" stroke-width="8.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M14 50 L32 14 L50 50"/>
+    <path d="M21 37.5 L43 37.5"/>
+  </g>
+  <circle cx="32" cy="14" r="4.4" fill="#1F2330"/>
+  <circle cx="32" cy="14" r="2.1" fill="#8BE9FD"/>
+</svg>

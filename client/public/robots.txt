@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aditya-s-tawde.onrender.com/sitemap.xml
+Sitemap: https://aditya-s-tawde.vercel.app/sitemap.xml

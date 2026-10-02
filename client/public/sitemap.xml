@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://aditya-s-tawde.vercel.app/</loc>
+    <loc>https://adityastawde.vercel.app/</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url><loc>https://aditya-s-tawde.vercel.app/archive</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/amadeus-ai</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/lunamatch</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/climax</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/cognate</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/neurox</loc></url>
-  <url><loc>https://aditya-s-tawde.vercel.app/systems/ledger</loc></url>
+  <url><loc>https://adityastawde.vercel.app/archive</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/amadeus-ai</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/lunamatch</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/climax</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/cognate</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/neurox</loc></url>
+  <url><loc>https://adityastawde.vercel.app/systems/ledger</loc></url>
 </urlset>

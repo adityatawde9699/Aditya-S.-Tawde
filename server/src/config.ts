@@ -54,7 +54,7 @@ export const emailConfigured = Boolean(
 /** Origins permitted by CORS. Static vercel origin + prod client + local dev. */
 export function allowedOrigins(): string[] {
   const origins = new Set<string>([
-    'https://aditya-s-tawde.vercel.app',
+    'https://adityastawde.vercel.app',
   ]);
   if (config.prodClientUrl) {
     origins.add(config.prodClientUrl.replace(/\/$/, ''));

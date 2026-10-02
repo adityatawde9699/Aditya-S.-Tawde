@@ -31,4 +31,4 @@ services:
       - key: RECIPIENT_EMAIL
         sync: false
       - key: PROD_CLIENT_URL
-        value: https://aditya-s-tawde.vercel.app
+        value: https://adityastawde.vercel.app

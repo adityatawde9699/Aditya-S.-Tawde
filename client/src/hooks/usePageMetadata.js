@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const site = 'https://aditya-s-tawde.vercel.app';
+const site = 'https://adityastawde.vercel.app';
 
 export default function usePageMetadata(title, description, path) {
   useEffect(() => {

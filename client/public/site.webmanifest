@@ -1,18 +1,37 @@
 {
-  "name": "Aditya S. Tawde — AI & Data Science Engineer",
+  "name": "Aditya S. Tawde \u2014 AI & Data Science Engineer",
   "short_name": "Aditya Tawde",
-  "description": "Portfolio of Aditya S. Tawde — AI & Data Science Engineer building production-grade AI systems, ML pipelines, and full-stack applications.",
+  "description": "Portfolio of Aditya S. Tawde \u2014 AI & Data Science Engineer building production-grade AI systems, ML pipelines, and full-stack applications.",
   "lang": "en",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#1F2330",
-  "theme_color": "#1F2330",
+  "background_color": "#080808",
+  "theme_color": "#080808",
   "icons": [
-    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
-    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
-    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
-    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
   ]
 }

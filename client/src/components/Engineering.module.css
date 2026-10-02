@@ -1,0 +1,8 @@
+.statement { font-size: var(--type-display); font-weight: 500; letter-spacing: -.055em; line-height: 1.1; }
+.statement span { color: var(--text-faint); }
+.principles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin-top: 4.5rem; }
+.principles article { padding-top: 1.25rem; border-top: var(--rule); }
+.principles h4 { margin-top: 1.5rem; font-size: .9rem; font-weight: 500; text-transform: uppercase; line-height: 1.5; }
+.principles p { margin-top: .75rem; font-size: .85rem; line-height: 1.8; color: var(--text-secondary); }
+@media (max-width: 900px) { .principles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .statement { font-size: clamp(1.8rem, 6.6vw, 2.6rem); } .principles { grid-template-columns: 1fr; gap: 2rem; margin-top: 3rem; } .principles h4 { margin-top: .75rem; } }

@@ -1,209 +1,41 @@
-/* ============================================
-   Design System — Dracula × AI Engineer
-   Refined palette with depth layers
-   ============================================ */
+/* AST_ / centralized monochrome system.
+   Breakpoints: 640px compact, 900px tablet, 1200px wide. */
 :root {
-  /* ========================================
-     Core Background System
-     ======================================== */
-  --bg-primary: #1F2330;
-  --bg-secondary: #252A3A;
-  --bg-tertiary: #2D3348;
-
-  /* Surface Layers */
-  --surface-glass: rgba(45, 51, 72, 0.55);
-  --surface-solid: #343B54;
-  --surface-hover: #3B4361;
-  --surface-border: rgba(139, 233, 253, 0.08);
-
-  /* Legacy aliases */
-  --bg-dark: var(--bg-primary);
-  --bg-darker: #181B26;
-  --bg-card: var(--surface-glass);
-  --bg-card-solid: var(--surface-solid);
-  --bg-card-hover: var(--surface-hover);
-
-  /* ========================================
-     Typography Colors
-     ======================================== */
-  --text-primary: #F8F8F2;
-  --text-secondary: #C6C9E3;
-  --text-muted: #7F8AA3;
-  --text-accent: var(--accent-cyan);
-
-  /* ========================================
-     Dracula Accent System
-     ======================================== */
-  --accent-primary: #BD93F9;     /* Purple — primary brand */
-  --accent-secondary: #FF79C6;   /* Pink — secondary CTA */
-  --accent-cyan: #8BE9FD;        /* Cyan — links, highlights */
-  --accent-green: #50FA7B;       /* Green — success, active */
-  --accent-orange: #FFB86C;      /* Orange — warnings */
-  --accent-red: #FF5555;         /* Red — errors */
-  --accent-yellow: #F1FA8C;      /* Yellow — info */
-
-  /* Legacy aliases for backward compat */
-  --primary: var(--accent-primary);
-  --primary-light: #D4B8FF;
-  --primary-dark: #9B6FE0;
-  --primary-glow: rgba(189, 147, 249, 0.3);
-  --secondary: var(--accent-secondary);
-  --secondary-glow: rgba(255, 121, 198, 0.3);
-
-  /* ========================================
-     AI / Futuristic Gradients
-     ======================================== */
-  --gradient-primary: linear-gradient(135deg, #BD93F9 0%, #8BE9FD 100%);
-  --gradient-neural: linear-gradient(135deg, #BD93F9 0%, #FF79C6 45%, #8BE9FD 100%);
-  --gradient-surface: linear-gradient(135deg, rgba(189,147,249,0.10), rgba(139,233,253,0.05));
-  --gradient-ai: var(--gradient-neural);
-  --gradient-hero: var(--gradient-neural);
-  --gradient-data: linear-gradient(135deg, #8BE9FD 0%, #50FA7B 100%);
-  --gradient-card: var(--gradient-surface);
-
-  /* ========================================
-     Semantic Colors
-     ======================================== */
-  --success: #50FA7B;
-  --success-glow: rgba(80, 250, 123, 0.25);
-  --warning: #FFB86C;
-  --warning-glow: rgba(255, 184, 108, 0.25);
-  --error: #FF5555;
-  --error-glow: rgba(255, 85, 85, 0.25);
-  --info: #8BE9FD;
-  --info-glow: rgba(139, 233, 253, 0.25);
-
-  /* ========================================
-     Borders & Glass Effects
-     ======================================== */
-  --border-color: rgba(139, 233, 253, 0.08);
-  --border-color-hover: rgba(189, 147, 249, 0.2);
-  --border-color-focus: var(--accent-primary);
-
-  --glass-blur: 18px;
-  --glass-blur-strong: 32px;
-  --glass-bg: rgba(31, 35, 48, 0.6);
-  --glass-border: rgba(139, 233, 253, 0.08);
-  --glass-border-ai: rgba(189, 147, 249, 0.15);
-  --blur-glass: blur(18px);
-
-  /* ========================================
-     Shadows
-     ======================================== */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
-  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
-  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.25);
-  --shadow-glow: 0 0 40px rgba(189, 147, 249, 0.18);
-  --shadow-glow-secondary: 0 0 40px rgba(255, 121, 198, 0.18);
-  --shadow-glow-ai: 0 0 60px rgba(189, 147, 249, 0.15), 0 0 120px rgba(139, 233, 253, 0.08);
-
-  /* ========================================
-     Spacing Scale (8px base)
-     ======================================== */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-
-  /* ========================================
-     Border Radius
-     ======================================== */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-full: 9999px;
-
-  /* ========================================
-     Typography
-     ======================================== */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco,
-    'Andale Mono', 'Ubuntu Mono', monospace;
-
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-
-  /* ========================================
-     Transitions
-     ======================================== */
-  --transition-fast: 150ms;
-  --transition-base: 200ms;
-  --transition-slow: 300ms;
-  --transition-slower: 500ms;
-
-  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  /* ========================================
-     Z-Index Scale
-     ======================================== */
-  --z-base: 0;
-  --z-dropdown: 10;
-  --z-sticky: 50;
-  --z-fixed: 100;
-  --z-modal-backdrop: 150;
-  --z-modal: 200;
-  --z-popover: 250;
-  --z-tooltip: 300;
-  --z-loader: 9999;
+  --bg-primary: #080808; --bg-secondary: #101010; --bg-tertiary: #171717;
+  --surface-solid: #222222; --surface-hover: #303030;
+  --text-primary: #E8E8E8; --text-strong: #FFFFFF;
+  --text-secondary: #A0A0A0; --text-muted: #A0A0A0; --text-faint: #707070;
+  --border-color: #303030; --border-strong: #4A4A4A; --focus-color: #FFFFFF;
+  --font-sans: 'Inter', Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  --type-hero: clamp(3.6rem, 10.4vw, 10rem);
+  --type-display: clamp(2.4rem, 5.5vw, 5.5rem);
+  --type-project: clamp(2.2rem, 4vw, 4rem);
+  --type-body: 1rem; --type-meta: 0.6875rem;
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+  --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem; --space-24: 6rem;
+  --space-section: clamp(4.5rem, 9vw, 9rem);
+  --page-gutter: clamp(1.25rem, 5vw, 5rem);
+  --container-width: 1280px; --reading-width: 62ch;
+  --rule: 1px solid var(--border-color);
+  --radius-sm: 2px; --radius-md: 2px; --radius-lg: 2px;
+  --shadow-sm: 0 1px 3px #000000;
+  --transition-fast: 150ms; --transition-base: 220ms; --transition-reveal: 500ms;
+  --motion-diagram: 800ms; --motion-stagger: 65ms;
+  /* Keep shared keyframe names intact when used by CSS Modules. */
+  --motion-enter: enter; --motion-cursor: cursor; --motion-trace: trace;
+  --motion-extend: extend; --motion-point: point;
+  --ease-out: cubic-bezier(.22, 1, .36, 1); --header-height: 68px;
+  /* Existing component compatibility, also strictly grayscale. */
+  --accent-primary: var(--text-primary); --accent-secondary: var(--text-secondary);
+  --accent-cyan: var(--text-primary); --accent-green: var(--text-primary); --accent-red: var(--text-primary);
+  --primary: var(--text-primary); --surface-glass: var(--bg-secondary);
+  --surface-border: var(--border-color); --bg-dark: var(--bg-primary);
 }
-
-/* ============================================
-   Body Base Styles
-   ============================================ */
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  margin: 0;
-  overflow-x: hidden;
+@media (prefers-contrast: more) {
+  :root { --text-secondary: #CFCFCF; --text-muted: #CFCFCF; --border-color: #707070; }
 }
-
-h1, h2, h3 {
-  font-family: var(--font-display);
-}
-
-/* ============================================
-   High Contrast Mode
-   ============================================ */
-@media (prefers-contrast: high) {
-  :root {
-    --border-color: rgba(255, 255, 255, 0.25);
-    --surface-glass: rgba(45, 51, 72, 0.85);
-    --text-secondary: #E0E3F0;
-  }
-}
-
-/* ============================================
-   Forced Colors Mode (Windows High Contrast)
-   ============================================ */
 @media (forced-colors: active) {
-  :root {
-    --accent-primary: CanvasText;
-    --text-primary: CanvasText;
-    --bg-primary: Canvas;
-    --border-color: CanvasText;
-  }
+  :root { --bg-primary: Canvas; --bg-secondary: Canvas; --text-primary: CanvasText; --text-secondary: CanvasText; --border-color: CanvasText; --focus-color: Highlight; }
 }

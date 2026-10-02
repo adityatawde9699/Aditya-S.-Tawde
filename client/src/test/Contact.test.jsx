@@ -69,6 +69,26 @@ afterEach(async () => {
 });
 
 describe('Contact component', () => {
+  it('associates validation messages and focuses the first invalid field', async () => {
+    await act(async () => { root.render(<Contact />); });
+    await submitForm(container.querySelector('form'));
+    const name = container.querySelector('#contact-name');
+    expect(name.getAttribute('aria-invalid')).toBe('true');
+    expect(name.getAttribute('aria-describedby')).toBe('name-error');
+    expect(document.activeElement).toBe(name);
+    expect(sendContactMock).not.toHaveBeenCalled();
+  });
+  it('shows a failed request without clearing the visitor’s message', async () => {
+    sendContactMock.mockRejectedValue({ message: 'The service is unavailable.' });
+    await act(async () => { root.render(<Contact />); });
+    await changeValue(container.querySelector('#contact-name'), 'Aditya');
+    await changeValue(container.querySelector('#contact-email'), 'aditya@example.com');
+    await changeValue(container.querySelector('#contact-message'), 'A useful engineering question.');
+    await submitForm(container.querySelector('form'));
+    expect(container.textContent).toContain('The service is unavailable.');
+    expect(container.querySelector('#contact-message').value).toBe('A useful engineering question.');
+    expect(container.querySelector('[role="status"]').getAttribute('aria-live')).toBe('polite');
+  });
   it('shows validation errors for required fields', async () => {
     await act(async () => {
       root.render(<Contact />);

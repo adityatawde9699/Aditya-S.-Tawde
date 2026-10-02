@@ -1,0 +1,10 @@
+.table { border-top: var(--rule); }
+.tableHeader, .row { display: grid; grid-template-columns: 1fr 1.5fr auto; gap: 3rem; align-items: start; }
+.tableHeader { padding-block: 1rem; font-size: .625rem; }
+.row { padding-block: 1.5rem; border-top: var(--rule); }
+.row h3 { font-size: 1rem; font-weight: 500; line-height: 1.5; letter-spacing: -.02em; }
+.row p { font-size: .85rem; color: var(--text-secondary); }
+.row div > span { display: block; font-size: .625rem; margin-top: .6rem; }
+.row a { min-height: 44px; font-size: .65rem; gap: 1rem; }
+.sourceNote { font-size: .625rem; padding-top: .75rem; }
+@media (max-width: 640px) { .tableHeader { display: none; } .row { grid-template-columns: 1fr auto; gap: .6rem 1rem; } .row > div { grid-column: 1 / -1; grid-row: 2; } .row a { grid-row: 1; grid-column: 2; } .row h3 { align-self: center; } }

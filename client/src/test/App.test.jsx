@@ -9,13 +9,15 @@ vi.mock('../components/Header', () => ({ default: () => <div>Header</div> }));
 vi.mock('../components/Hero', () => ({ default: () => <div>Hero</div> }));
 vi.mock('../components/About', () => ({ default: () => <div>About</div> }));
 vi.mock('../components/Skills', () => ({ default: () => <div>Skills</div> }));
+vi.mock('../components/Engineering', () => ({ default: () => <div>Engineering</div> }));
+vi.mock('../components/CurrentWork', () => ({ default: () => <div>CurrentWork</div> }));
 vi.mock('../components/Footer', () => ({ default: () => <div>Footer</div> }));
 vi.mock('../components/Backdrop', () => ({ default: () => <div>Backdrop</div> }));
 vi.mock('../components/ErrorBoundary', () => ({ default: ({ children }) => <>{children}</> }));
 // Lazy-loaded sections
 vi.mock('../components/Projects', () => ({ default: () => <div>Projects</div> }));
 vi.mock('../components/Experience', () => ({ default: () => <div>Experience</div> }));
-vi.mock('../components/Resume', () => ({ default: () => <div>Resume</div> }));
+vi.mock('../components/Archive', () => ({ default: () => <div>Archive</div> }));
 vi.mock('../components/Contact', () => ({ default: () => <div>Contact</div> }));
 
 import App from '../App';
@@ -56,6 +58,8 @@ describe('App', () => {
     expect(container.textContent).toContain('Hero');
     expect(container.textContent).toContain('About');
     expect(container.textContent).toContain('Skills');
+    expect(container.textContent).toContain('Engineering');
+    expect(container.textContent).toContain('CurrentWork');
     expect(container.textContent).toContain('Footer');
   });
 
@@ -64,7 +68,7 @@ describe('App', () => {
 
     expect(container.textContent).toContain('Projects');
     expect(container.textContent).toContain('Experience');
-    expect(container.textContent).toContain('Resume');
+    expect(container.textContent).toContain('Archive');
     expect(container.textContent).toContain('Contact');
   });
 });

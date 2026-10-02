@@ -1,152 +1,45 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Header.module.css';
-import { Menu, X, Download } from 'lucide-react';
-import { RESUME_PATH } from '../config/social';
-
-const NAV_SECTIONS = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Contact' },
-];
-
-const Header = () => {
-  const [navActive, setNavActive] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [activeSection, setActiveSection] = useState('home');
-  const navRef = useRef(null);
-  const lastScrollY = useRef(0);
-
-  // Handle Scroll (Hide/Show + Active Section)
+const sections = [['projects', 'Work'], ['about', 'About'], ['skills', 'Stack'], ['experience', 'Journey'], ['contact', 'Contact']];
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const toggle = useRef(null);
+  const nav = useRef(null);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 20);
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100 && !navActive) {
-        setVisible(false);
-      } else {
-        setVisible(true);
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    nav.current?.querySelector('a')?.focus();
+    const close = (event) => {
+      if (event.key === 'Escape') { setOpen(false); toggle.current?.focus(); }
+      if (event.key === 'Tab') {
+        const items = [toggle.current, ...nav.current.querySelectorAll('a')];
+        const first = items[0], last = items.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
-      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navActive]);
-
-  // IntersectionObserver for active section highlighting
-  useEffect(() => {
-    const observers = [];
-    NAV_SECTIONS.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
-          }
-        },
-        { rootMargin: '-40% 0px -55% 0px' }
-      );
-      observer.observe(el);
-      observers.push(observer);
+    const resize = () => { if (window.innerWidth > 900) setOpen(false); };
+    document.addEventListener('keydown', close);
+    window.addEventListener('resize', resize);
+    return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', close); window.removeEventListener('resize', resize); };
+  }, [open]);
+  const navigate = (event, id) => {
+    if (!open) return;
+    setOpen(false);
+    requestAnimationFrame(() => {
+      const heading = document.querySelector(`#${id} h2`);
+      if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
     });
-    return () => observers.forEach(o => o.disconnect());
-  }, []);
-
-  // Lock body scroll when mobile menu open
-  useEffect(() => {
-    document.body.style.overflow = navActive ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [navActive]);
-
-  // Close nav on outside click
-  useEffect(() => {
-    if (!navActive) return;
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target) &&
-          !event.target.closest(`.${styles.hamburger}`)) {
-        setNavActive(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [navActive]);
-
-  // Close on Escape
-  useEffect(() => {
-    const handleKeyDown = (e) => { if (e.key === 'Escape') setNavActive(false); };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const scrollToSection = (id) => {
-    setNavActive(false);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
   };
-
-  return (
-    <header
-      className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${!visible ? styles.hide : ''}`}
-      id="navbar"
-    >
-      <div className={styles.headerContent}>
-        {/* Logo — Terminal Style */}
-        <button
-          className={styles.logo}
-          onClick={() => scrollToSection('home')}
-          aria-label="Go to top"
-        >
-          <span className={styles.logoPrompt} aria-hidden="true">&gt;</span>
-          <span className={styles.logoText}>AST</span>
-          <span className={styles.logoCursor} aria-hidden="true">_</span>
-        </button>
-
-        {/* Hamburger */}
-        <button
-          className={`${styles.hamburger} ${navActive ? styles.active : ''}`}
-          aria-label={navActive ? 'Close menu' : 'Open menu'}
-          aria-expanded={navActive}
-          onClick={() => setNavActive(!navActive)}
-        >
-          {navActive ? <X size={22} /> : <Menu size={22} />}
-        </button>
-
-        {/* Navigation */}
-        <nav
-          ref={navRef}
-          className={`${styles.mainNav} ${navActive ? styles.active : ''}`}
-          aria-label="Main navigation"
-        >
-          <ul className={styles.navList}>
-            {NAV_SECTIONS.map(({ id, label }) => (
-              <li key={id}>
-                <button
-                  className={`${styles.navLink} ${activeSection === id ? styles.navLinkActive : ''}`}
-                  onClick={() => scrollToSection(id)}
-                >
-                  {label}
-                </button>
-              </li>
-            ))}
-            <li>
-              <a href={RESUME_PATH} className={styles.cvBtn} download>
-                <Download size={14} aria-hidden="true" />
-                Resume
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  );
-};
-
-export default Header;
+  return <header className={styles.header}>
+    <div className={`container ${styles.inner}`}>
+      <a href="#home" className={styles.brand} aria-label="Aditya S. Tawde — home"><span className={styles.desktopBrand}>AT_</span><span className={styles.mobileBrand}>&gt; AST_</span></a>
+      <button ref={toggle} className={styles.toggle} aria-expanded={open} aria-controls="lab-nav" onClick={() => setOpen(!open)}>{open ? '[ CLOSE ]' : '[ MENU ]'}</button>
+      <nav ref={nav} id="lab-nav" aria-label="Main navigation" className={`${styles.nav} ${open ? styles.open : ''}`}>
+        {sections.map(([id, label], index) => <a href={`#${id}`} key={id} onClick={e => navigate(e, id)}><span className={styles.navNumber}>0{index + 1} / </span>{label}</a>)}
+      </nav>
+      <span className={`mono eyebrow ${styles.available}`}><span className="status-dot" />Available</span>
+    </div>
+  </header>;
+}

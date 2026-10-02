@@ -36,6 +36,8 @@ pnpm-debug.log*
 coverage/
 .nyc_output/
 .pytest_cache/
+.playwright-cli/
+output/playwright/
 
 # ===========================================
 # IDE / Editor

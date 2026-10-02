@@ -1,0 +1,8 @@
+.board { border-top: var(--rule); }
+.row { display: grid; grid-template-columns: 1.5fr 1fr .6fr; gap: 2rem; align-items: center; padding-block: 1.5rem; border-bottom: var(--rule); }
+.name { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: 1.25rem; letter-spacing: -.03em; min-height: 44px; }
+.name span { font-size: 1rem; color: var(--text-faint); margin-right: 2rem; }
+.name:hover span { color: var(--text-primary); }
+.focus, .status { font-size: .65rem; }
+.status { justify-self: end; }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr auto; gap: .4rem 1rem; padding-block: 1rem; } .name { font-size: 1rem; } .name span { margin-right: 0; } .focus { grid-row: 2; font-size: .625rem; } .status { grid-column: 2; grid-row: 1 / 3; font-size: .625rem; } }

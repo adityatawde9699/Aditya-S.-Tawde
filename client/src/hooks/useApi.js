@@ -87,7 +87,9 @@ export function useApi(apiFunction, options = {}) {
         mountedRef.current = true;
 
         if (immediate) {
-            fetchData();
+            // State already records the error. Consume automatic fetch rejections;
+            // explicit refetch still rejects so callers can handle it.
+            void fetchData().catch(() => {});
         }
 
         return () => {

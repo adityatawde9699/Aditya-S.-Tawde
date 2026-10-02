@@ -66,6 +66,34 @@ export async function getProjects(filters: ProjectFilters = {}) {
   );
 }
 
+/** Only IDs from the already-public portfolio catalog are exposed. This lets
+ * the client suppress curated fallback entries when an editor makes one draft,
+ * without exposing draft titles, descriptions, or private repository links. */
+export async function getProjectVisibility() {
+  const catalog: Record<string, string> = {
+    'amadeus-ai': 'amadeus-ai', lunamatch: 'lunamatch', climax: 'climax',
+    cognate: 'cognate', neurox: 'neurox', leger: 'ledger',
+    'coffee-n-me': 'coffee-n-me', 'arth-neeti-game': 'arth-neeti-game',
+    'amadeus-chat': 'amadeus-chat', 'system-32-inter-view-ai': 'system-32-inter-view-ai',
+    'fake-review-system': 'fake-review-system', indus: 'indus', librarypro: 'librarypro',
+    datascraperviz: 'datascraperviz', nexusarena: 'nexusarena',
+    'crystalreadymades.com': 'crystalreadymades.com', queuebite: 'queuebite',
+  };
+  const rows = await db.select({ link: projects.githubLink, status: projects.status }).from(projects);
+  const visibility: Record<string, boolean> = {};
+  for (const row of rows) {
+    if (!row.link) continue;
+    try {
+      const url = new URL(row.link);
+      if (url.hostname !== 'github.com') continue;
+      const segments = url.pathname.toLowerCase().replace(/\.git$/, '').split('/').filter(Boolean);
+      const id = segments[0] === 'adityatawde9699' && segments.length === 2 ? catalog[segments[1]] : undefined;
+      if (id) visibility[id] = (visibility[id] ?? true) && row.status === 'PUBLISHED';
+    } catch { /* Invalid legacy links do not participate in publication control. */ }
+  }
+  return visibility;
+}
+
 export async function getTechStacks() {
   const rows = await db
     .select()

@@ -7,9 +7,9 @@ import React from 'react';
 
 const baseStyles = {
     skeleton: {
-        background: 'linear-gradient(90deg, #1a1a2e 25%, #252543 50%, #1a1a2e 75%)',
+        background: 'linear-gradient(90deg, #101010 25%, #222222 50%, #101010 75%)',
         backgroundSize: '200% 100%',
-        animation: 'shimmer 1.5s infinite',
+        animation: 'none',
         borderRadius: '8px',
     },
 };

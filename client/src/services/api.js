@@ -3,10 +3,6 @@ import axios from 'axios';
 // API Base URL
 const API_URL = import.meta.env.VITE_API_URL;
 
-if (!API_URL && import.meta.env.PROD) {
-    console.error('VITE_API_URL is not set. API calls will fail.');
-}
-
 // Development fallback only
 const BASE_URL = API_URL || 'http://127.0.0.1:8000/api';
 
@@ -52,14 +48,14 @@ api.interceptors.response.use(
         return response;
     },
     async (error) => {
-        const config = error.config;
+        const config = error.config || {};
 
         // Initialize retry count
         config.__retryCount = config.__retryCount || 0;
 
         // Check if we should retry (only for network errors or 5xx)
         const shouldRetry =
-            config.__retryCount < MAX_RETRIES &&
+            config.method === 'get' && config.__retryCount < MAX_RETRIES &&
             (error.code === 'ECONNABORTED' ||
                 error.code === 'ERR_NETWORK' ||
                 (error.response && error.response.status >= 500));
@@ -157,14 +153,17 @@ function getErrorMessage(error) {
 // separate requests at a (possibly sleeping) free-tier backend, they all share
 // a SINGLE `/portfolio/all/` request via the in-flight promise below. The
 // result is briefly cached so a burst of getter calls collapses into one
-// network round-trip. Falls back to per-endpoint requests if `/all/` fails
-// (e.g. older backend), preserving full backward compatibility.
+// network round-trip. Components keep the verified catalog visible if a read
+// fails; failed promises are cleared so the next read can recover.
 
 const PORTFOLIO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 let portfolioPromise = null;
 let portfolioFetchedAt = 0;
 
 function loadPortfolio() {
+    // Curated content works without a configured backend. Never contact a
+    // visitor's localhost from a production build or retry contact mutations.
+    if (!API_URL) return Promise.resolve({ projects: [], featuredProjects: [], skills: [], techStack: [], certifications: [], education: [], experience: [], projectVisibility: {} });
     const now = Date.now();
     if (portfolioPromise && now - portfolioFetchedAt < PORTFOLIO_CACHE_TTL) {
         return portfolioPromise;
@@ -206,9 +205,12 @@ export const getTechStack = section((all) => all.techStack);
 export const getCertifications = section((all) => all.certifications);
 export const getEducation = section((all) => all.education);
 export const getExperience = section((all) => all.experience);
+export const getPortfolio = () => loadPortfolio().then(data => ({ data }));
 
 // Contact endpoint (direct POST — not part of the aggregated read payload)
-export const sendContact = (data) => api.post('/contact/', data);
+export const sendContact = (data) => API_URL
+    ? api.post('/contact/', data)
+    : Promise.reject({ message: 'The contact form is currently unavailable. Please email me directly.' });
 
 // Export the configured axios instance
 export default api;

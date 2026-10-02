@@ -1,4 +1,4 @@
-import { Github, Instagram, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 /**
  * Social links — configurable via environment variables.
@@ -7,7 +7,7 @@ import { Github, Instagram, Linkedin, Twitter, Mail } from 'lucide-react';
 export const SOCIAL_LINKS = [
   {
     name: 'LinkedIn',
-    href: import.meta.env.VITE_SOCIAL_LINKEDIN || 'https://www.linkedin.com/in/aditya-s-tawde-7a1392315',
+    href: import.meta.env.VITE_SOCIAL_LINKEDIN || 'https://www.linkedin.com/in/aditya-s-tawde',
     icon: Linkedin,
   },
   {

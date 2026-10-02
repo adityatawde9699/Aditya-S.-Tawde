@@ -36,6 +36,15 @@ afterEach(async () => {
 });
 
 describe('useApi Hook', () => {
+  it('records automatic fetch failures without leaking a rejected promise', async () => {
+    const snapshots = [];
+    await act(async () => {
+      root.render(<HookHarness hook={() => useApi(mockApiError)} onRender={(value) => snapshots.push(value)} />);
+      await Promise.resolve();
+    });
+    expect(snapshots.at(-1).error).toBe('Network error');
+    expect(snapshots.at(-1).loading).toBe(false);
+  });
   it('fetches data successfully', async () => {
     const snapshots = [];
 

@@ -1,0 +1,75 @@
+.figure { margin: 0; font-family: var(--font-mono); font-size: .6875rem; color: var(--text-secondary); }
+@media (prefers-reduced-motion: no-preference) {
+  .figure:global([data-motion-state="entered"]) .node,
+  .figure:global([data-motion-state="entered"]) .pipeline li {
+    animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) both;
+    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
+  }
+  .figure:global([data-motion-state="entered"]) .imagePair line {
+    stroke-dasharray: 1;
+    animation: var(--motion-trace) var(--motion-diagram) var(--ease-out) both;
+    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
+  }
+  .figure:global([data-motion-state="entered"]) .imagePair circle {
+    animation: var(--motion-point) var(--transition-reveal) var(--ease-out) both;
+    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
+  }
+  .figure:global([data-motion-state="entered"]) .timeTrack > div {
+    transform-origin: left center;
+    animation: var(--motion-extend) var(--motion-diagram) var(--ease-out) both;
+  }
+  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(3) .timeTrack > div { animation-delay: 80ms; }
+  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(4) .timeTrack > div { animation-delay: 160ms; }
+  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(5) .timeTrack > div { animation-delay: 240ms; }
+  .figure:global([data-motion-state="entered"]) .endpoint,
+  .figure:global([data-motion-state="entered"]) .financeCore,
+  .figure:global([data-motion-state="entered"]) .map svg { animation: var(--motion-enter) var(--motion-diagram) var(--ease-out) both; }
+  .figure:global([data-motion-state="entered"]) .apiNode { animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) 100ms both; }
+  .figure:global([data-motion-state="entered"]) .supportBranches { animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) 200ms both; }
+}
+.runtime { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; padding: 2rem 2.5rem; }
+.runtimeFlow { display: grid; gap: 1rem; }
+.node { position: relative; border: var(--rule); padding: .6rem .75rem; color: var(--text-primary); font-size: .6875rem; display: flex; gap: 1rem; }
+.nodeIndex { color: var(--text-secondary); font-size: .625rem; }
+.connector { position: absolute; left: 50%; top: calc(100% - 2px); font-size: .8rem; color: var(--text-secondary); }
+.runtimeRail { display: flex; flex-direction: column; justify-content: center; gap: .6rem; font-size: .625rem; line-height: 1.7; border-left: var(--rule); padding-left: 1.5rem; }
+.railRule { height: 1px; width: 2rem; background: var(--border-strong); margin-block: 1rem; }
+.compact .runtime { padding: 1.5rem; gap: 1rem; }
+.compact .runtimeRail { padding-left: 1rem; }
+.caption { border-top: var(--rule); padding: 1rem 1.25rem; font-size: .6875rem; line-height: 1.7; }
+.pipeline { display: flex; flex-wrap: wrap; margin: 0; padding: 1.25rem; list-style: none; gap: 1rem .8rem; background: var(--bg-primary); border-top: var(--rule); }
+.pipeline li { font-size: .625rem; text-transform: uppercase; display: flex; align-items: baseline; gap: .3rem; }
+.pipeline li:not(:last-child)::after { content: '→'; margin-left: .5rem; }
+.pipeline li > span { color: var(--text-secondary); font-size: .6rem; }
+.lunar { padding: 1.5rem; }
+.imageLabels { display: flex; justify-content: space-between; font-size: .625rem; padding-bottom: .75rem; gap: .5rem; }
+.imagePair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.imagePair img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.imagePair svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--text-strong); stroke: var(--text-strong); stroke-width: .6; }
+.imagePair line { opacity: .45; }
+.visualMeta { font-size: .625rem; margin-top: 1rem; line-height: 1.7; }
+.map { padding: 1rem; }
+.map svg { display: block; width: 100%; }
+.planner { padding: 2rem; }
+.plannerHeader { display: flex; justify-content: space-between; gap: 1rem; border-bottom: var(--rule); padding-bottom: 1.5rem; font-size: .625rem; }
+.timeRow { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; margin-block: 1.5rem; align-items: center; font-size: .65rem; }
+.timeTrack { border-left: var(--rule); padding-left: 1rem; }
+.timeTrack > div { min-width: 90px; display: flex; justify-content: space-between; border: 1px solid var(--border-strong); background: var(--bg-tertiary); padding: .9rem .7rem; color: var(--text-primary); }
+.support { padding: 2rem; text-align: center; }
+.endpoint { display: grid; gap: .7rem; margin-inline: auto; max-width: 240px; padding: 1.3rem; border: var(--rule); }
+.endpoint span, .support small { font-size: .625rem; }
+.endpoint strong, .supportBranches strong { font-weight: 400; color: var(--text-primary); }
+.exchange { display: block; padding-block: .5rem; font-size: 1.5rem; }
+.apiNode { border: 1px solid var(--border-strong); padding: 1.2rem; display: grid; gap: .8rem; color: var(--text-primary); }
+.supportBranches { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+.supportBranches > div { display: grid; gap: .7rem; }
+.supportBranches > div > span { font-size: 1.5rem; }
+.finance { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: center; }
+.inputRows { display: grid; gap: 1rem; }
+.inputRows > div { display: flex; gap: .7rem; justify-content: space-between; border-bottom: var(--rule); padding-block: 1rem; font-size: .625rem; }
+.inputRows strong { font-weight: 400; color: var(--text-primary); }
+.financeCore { display: grid; gap: 1rem; text-align: center; border-left: var(--rule); padding-left: 1.5rem; font-size: .625rem; }
+.financeCore div { padding: 1rem .5rem; border: 1px solid var(--border-strong); color: var(--text-primary); line-height: 1.8; }
+.financeCore strong { font-size: 1rem; font-weight: 400; color: var(--text-primary); }
+.financeCore small { font-size: .625rem; }
+@media (max-width: 640px) { .runtime { padding: 1.5rem; gap: 1rem; } .runtimeRail { padding-left: 1rem; } .pipeline { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; } .pipeline li:not(:last-child)::after { content: '↓'; } .pipeline li { font-size: .65rem; } .lunar { padding: 1rem; } .imageLabels { font-size: .6rem; } .imagePair { gap: .7rem; } .planner, .support, .finance { padding: 1.25rem; } .finance { gap: .75rem; } .financeCore { padding-left: .75rem; } .inputRows > div { gap: .3rem; } }

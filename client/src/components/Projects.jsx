@@ -1,171 +1,25 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Layers } from 'lucide-react';
-import { FEATURED_PROJECTS, PROJECT_CATEGORIES } from '../data/projectData';
-import { getProjects } from '../services/api';
-import { useApi } from '../hooks';
+import { FEATURED_PROJECTS, mergeProjects } from '../data/projectData';
+import { usePortfolio } from '../hooks/usePortfolio';
 import SectionHeader from './SectionHeader';
+import SystemDiagram from './SystemDiagram';
 import styles from './Projects.module.css';
-
-const COLOR_MAP = {
-  purple: '#BD93F9',
-  pink: '#FF79C6',
-  cyan: '#8BE9FD',
-  green: '#50FA7B',
-  orange: '#FFB86C',
-  yellow: '#F1FA8C',
-  red: '#FF5555',
-};
-
-const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  const { data: apiData } = useApi(getProjects, { cacheTime: 300000 });
-
-  const formattedApiData = useMemo(() => {
-    if (!apiData || apiData.length === 0) return null;
-    return apiData.map(p => ({
-      ...p,
-      categoryDisplay: p.category_display || p.category,
-      githubLink: p.github_link,
-      liveLink: p.live_link,
-      techStack: p.tech_stack?.map(t => t.name) || [],
-      color: 'purple', // default color if backend doesn't provide
-    }));
-  }, [apiData]);
-
-  const projectsData = formattedApiData || FEATURED_PROJECTS;
-
-  const filteredProjects = useMemo(() => {
-    if (activeCategory === 'all') return projectsData;
-    return projectsData.filter(p => p.category === activeCategory);
-  }, [activeCategory, projectsData]);
-
-  return (
-    <section id="projects" className={styles.section} aria-labelledby="projects-heading">
-      <div className={styles.container}>
-        <SectionHeader
-          label="// projects"
-          title="Featured Projects"
-          subtitle="Production-grade systems, not toy demos. Each project solves real problems."
-          center
-        />
-
-        {/* Category Filters */}
-        <div className={styles.filterBar}>
-          {PROJECT_CATEGORIES.map(({ key, label }) => (
-            <button
-              key={key}
-              className={`${styles.filterBtn} ${activeCategory === key ? styles.filterActive : ''}`}
-              onClick={() => setActiveCategory(key)}
-            >
-              {label}
-            </button>
-          ))}
+export default function Projects() {
+  const { projects = [], projectVisibility = {} } = usePortfolio();
+  const selected = mergeProjects(FEATURED_PROJECTS, projects, projectVisibility);
+  return <section id="projects" className="lab-section" aria-labelledby="projects-heading">
+    <SectionHeader id="projects-heading" label="01" title="Selected systems" subtitle="RESEARCH → ARCHITECTURE → IMPLEMENTATION" />
+    <p className={styles.intro}>Ideas are the starting point.<br /><span>The system is the work.</span></p>
+    <div className={styles.index}><span className="mono muted">SELECTED WORK / {String(selected.length).padStart(2, '0')} SYSTEMS</span><span className="mono muted">SOURCE AVAILABLE ↗</span></div>
+    {selected.map(project => <article key={project.id} id={project.id} className={styles.caseStudy} aria-labelledby={`${project.id}-title`}>
+      <div className={styles.projectMeta}><span className="mono muted">SYS_{String(FEATURED_PROJECTS.indexOf(FEATURED_PROJECTS.find(p => p.id === project.id)) + 1).padStart(3, '0')}</span><span className="mono muted">{project.categoryDisplay}</span><span className="mono eyebrow"><span className="status-dot" />{project.status}</span></div>
+      <div className={styles.projectGrid}>
+        <div className={styles.copy} data-motion><h3 id={`${project.id}-title`}>{project.title}</h3><p className={`mono ${styles.subtitle}`}>{project.subtitle}</p>
+          <dl className={styles.explanation}>{[['Problem', project.problem], ['System', project.system], ['Built', project.built]].map(([key, value]) => <div key={key}><dt className="mono muted">{key}</dt><dd>{value}</dd></div>)}</dl>
+          <ul className={styles.tech} aria-label={`${project.title} technology stack`}>{project.techStack.map(tech => <li key={tech}>{tech}</li>)}</ul>
+          <div className={styles.links}><a href={project.githubLink} className="text-link" target="_blank" rel="noopener noreferrer" aria-label={`${project.title} GitHub source`}>GitHub <span aria-hidden="true">↗</span></a>{project.liveLink && <a href={project.liveLink} className="text-link" target="_blank" rel="noopener noreferrer" aria-label={`${project.title} demo`}>Demo <span aria-hidden="true">↗</span></a>}</div>
         </div>
-
-        {/* Project Grid */}
-        <motion.div className={styles.projectGrid} layout>
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => {
-              const accentColor = COLOR_MAP[project.color] || COLOR_MAP.purple;
-
-              return (
-                <motion.article
-                  key={project.id}
-                  className={styles.projectCard}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
-                  style={{ '--project-accent': accentColor }}
-                >
-                  {/* Image / Placeholder */}
-                  <div className={styles.cardImage}>
-                    {project.image ? (
-                      <img src={project.image} alt={project.title} loading="lazy" />
-                    ) : (
-                      <div className={styles.imagePlaceholder}>
-                        <Layers size={32} aria-hidden="true" />
-                      </div>
-                    )}
-                    <span className={styles.categoryBadge} style={{ color: accentColor }}>
-                      {project.categoryDisplay}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className={styles.cardContent}>
-                    <h3 className={styles.cardTitle}>{project.title}</h3>
-                    <p className={styles.cardDescription}>{project.description}</p>
-
-                    {/* Architecture */}
-                    {project.architecture && (
-                      <div className={styles.architecture}>
-                        <span className={styles.archLabel}>Architecture:</span>
-                        <span className={styles.archText}>{project.architecture}</span>
-                      </div>
-                    )}
-
-                    {/* Impact */}
-                    {project.impact && (
-                      <div className={styles.impact}>
-                        <span className={styles.impactLabel}>↗</span>
-                        <span className={styles.impactText}>{project.impact}</span>
-                      </div>
-                    )}
-
-                    {/* Tech Stack */}
-                    <div className={styles.techStack}>
-                      {project.techStack.map(tech => (
-                        <span key={tech} className={styles.techTag}>{tech}</span>
-                      ))}
-                    </div>
-
-                    {/* Links */}
-                    <div className={styles.cardLinks}>
-                      {project.githubLink && (
-                        <a
-                          href={project.githubLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.cardLink}
-                          aria-label={`View ${project.title} source code`}
-                        >
-                          <Github size={16} aria-hidden="true" />
-                          Source
-                        </a>
-                      )}
-                      {project.liveLink && (
-                        <a
-                          href={project.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`${styles.cardLink} ${styles.liveLink}`}
-                          aria-label={`View ${project.title} live demo`}
-                        >
-                          <ExternalLink size={16} aria-hidden="true" />
-                          Demo
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Empty State */}
-        {filteredProjects.length === 0 && (
-          <div className={styles.emptyState}>
-            <p>No projects in this category yet.</p>
-          </div>
-        )}
+        <div className={styles.visual}><div className={styles.visualHeading}><span>SYSTEM STUDY / {project.visual.toUpperCase()}</span><span>↗</span></div><SystemDiagram project={project} /><ul className={styles.notes}>{project.notes.map(note => <li key={note}>{note}</li>)}</ul></div>
       </div>
-    </section>
-  );
-};
-
-export default Projects;
+    </article>)}
+  </section>;
+}

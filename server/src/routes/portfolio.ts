@@ -8,6 +8,7 @@ import {
   getEducation,
   getExperiences,
   getProjects,
+  getProjectVisibility,
   getSkills,
   getTechStacks,
 } from '../lib/queries.js';
@@ -64,7 +65,7 @@ portfolio.get('/experience/', async (c) =>
  */
 portfolio.get('/all/', async (c) => {
   const data = await cached('all', TTL, async () => {
-    const [projects, featuredProjects, skills, techStack, certifications, education, experience] =
+    const [projects, featuredProjects, skills, techStack, certifications, education, experience, projectVisibility] =
       await Promise.all([
         getProjects(),
         getProjects({ featured: true }),
@@ -73,8 +74,9 @@ portfolio.get('/all/', async (c) => {
         getCertifications(),
         getEducation(),
         getExperiences(),
+        getProjectVisibility(),
       ]);
-    return { projects, featuredProjects, skills, techStack, certifications, education, experience };
+    return { projects, featuredProjects, skills, techStack, certifications, education, experience, projectVisibility };
   });
   return c.json(data);
 });

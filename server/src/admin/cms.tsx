@@ -26,38 +26,38 @@ const cms = new Hono();
 const STYLES = `
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:#0b0b14; color:#e7e7ef; }
-  a { color:#a78bfa; text-decoration:none; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:#080808; color:#E8E8E8; }
+  a { color:#CFCFCF; text-decoration:none; }
   a:hover { text-decoration:underline; }
-  header { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; background:#15152a; border-bottom:1px solid #26264a; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; background:#101010; border-bottom:1px solid #303030; }
   header .brand { font-weight:700; letter-spacing:.3px; }
   .layout { display:flex; min-height: calc(100vh - 56px); }
-  nav { width:220px; padding:18px 12px; border-right:1px solid #26264a; background:#101024; }
-  nav a { display:block; padding:9px 12px; border-radius:8px; margin-bottom:4px; color:#c9c9da; }
-  nav a.active, nav a:hover { background:#23234a; color:#fff; text-decoration:none; }
+  nav { width:220px; padding:18px 12px; border-right:1px solid #303030; background:#101010; }
+  nav a { display:block; padding:9px 12px; border-radius:8px; margin-bottom:4px; color:#A0A0A0; }
+  nav a.active, nav a:hover { background:#303030; color:#FFFFFF; text-decoration:none; }
   main { flex:1; padding:28px 32px; max-width: 980px; }
   h1 { font-size:20px; margin:0 0 18px; }
   table { width:100%; border-collapse:collapse; font-size:14px; }
-  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid #23234a; }
-  th { color:#9a9ab8; font-weight:600; }
-  .btn { display:inline-block; padding:8px 14px; border-radius:8px; border:1px solid #3a3a6a; background:#6d4aff; color:#fff; cursor:pointer; font-size:14px; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid #303030; }
+  th { color:#A0A0A0; font-weight:600; }
+  .btn { display:inline-block; padding:8px 14px; border-radius:8px; border:1px solid #4A4A4A; background:#303030; color:#FFFFFF; cursor:pointer; font-size:14px; }
   .btn.secondary { background:transparent; }
-  .btn.danger { background:#b3325a; border-color:#b3325a; }
+  .btn.danger { background:#303030; border-color:#303030; }
   .row-actions a, .row-actions button { margin-right:8px; }
-  form.stack label { display:block; margin:14px 0 6px; font-size:13px; color:#b9b9d4; }
+  form.stack label { display:block; margin:14px 0 6px; font-size:13px; color:#A0A0A0; }
   form.stack input[type=text], form.stack input[type=url], form.stack input[type=number],
   form.stack input[type=date], form.stack select, form.stack textarea {
-    width:100%; padding:10px 12px; border-radius:8px; border:1px solid #2f2f5a; background:#101024; color:#e7e7ef; font-size:14px;
+    width:100%; padding:10px 12px; border-radius:8px; border:1px solid #4A4A4A; background:#101010; color:#E8E8E8; font-size:14px;
   }
   form.stack textarea { min-height:120px; font-family: ui-monospace, monospace; }
-  .help { font-size:12px; color:#7a7a9a; margin-top:4px; }
+  .help { font-size:12px; color:#A0A0A0; margin-top:4px; }
   .checks { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .checks label { display:flex; align-items:center; gap:6px; background:#16162e; padding:6px 10px; border-radius:6px; margin:0; }
+  .checks label { display:flex; align-items:center; gap:6px; background:#171717; padding:6px 10px; border-radius:6px; margin:0; }
   .toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
   .login-wrap { display:flex; align-items:center; justify-content:center; min-height:100vh; }
-  .card { background:#15152a; border:1px solid #26264a; padding:28px; border-radius:14px; width:320px; }
-  .error { color:#ff8aa6; font-size:13px; margin-top:10px; }
-  .pill { font-size:12px; padding:2px 8px; border-radius:99px; background:#23234a; }
+  .card { background:#101010; border:1px solid #303030; padding:28px; border-radius:14px; width:320px; }
+  .error { color:#E8E8E8; font-size:13px; margin-top:10px; }
+  .pill { font-size:12px; padding:2px 8px; border-radius:99px; background:#303030; }
 `;
 
 const Layout: FC<PropsWithChildren<{ title: string; active?: string; username?: string }>> = (props) => (

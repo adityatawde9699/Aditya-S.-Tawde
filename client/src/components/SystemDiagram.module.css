@@ -1,75 +1,45 @@
-.figure { margin: 0; font-family: var(--font-mono); font-size: .6875rem; color: var(--text-secondary); }
-@media (prefers-reduced-motion: no-preference) {
-  .figure:global([data-motion-state="entered"]) .node,
-  .figure:global([data-motion-state="entered"]) .pipeline li {
-    animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) both;
-    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
-  }
-  .figure:global([data-motion-state="entered"]) .imagePair line {
-    stroke-dasharray: 1;
-    animation: var(--motion-trace) var(--motion-diagram) var(--ease-out) both;
-    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
-  }
-  .figure:global([data-motion-state="entered"]) .imagePair circle {
-    animation: var(--motion-point) var(--transition-reveal) var(--ease-out) both;
-    animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
-  }
-  .figure:global([data-motion-state="entered"]) .timeTrack > div {
-    transform-origin: left center;
-    animation: var(--motion-extend) var(--motion-diagram) var(--ease-out) both;
-  }
-  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(3) .timeTrack > div { animation-delay: 80ms; }
-  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(4) .timeTrack > div { animation-delay: 160ms; }
-  .figure:global([data-motion-state="entered"]) .timeRow:nth-child(5) .timeTrack > div { animation-delay: 240ms; }
-  .figure:global([data-motion-state="entered"]) .endpoint,
-  .figure:global([data-motion-state="entered"]) .financeCore,
-  .figure:global([data-motion-state="entered"]) .map svg { animation: var(--motion-enter) var(--motion-diagram) var(--ease-out) both; }
-  .figure:global([data-motion-state="entered"]) .apiNode { animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) 100ms both; }
-  .figure:global([data-motion-state="entered"]) .supportBranches { animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) 200ms both; }
-}
-.runtime { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; padding: 2rem 2.5rem; }
-.runtimeFlow { display: grid; gap: 1rem; }
-.node { position: relative; border: var(--rule); padding: .6rem .75rem; color: var(--text-primary); font-size: .6875rem; display: flex; gap: 1rem; }
-.nodeIndex { color: var(--text-secondary); font-size: .625rem; }
-.connector { position: absolute; left: 50%; top: calc(100% - 2px); font-size: .8rem; color: var(--text-secondary); }
-.runtimeRail { display: flex; flex-direction: column; justify-content: center; gap: .6rem; font-size: .625rem; line-height: 1.7; border-left: var(--rule); padding-left: 1.5rem; }
-.railRule { height: 1px; width: 2rem; background: var(--border-strong); margin-block: 1rem; }
-.compact .runtime { padding: 1.5rem; gap: 1rem; }
-.compact .runtimeRail { padding-left: 1rem; }
-.caption { border-top: var(--rule); padding: 1rem 1.25rem; font-size: .6875rem; line-height: 1.7; }
-.pipeline { display: flex; flex-wrap: wrap; margin: 0; padding: 1.25rem; list-style: none; gap: 1rem .8rem; background: var(--bg-primary); border-top: var(--rule); }
-.pipeline li { font-size: .625rem; text-transform: uppercase; display: flex; align-items: baseline; gap: .3rem; }
-.pipeline li:not(:last-child)::after { content: '→'; margin-left: .5rem; }
-.pipeline li > span { color: var(--text-secondary); font-size: .6rem; }
-.lunar { padding: 1.5rem; }
-.imageLabels { display: flex; justify-content: space-between; font-size: .625rem; padding-bottom: .75rem; gap: .5rem; }
-.imagePair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-.imagePair img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-.imagePair svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--text-strong); stroke: var(--text-strong); stroke-width: .6; }
-.imagePair line { opacity: .45; }
-.visualMeta { font-size: .625rem; margin-top: 1rem; line-height: 1.7; }
-.map { padding: 1rem; }
+.figure { min-width: 0; margin: 0; font-family: var(--font-mono); color: #CFCFCF; }
+.canvas { display: grid; place-items: center; min-height: 340px; padding: clamp(1.25rem, 2.5vw, 2.25rem); border-block: 1px solid #303030; background: #101010; }
+.caption { padding: .9rem 0; font-size: .625rem; line-height: 1.7; letter-spacing: .04em; color: #A0A0A0; text-transform: uppercase; }
+.pipeline { display: flex; flex-wrap: wrap; gap: .7rem 1rem; padding: 1rem 0 0; margin: 0; list-style: none; border-top: 1px solid #303030; }
+.pipeline li { display: flex; gap: .4rem; font-size: .625rem; text-transform: uppercase; }
+.pipeline li span { color: #A0A0A0; }
+.flow { width: min(100%, 420px); padding: 0; margin: 0 auto; list-style: none; }
+.flow li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); align-items: center; gap: 0 .65rem; }
+.flowNumber { font-size: .625rem; color: #A0A0A0; }
+.flowNode, .flowActive { display: grid; place-items: center; min-height: 32px; padding: .35rem .5rem; border: 1px solid #303030; font-size: .625rem; line-height: 1.45; text-align: center; color: #CFCFCF; }
+.flowActive { color: #FFFFFF; border-color: #A0A0A0; background: #222222; }
+.flowArrow { grid-column: 2; text-align: center; font-size: .7rem; line-height: 1.5; color: #A0A0A0; }
+.lunar { width: 100%; }
+.lunarFrames { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; height: clamp(200px, 22vw, 310px); }
+.lunarFrames > div { position: relative; overflow: hidden; border: 1px solid #303030; background: #080808; }
+.lunarFrames img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.18) brightness(.75); }
+.lunarFrames span { position: absolute; top: .5rem; left: .5rem; padding: .2rem .35rem; background: #080808; color: #FFFFFF; font-size: .55rem; }
+.lunarFrames svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.lunarFrames line { stroke: #FFFFFF; stroke-width: .25; opacity: .8; }
+.lunarFrames circle { fill: #FFFFFF; }
+.miniFlow { margin: .9rem 0 0; padding-top: .9rem; border-top: 1px solid #303030; color: #CFCFCF; font-size: .625rem; line-height: 1.8; text-transform: uppercase; }
+.map { width: 100%; }
 .map svg { display: block; width: 100%; }
-.planner { padding: 2rem; }
-.plannerHeader { display: flex; justify-content: space-between; gap: 1rem; border-bottom: var(--rule); padding-bottom: 1.5rem; font-size: .625rem; }
-.timeRow { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; margin-block: 1.5rem; align-items: center; font-size: .65rem; }
-.timeTrack { border-left: var(--rule); padding-left: 1rem; }
-.timeTrack > div { min-width: 90px; display: flex; justify-content: space-between; border: 1px solid var(--border-strong); background: var(--bg-tertiary); padding: .9rem .7rem; color: var(--text-primary); }
-.support { padding: 2rem; text-align: center; }
-.endpoint { display: grid; gap: .7rem; margin-inline: auto; max-width: 240px; padding: 1.3rem; border: var(--rule); }
-.endpoint span, .support small { font-size: .625rem; }
-.endpoint strong, .supportBranches strong { font-weight: 400; color: var(--text-primary); }
-.exchange { display: block; padding-block: .5rem; font-size: 1.5rem; }
-.apiNode { border: 1px solid var(--border-strong); padding: 1.2rem; display: grid; gap: .8rem; color: var(--text-primary); }
-.supportBranches { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
-.supportBranches > div { display: grid; gap: .7rem; }
-.supportBranches > div > span { font-size: 1.5rem; }
-.finance { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: center; }
-.inputRows { display: grid; gap: 1rem; }
-.inputRows > div { display: flex; gap: .7rem; justify-content: space-between; border-bottom: var(--rule); padding-block: 1rem; font-size: .625rem; }
-.inputRows strong { font-weight: 400; color: var(--text-primary); }
-.financeCore { display: grid; gap: 1rem; text-align: center; border-left: var(--rule); padding-left: 1.5rem; font-size: .625rem; }
-.financeCore div { padding: 1rem .5rem; border: 1px solid var(--border-strong); color: var(--text-primary); line-height: 1.8; }
-.financeCore strong { font-size: 1rem; font-weight: 400; color: var(--text-primary); }
-.financeCore small { font-size: .625rem; }
-@media (max-width: 640px) { .runtime { padding: 1.5rem; gap: 1rem; } .runtimeRail { padding-left: 1rem; } .pipeline { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; } .pipeline li:not(:last-child)::after { content: '↓'; } .pipeline li { font-size: .65rem; } .lunar { padding: 1rem; } .imageLabels { font-size: .6rem; } .imagePair { gap: .7rem; } .planner, .support, .finance { padding: 1.25rem; } .finance { gap: .75rem; } .financeCore { padding-left: .75rem; } .inputRows > div { gap: .3rem; } }
+.mapGrid path { fill: none; stroke: #222222; stroke-width: .7; stroke-dasharray: 2 5; }
+.contours path { fill: none; stroke: #303030; stroke-width: 1; }
+.route { fill: none; stroke: #CFCFCF; stroke-width: 1.2; stroke-dasharray: 4 5; }
+.mapNode circle:first-child { fill: none; stroke: #707070; stroke-width: .8; }
+.mapNode circle:nth-child(2) { fill: #E8E8E8; }
+.mapNode text, .mapLabel { fill: #A0A0A0; font: 9px var(--font-mono); }
+.mapLabel { font-size: 8px; }
+.planner { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(1rem, 3vw, 2rem); }
+.planner .flow { padding-right: 1rem; border-right: 1px solid #303030; }
+.schedule { display: grid; gap: .5rem; font-size: .65rem; }
+.schedule > span { font-size: .625rem; letter-spacing: .08em; }
+.schedule > div { display: flex; align-items: center; gap: .4rem; min-height: 42px; padding: .5rem .7rem; border: 1px solid #303030; }
+.schedule .scheduleActive { color: #FFFFFF; border-color: #707070; background: #222222; }
+.schedule small { font-size: .55rem; color: #A0A0A0; }
+.finance { width: 100%; padding: 0; margin: 0; list-style: none; }
+.finance li { display: grid; grid-template-columns: 2rem 1fr 2rem; align-items: center; gap: .5rem; min-height: 54px; border-bottom: 1px solid #303030; font-size: .65rem; }
+.finance li:first-child { border-top: 1px solid #303030; }
+.finance strong { font-weight: 400; color: #E8E8E8; }
+.finance li > span:last-child { text-align: right; color: #A0A0A0; }
+.compact .canvas { min-height: 220px; }
+@media (max-width: 640px) { .canvas { min-height: 250px; padding: 1rem; } .lunarFrames { height: 180px; gap: .35rem; } .lunarFrames span { top: .25rem; left: .25rem; font-size: .45rem; } .planner { grid-template-columns: 1fr; } .planner .flow { padding-right: 0; padding-bottom: 1rem; border-right: 0; border-bottom: 1px solid #303030; } .pipeline { display: grid; grid-template-columns: repeat(2, 1fr); } }
+@media (prefers-reduced-motion: no-preference) { .figure:global([data-motion-state="entered"]) .flow li, .figure:global([data-motion-state="entered"]) .finance li, .figure:global([data-motion-state="entered"]) .mapNode { animation: var(--motion-enter) var(--transition-reveal) var(--ease-out) both; animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger)); } .figure:global([data-motion-state="entered"]) .lunarFrames line { stroke-dasharray: 1; animation: var(--motion-trace) var(--motion-diagram) var(--ease-out) both; animation-delay: calc(var(--motion-order, 0) * var(--motion-stagger)); } }

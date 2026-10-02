@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AST logo</title>
+  <desc id="desc">Monochrome AST personal logo</desc>
+  <rect width="512" height="512" rx="96" fill="#080808"/>
+  <text x="256" y="310" fill="#E8E8E8" font-family="Arial, Helvetica, sans-serif" font-size="176" font-weight="800" letter-spacing="-12" text-anchor="middle">AST</text>
+  <path d="M72 386h368" stroke="#777" stroke-width="16"/>
+</svg>

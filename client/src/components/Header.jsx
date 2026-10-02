@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './Header.module.css';
+import Logo from './Logo';
 const sections = [['projects', 'Work'], ['about', 'About'], ['skills', 'Stack'], ['experience', 'Journey'], ['contact', 'Contact']];
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -34,10 +35,10 @@ export default function Header() {
   };
   return <header className={styles.header}>
     <div className={`container ${styles.inner}`}>
-      <a href="#home" className={styles.brand} aria-label="Aditya S. Tawde — home"><span className={styles.desktopBrand}>AT_</span><span className={styles.mobileBrand}>&gt; AST_</span></a>
+      <a href="/#home" className={styles.brand} aria-label="Aditya S. Tawde — home"><Logo /><span className={styles.mobileBrand}>&gt; AST_</span></a>
       <button ref={toggle} className={styles.toggle} aria-expanded={open} aria-controls="lab-nav" onClick={() => setOpen(!open)}>{open ? '[ CLOSE ]' : '[ MENU ]'}</button>
       <nav ref={nav} id="lab-nav" aria-label="Main navigation" className={`${styles.nav} ${open ? styles.open : ''}`}>
-        {sections.map(([id, label], index) => <a href={`#${id}`} key={id} onClick={e => navigate(e, id)}><span className={styles.navNumber}>0{index + 1} / </span>{label}</a>)}
+        {sections.map(([id, label], index) => <a href={`/#${id}`} key={id} onClick={e => navigate(e, id)}><span className={styles.navNumber}>0{index + 1} / </span>{label}</a>)}
       </nav>
       <span className={`mono eyebrow ${styles.available}`}><span className="status-dot" />Available</span>
     </div>

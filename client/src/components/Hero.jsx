@@ -1,13 +1,15 @@
 import { RESUME_PATH } from '../config/social';
 import styles from './Hero.module.css';
-import WorkstationScene from './WorkstationScene';
 
 const focus = ['AI SYSTEMS', 'LLMs', 'COMPUTER VISION', 'GEOSPATIAL AI', 'DATA ENGINEERING'];
 
 export default function Hero() {
   return <section id="home" className={styles.hero} aria-labelledby="hero-heading">
     <div className={styles.scene} aria-hidden="true">
-      <WorkstationScene />
+      <picture>
+        <source media="(max-width: 640px)" srcSet="/images/workstation/hero-mobile.webp" />
+        <img src="/images/workstation/hero.webp" alt="" width="1920" height="711" fetchPriority="high" decoding="async" />
+      </picture>
     </div>
     <div className={styles.grid} aria-hidden="true" />
     <div className={`mono ${styles.topline}`}><span>00 / PERSONAL SYSTEMS LAB</span><span>AST_001</span></div>

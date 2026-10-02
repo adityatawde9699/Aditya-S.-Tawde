@@ -17,11 +17,11 @@
 .explanation dd { margin: 0; font-size: .875rem; color: var(--text-secondary); line-height: 1.85; }
 .tech { display: flex; flex-wrap: wrap; gap: .4rem .8rem; list-style: none; padding: 1.25rem 0 0; margin: 1.5rem 0 0; border-top: var(--rule); }
 .tech li { font-family: var(--font-mono); font-size: .65rem; text-transform: uppercase; color: var(--text-secondary); }
-.links { display: flex; gap: 2rem; margin-top: 1.5rem; }
+.links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 1.5rem; }
 .links a { font-size: .65rem; }
-.visual { min-width: 0; background: var(--bg-secondary); border: var(--rule); }
-.visualHeading { display: flex; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: var(--rule); font-family: var(--font-mono); font-size: .625rem; letter-spacing: .05em; color: var(--text-secondary); }
-.notes { display: grid; grid-template-columns: 1fr 1fr; margin: 0; padding: 1.25rem; gap: .65rem; list-style: none; border-top: var(--rule); }
+.visual { min-width: 0; }
+.visualHeading { display: flex; justify-content: space-between; padding: 0 0 .75rem; font-family: var(--font-mono); font-size: .625rem; letter-spacing: .05em; color: var(--text-secondary); }
+.notes { display: flex; flex-wrap: wrap; margin: 2rem 0 0; padding: 0; gap: .45rem 1rem; list-style: none; }
 .notes li { font-family: var(--font-mono); text-transform: uppercase; font-size: .625rem; color: var(--text-secondary); }
 .notes li::before { content: '+ '; color: var(--text-primary); }
 @media (max-width: 900px) { .projectGrid { grid-template-columns: 1fr; gap: 2rem; } .visual { max-width: 700px; width: 100%; } .explanation dd { max-width: var(--reading-width); } }

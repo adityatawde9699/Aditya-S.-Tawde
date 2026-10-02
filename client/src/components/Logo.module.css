@@ -1,0 +1,6 @@
+.logo { display: inline-flex; align-items: center; gap: .65rem; }
+.mark { display: none; width: 1.75rem; height: 1.75rem; color: var(--text-strong); flex: 0 0 auto; }
+.wordmark { font-family: var(--font-mono); font-weight: 500; letter-spacing: -.04em; }
+@media (max-width: 900px) {
+  .logo { display: none; }
+}

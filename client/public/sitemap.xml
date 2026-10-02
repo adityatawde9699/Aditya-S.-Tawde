@@ -6,4 +6,11 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url><loc>https://aditya-s-tawde.vercel.app/archive</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/amadeus-ai</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/lunamatch</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/climax</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/cognate</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/neurox</loc></url>
+  <url><loc>https://aditya-s-tawde.vercel.app/systems/ledger</loc></url>
 </urlset>

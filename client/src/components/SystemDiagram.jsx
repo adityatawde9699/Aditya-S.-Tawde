@@ -1,50 +1,57 @@
 import styles from './SystemDiagram.module.css';
 
-function Runtime({ compact }) {
-  const nodes = compact ? ['INPUT', 'PLAN', 'EXECUTE', 'REFLECT'] : ['CLIENT', 'TRANSPORT', 'AGENT RUNTIME', 'PLAN', 'TOOLS', 'MEMORY', 'OBSERVATION', 'REFLECTION', 'RESPONSE'];
-  return <div className={styles.runtime}>
-    <div className={styles.runtimeFlow}>{nodes.map((node, i) => <div key={node} className={styles.node} style={{ '--motion-order': i }}><span className={styles.nodeIndex}>{String(i + 1).padStart(2, '0')}</span><span>{node}</span>{i < nodes.length - 1 && <span className={styles.connector} aria-hidden="true">↓</span>}</div>)}</div>
-    <div className={styles.runtimeRail}><span>LLM ROUTING</span><span>LOCAL / CLOUD</span><span className={styles.railRule} /><span>PERSISTENT<br />MEMORY</span><span className={styles.railRule} /><span>TOOLS /<br />PERMISSIONS</span></div>
-  </div>;
+function Flow({ steps, active = -1, arrows = '↓' }) {
+  return <ol className={styles.flow}>{steps.map((step, index) => <li key={step} style={{ '--motion-order': index }}>
+    <span className={styles.flowNumber}>{String(index + 1).padStart(2, '0')}</span>
+    <span className={index === active ? styles.flowActive : styles.flowNode}>{step}</span>
+    {index < steps.length - 1 && <span className={styles.flowArrow} aria-hidden="true">{arrows}</span>}
+  </li>)}</ol>;
 }
+
 function Lunar() {
-  const points = [[48, 50, 339, 57], [122, 38, 417, 45], [97, 107, 387, 111], [191, 87, 483, 95], [155, 170, 453, 175], [60, 214, 360, 225], [225, 202, 527, 216]];
+  const points = [[16,24,67,25],[31,35,82,37],[24,49,75,50],[39,64,90,66],[12,75,63,76],[42,82,93,83]];
   return <div className={styles.lunar}>
-    <div className={styles.imageLabels}><span>SOURCE / TMC-2 FORE</span><span>REFERENCE / NADIR</span></div>
-    <div className={styles.imagePair}>
-      <img src="/images/lunar/source.webp" alt="LunaMatch TMC-2 fore science-window preview of lunar terrain" loading="lazy" width="700" height="700" />
-      <img src="/images/lunar/reference.webp" alt="LunaMatch TMC-2 nadir science-window preview of lunar terrain" loading="lazy" width="700" height="700" />
-      <svg viewBox="0 0 600 280" preserveAspectRatio="none" aria-hidden="true">{points.map(([x, y, a, b], i) => <g key={i} style={{ '--motion-order': i }}><line pathLength="1" x1={x} y1={y} x2={a} y2={b} /><circle cx={x} cy={y} r="3" /><circle cx={a} cy={b} r="3" /></g>)}</svg>
+    <div className={styles.lunarFrames}>
+      <div><img src="/images/lunar/source.webp" alt="LunaMatch source lunar terrain preview" loading="lazy" width="700" height="700" /><span>IMAGE_A / SOURCE</span></div>
+      <div><img src="/images/lunar/reference.webp" alt="LunaMatch reference lunar terrain preview" loading="lazy" width="700" height="700" /><span>IMAGE_B / REFERENCE</span></div>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">{points.map(([x1,y1,x2,y2],i)=><g key={i} style={{ '--motion-order': i }}><line pathLength="1" x1={x1} y1={y1} x2={x2} y2={y2} /><circle cx={x1} cy={y1} r=".75" /><circle cx={x2} cy={y2} r=".75" /></g>)}</svg>
     </div>
-    <div className={styles.visualMeta}>REPOSITORY IMAGE PREVIEWS / ILLUSTRATIVE TIE POINTS</div>
+    <p className={styles.miniFlow}>IMAGE → FEATURE EXTRACTION → MATCHING → RANSAC → REGISTRATION → REFINEMENT</p>
   </div>;
 }
-function MapStudy() {
-  return <div className={styles.map}>
-    <svg viewBox="0 0 600 300" role="img" aria-label="Schematic map connecting environmental observations to a risk region and response">
-      <defs><pattern id="map-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="var(--surface-solid)" strokeWidth="1" /></pattern></defs>
-      <rect width="600" height="300" fill="url(#map-grid)" />
-      <g fill="none" stroke="var(--border-strong)" strokeWidth="1"><path d="M0 60L140 100L210 60L360 80L470 10M10 240L135 180L280 210L370 130L590 150M80 0L140 100L135 180L180 300M310 0L280 90L280 210L350 300M510 0L470 110L510 220L590 270" /><path d="M0 140C110 100 100 220 220 160S370 230 600 70" stroke="var(--text-secondary)" /></g>
-      <path d="M230 90L360 70L410 150L335 225L230 190Z" fill="var(--surface-hover)" fillOpacity=".5" stroke="var(--text-secondary)" strokeDasharray="4 5" />
-      <g stroke="var(--text-primary)" fill="var(--bg-primary)">{[[140,100],[280,130],[350,175],[470,110]].map(([x,y], i) => <g key={i}><circle cx={x} cy={y} r="6" /><path d={`M${x-12} ${y}h24M${x} ${y-12}v24`} /></g>)}</g>
-      <g fill="var(--text-primary)" fontSize="12" fontFamily="monospace"><text x="155" y="88">OBSERVATION</text><text x="295" y="116">RISK REGION</text><text x="366" y="194">INTERVENTION</text><text x="485" y="97">RESPONSE</text><text x="20" y="280">SCHEMATIC / NO LIVE DATA</text></g>
-    </svg>
-  </div>;
+
+function Map({ flow }) {
+  const nodes = [[75,225],[180,145],[290,195],[405,105],[525,155]];
+  return <div className={styles.map}><svg viewBox="0 0 600 300" role="img" aria-label="Schematic environmental observations linked along a response path; no live data">
+    <g className={styles.mapGrid}>{[100,200,300,400,500].map(x=><path key={x} d={`M${x} 0v300`}/>)}</g>
+    <g className={styles.contours}>{Array.from({length:15},(_,i)=><path key={i} d={`M-20 ${14+i*20} C95 ${-30+i*20} 155 ${70+i*19} 280 ${20+i*20} S430 ${70+i*19} 510 ${15+i*20} S590 ${-10+i*20} 625 ${22+i*20}`}/>)}</g>
+    <polyline className={styles.route} points={nodes.map(([x,y])=>`${x},${y}`).join(' ')}/>
+    {nodes.map(([x,y],i)=><g className={styles.mapNode} key={i} style={{ '--motion-order': i }}><circle cx={x} cy={y} r="17"/><circle cx={x} cy={y} r="4"/><text x={x+12} y={y-14}>NODE_0{i+1}</text></g>)}
+    <text className={styles.mapLabel} x="17" y="25">ENVIRONMENT / SCHEMATIC</text><text className={styles.mapLabel} x="17" y="288">OBSERVATION → RESPONSE</text>
+  </svg><p className={styles.miniFlow}>{flow.join(' → ')}</p></div>;
 }
-function Planner() {
-  const blocks = [['09:00', 'RESEARCH', 62], ['10:30', 'BUILD', 85], ['13:00', 'REVIEW', 48], ['14:00', 'REFLOW', 70]];
-  return <div className={styles.planner}><div className={styles.plannerHeader}><span>LOCAL PLANNING ENGINE</span><span>DETERMINISTIC</span></div>{blocks.map(([time, label, size]) => <div className={styles.timeRow} key={time}><span>{time}</span><div className={styles.timeTrack}><div style={{ width: `${size}%` }}>{label}<span>↗</span></div></div></div>)}<div className={styles.visualMeta}>ILLUSTRATIVE TIME BLOCKS / CRDT OPERATION LOG</div></div>;
+
+function Planner({ flow }) {
+  const blocks = [['09:00','DEEP WORK'],['10:30','RESEARCH'],['13:00','BUILD'],['15:00','REVIEW']];
+  return <div className={styles.planner}><Flow steps={flow} active={2}/><div className={styles.schedule}><span>LOCAL / TIME BLOCKS</span>{blocks.map(([time,label],i)=><div key={time} className={i===2?styles.scheduleActive:''}><small>{time} /</small> {label}</div>)}<small>ILLUSTRATIVE SCHEDULE</small></div></div>;
 }
-function Support() {
-  return <div className={styles.support}><div className={styles.endpoint}><span>01 / PATIENT</span><strong>ANDROID</strong><small>VOICE / ROOM CACHE</small></div><span className={styles.exchange}>↕</span><div className={styles.apiNode}><span>FASTAPI</span><small>AUTHORIZATION / SYNC / PERSONALIZATION</small></div><div className={styles.supportBranches}><div><span>↕</span><strong>DATABASE</strong><small>POSTGRESQL</small></div><div><span>↕</span><strong>CAREGIVER WEB</strong><small>REACT / AUTHORIZED RECORDS</small></div></div></div>;
+
+function Finance({ flow }) {
+  return <ol className={styles.finance}>{flow.map((step,i)=><li key={step} style={{ '--motion-order': i }}><span>{i === 0 ? '01' : '+'}</span><strong>{step}</strong><span>{String(i+1).padStart(2,'0')}</span></li>)}</ol>;
 }
-function Finance() {
-  return <div className={styles.finance}><div className={styles.inputRows}>{['TRANSACTIONS', 'RECEIPT OCR', 'INVESTMENTS'].map((label, i) => <div key={label}><span>0{i + 1}</span><strong>{label}</strong><span>→</span></div>)}</div><div className={styles.financeCore}><span>FASTAPI / DATA LAYER</span><div>RULES + LLM<br />CATEGORIZATION</div><span>↓</span><strong>INSIGHTS</strong><small>PORTFOLIOS / BUDGETS / ADVISOR</small></div></div>;
-}
-export default function SystemDiagram({ project, compact = false }) {
-  const visuals = { runtime: <Runtime compact={compact} />, lunar: <Lunar />, map: <MapStudy />, planner: <Planner />, support: <Support />, finance: <Finance /> };
+
+export default function SystemDiagram({ project, compact = false, showPipeline = true }) {
+  const visuals = {
+    runtime: <Flow steps={project.flow} active={2}/>,
+    lunar: <Lunar/>,
+    map: <Map flow={project.flow}/>,
+    planner: <Planner flow={project.flow}/>,
+    support: <Flow steps={project.flow} active={2} arrows="↕"/>,
+    finance: <Finance flow={project.flow}/>,
+  };
   return <figure data-motion="diagram" className={`${styles.figure} ${compact ? styles.compact : ''}`} aria-label={`${project.title}: explanatory system architecture`}>
-    {visuals[project.visual]}
-    {!compact && <><figcaption className={styles.caption}>{project.detail}</figcaption><ol className={styles.pipeline} aria-label={`${project.title} system flow`}>{project.flow.map((step, i) => <li key={step} style={{ '--motion-order': i }}><span>{String(i + 1).padStart(2, '0')}</span>{step}</li>)}</ol></>}
+    <div className={styles.canvas}>{visuals[project.visual]}</div>
+    <figcaption className={styles.caption}>CONCEPTUAL REPRESENTATION / {project.detail}</figcaption>
+    {showPipeline && <ol className={styles.pipeline} aria-label={`${project.title} system flow`}>{project.flow.map((step,i)=><li key={step}><span>{String(i+1).padStart(2,'0')}</span>{step}</li>)}</ol>}
   </figure>;
 }

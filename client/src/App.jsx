@@ -11,6 +11,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { PortfolioContext, usePortfolioData } from './hooks/usePortfolio';
 import './App.css';
 import useScrollMotion from './hooks/useScrollMotion';
+import ProjectCasePage from './components/ProjectCasePage';
+import ArchivePage from './components/ArchivePage';
+import { FEATURED_PROJECTS } from './data/projectData';
 const Projects = lazy(() => import('./components/Projects'));
 const Experience = lazy(() => import('./components/Experience'));
 const Archive = lazy(() => import('./components/Archive'));
@@ -19,12 +22,16 @@ const SectionLoader = () => <div className="loading-container" role="status">Loa
 export default function App() {
   const portfolio = usePortfolioData();
   const motionRoot = useScrollMotion();
+  const path = window.location.pathname.replace(/\/$/, '') || '/';
+  const project = path.startsWith('/systems/') ? FEATURED_PROJECTS.find(item => `/systems/${item.id}` === path) : null;
+  const isHome = path === '/';
+  const isArchive = path === '/archive';
   return <ErrorBoundary><PortfolioContext.Provider value={portfolio}><div className="app"><Backdrop /><a className="skip-link" href="#main-content">Skip to content</a><Header />
-    <main ref={motionRoot} id="main-content" className="container"><Hero /><About />
+    <main ref={motionRoot} id="main-content" className="container">{isHome ? <><Hero /><About />
       <Suspense fallback={<SectionLoader />}><Projects /></Suspense>
       <Engineering /><Skills /><CurrentWork />
       <Suspense fallback={<SectionLoader />}><Experience /></Suspense>
       <Suspense fallback={<SectionLoader />}><Archive /></Suspense>
       <Suspense fallback={<SectionLoader />}><Contact /></Suspense>
-    </main><Footer /></div></PortfolioContext.Provider></ErrorBoundary>;
+    </> : isArchive ? <ArchivePage /> : project ? <ProjectCasePage project={project} /> : <section className="route-not-found"><p className="mono muted">404 / UNKNOWN ROUTE</p><h1>Page not found.</h1><a className="text-link" href="/">Return to the lab ↗</a></section>}</main><Footer /></div></PortfolioContext.Provider></ErrorBoundary>;
 }

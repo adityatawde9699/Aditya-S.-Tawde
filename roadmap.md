@@ -354,3 +354,38 @@ Review: `output/playwright/aligned-workstation.png` and `aligned-workstation-mob
 - [x] Pass build, lint, and all 20 tests. Browser checks confirm no horizontal overflow from 320px to 1440px and zero animations when reduced motion is enabled.
 
 Review: `output/playwright/workstation-depth.png` and `workstation-depth-mobile.png`.
+
+## Screen alignment — 2026-10-02 (complete)
+
+- [x] Align the left display pair to one left/right edge and the central lunar pair to one left/right edge.
+- [x] Place the three lower monitors on the same top and bottom baseline with uniform gaps; remove per-screen rotation.
+- [x] Verify exact monitor rectangles at 1104px in Chromium and review mobile rendering.
+- [x] Pass frontend lint and production build. Browser widths 320, 390, 768, 1104, and 1440px show no horizontal overflow.
+
+Review: `output/playwright/aligned-screens-final-1104.png` and `aligned-screens-mobile.png`.
+
+## Generated workstation image restored — 2026-10-02 (current)
+
+The owner asked to use the generated workstation images. `Hero.jsx` now renders the optimized desktop and mobile WebP assets through a responsive `<picture>`; the code-built scene is retained in source but is no longer mounted or included in the client bundle.
+
+- [x] Use `client/public/images/workstation/hero.webp` on desktop and `hero-mobile.webp` on narrow screens.
+- [x] Preserve semantic hero copy and controls over the desktop image; place the mobile image in its dedicated scene area.
+- [x] Keep the restrained image entrance and reduced-motion behavior.
+- [x] Verify both images load in Chromium, are copied into the production build, and cause no horizontal overflow at 390, 768, 1104, and 1440px.
+- [x] Pass frontend build, lint, and all 20 tests.
+
+Review: `output/playwright/generated-hero-desktop.png` and `generated-hero-mobile.png`.
+
+## Figma Make completion — 2026-10-02 (implemented locally)
+
+Reference: [Intelligent Systems Overview](https://www.figma.com/make/AzV3YZPKPmdmf8GHMWb7Gz/Intelligent-Systems-Overview). The preview was inspected in a browser; the Figma node connector was unavailable. The generated workstation images remain in the hero as requested in the latest visual direction.
+
+- [x] Match the prototype's editorial `Intelligence, engineered.` selected-work introduction and light grayscale engineering panel.
+- [x] Add six dedicated `/systems/:id` case-study pages with a verified project problem, architecture diagram, flow, engineering focus, status, stack, source/demo links, and next-system navigation.
+- [x] Add `/archive` with live search, technology-category filters, counts, project links, and an empty-results state. Keep seven requested projects in the homepage archive preview.
+- [x] Make navigation and footer links work from every route; retain Vercel's existing history fallback rewrite.
+- [x] Add route-specific document metadata and sitemap entries while preserving the original homepage SEO setup.
+- [x] Check all six routes at 390px for overflow and missing images; inspect case-study and archive pages at desktop width and the light engineering section at 1440px.
+- [x] Pass client build, lint, and 22 tests across six files, including route and archive-search coverage.
+
+Content note: the Figma Make prototype includes placeholder metrics, capabilities, and links. The implementation keeps the repository and résumé-backed data instead of copying unverified claims. No production deployment or live backend/contact delivery check was made in this phase.

@@ -5,6 +5,7 @@
 .row h3 { font-size: 1rem; font-weight: 500; line-height: 1.5; letter-spacing: -.02em; }
 .row p { font-size: .85rem; color: var(--text-secondary); }
 .row div > span { display: block; font-size: .625rem; margin-top: .6rem; }
-.row a { min-height: 44px; font-size: .65rem; gap: 1rem; }
+.sources { display: flex; align-items: flex-start; gap: 1rem; }
+.row a { min-height: 44px; font-size: .65rem; gap: .5rem; white-space: nowrap; }
 .sourceNote { font-size: .625rem; padding-top: .75rem; }
-@media (max-width: 640px) { .tableHeader { display: none; } .row { grid-template-columns: 1fr auto; gap: .6rem 1rem; } .row > div { grid-column: 1 / -1; grid-row: 2; } .row a { grid-row: 1; grid-column: 2; } .row h3 { align-self: center; } }
+@media (max-width: 640px) { .tableHeader { display: none; } .row { grid-template-columns: 1fr auto; gap: .6rem 1rem; } .row > div:not(.sources) { grid-column: 1 / -1; grid-row: 2; } .sources { grid-row: 1; grid-column: 2; } .row h3 { align-self: center; } }

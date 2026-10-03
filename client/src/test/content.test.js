@@ -15,7 +15,7 @@ describe('portfolio content and CMS compatibility', () => {
   });
   it('retains verified projects with an unavailable or older backend', () => {
     expect(mergeProjects(FEATURED_PROJECTS)).toHaveLength(6);
-    expect(CERTIFICATIONS).toHaveLength(8);
+    expect(CERTIFICATIONS).toHaveLength(18);
   });
   it('adds published CMS repositories without duplicating curated records', () => {
     const data = [

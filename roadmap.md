@@ -389,3 +389,11 @@ Reference: [Intelligent Systems Overview](https://www.figma.com/make/AzV3YZPKPmd
 - [x] Pass client build, lint, and 22 tests across six files, including route and archive-search coverage.
 
 Content note: the Figma Make prototype includes placeholder metrics, capabilities, and links. The implementation keeps the repository and résumé-backed data instead of copying unverified claims. No production deployment or live backend/contact delivery check was made in this phase.
+
+## System-study visual completion — 2026-10-03
+
+- [x] Recompose selected-system rows to match the reference's left narrative / right study layout, with figure labels, rules, and captions aligned above the diagram.
+- [x] Build six distinct monochrome study visuals: layered runtime flow, lunar image correspondences, contour-map response path, deterministic planner with illustrative time blocks, assistive-system flow, and finance pipeline.
+- [x] Move verified implementation notes beside the project narrative and keep repository imagery and illustrative-data labels explicit.
+- [x] Preserve concise process detail on case-study routes; support reduced motion and lazy-load lunar imagery.
+- [x] Browser-check all six diagrams on mobile for overflow and image loading; desktop visual inspection completed. Build, lint, and all 22 tests pass.

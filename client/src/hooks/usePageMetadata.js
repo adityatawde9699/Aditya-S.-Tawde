@@ -1,28 +1,43 @@
 import { useEffect } from 'react';
+import { pageMetadata, pageStructuredData } from '../data/seo';
 
-const site = 'https://adityastawde.vercel.app';
-
-export default function usePageMetadata(title, description, path) {
+export default function usePageMetadata(path) {
   useEffect(() => {
-    const canonical = document.querySelector('link[rel="canonical"]');
-    const metaDescription = document.querySelector('meta[name="description"]');
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    const previous = [document.title, canonical?.content || canonical?.href, metaDescription?.content, ogTitle?.content, ogDescription?.content, ogUrl?.content];
-    document.title = title;
-    if (canonical) canonical.href = `${site}${path}`;
-    if (metaDescription) metaDescription.content = description;
-    if (ogTitle) ogTitle.content = title;
-    if (ogDescription) ogDescription.content = description;
-    if (ogUrl) ogUrl.content = `${site}${path}`;
-    return () => {
-      document.title = previous[0];
-      if (canonical && previous[1]) canonical.href = previous[1];
-      if (metaDescription && previous[2]) metaDescription.content = previous[2];
-      if (ogTitle && previous[3]) ogTitle.content = previous[3];
-      if (ogDescription && previous[4]) ogDescription.content = previous[4];
-      if (ogUrl && previous[5]) ogUrl.content = previous[5];
-    };
-  }, [title, description, path]);
+    const metadata = pageMetadata(path);
+    document.title = metadata.title;
+    const tags = [
+      ['name', 'description', metadata.description],
+      ['property', 'og:title', metadata.title],
+      ['property', 'og:description', metadata.description],
+      ['property', 'og:url', metadata.url],
+      ['name', 'twitter:title', metadata.title],
+      ['name', 'twitter:description', metadata.description],
+      ['name', 'robots', metadata.index ? 'index, follow' : 'noindex, follow'],
+      ['name', 'googlebot', metadata.index ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : 'noindex, follow'],
+    ];
+    for (const [attribute, value, content] of tags) {
+      let tag = document.querySelector(`meta[${attribute}="${value}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute(attribute, value);
+        document.head.appendChild(tag);
+      }
+      tag.content = content;
+    }
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = metadata.url;
+    let schema = document.querySelector('#portfolio-schema');
+    if (!schema) {
+      schema = document.createElement('script');
+      schema.id = 'portfolio-schema';
+      schema.type = 'application/ld+json';
+      document.head.appendChild(schema);
+    }
+    schema.textContent = JSON.stringify(pageStructuredData(path));
+  }, [path]);
 }

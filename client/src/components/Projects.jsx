@@ -7,7 +7,7 @@ export default function Projects() {
   const { projects = [], projectVisibility = {} } = usePortfolio();
   const selected = mergeProjects(FEATURED_PROJECTS, projects, projectVisibility);
   return <section id="projects" className="lab-section" aria-labelledby="projects-heading">
-    <SectionHeader id="projects-heading" label="01" title="Selected systems" subtitle="RESEARCH → ARCHITECTURE → IMPLEMENTATION" />
+    <SectionHeader id="projects-heading" label="01" title="AI & machine-learning projects" subtitle="MODELING / EVALUATION / APPLICATION ENGINEERING" />
     <p className={styles.intro}>Intelligence,<br /><span>engineered.</span></p>
     <div className={styles.index}><span className="mono muted">SELECTED WORK / {String(selected.length).padStart(2, '0')} SYSTEMS</span><span className="mono muted">SOURCE AVAILABLE ↗</span></div>
     {selected.map(project => <article key={project.id} id={project.id} className={styles.caseStudy} aria-labelledby={`${project.id}-title`}>

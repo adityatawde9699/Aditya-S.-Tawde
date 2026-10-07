@@ -78,6 +78,21 @@ cd client && npm run test
 
 ## 📁 Project Structure
 
+The portfolio content follows the supplied final resume and evidence review:
+student status, evaluated NLP/ML projects with dataset context, and the completed
+IBM Generative AI Engineering Professional Certificate, highlighted separately
+above all 18 original course certificates. The download uses the
+supplied DOCX at `client/public/Aditya_Tawde_Resume.docx`.
+
+`cd client && npm run build` creates fully rendered HTML for the homepage,
+archive, and each curated case study, including page-specific titles,
+descriptions, canonical URLs, social metadata, JSON-LD, and a generated sitemap.
+React hydrates these pages for interactive controls and subsequent CMS updates.
+The static catalog is available without the API or JavaScript. Rebuild after
+changing curated content; CMS additions and visibility changes take effect at
+runtime and are not included in the static snapshot. Vercel and Nginx serve
+each route's generated HTML and use `404.html` for unknown routes.
+
 ```
 ├── client/                 # React frontend
 │   ├── src/

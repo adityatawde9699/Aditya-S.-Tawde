@@ -29,6 +29,6 @@ export const SOCIAL_LINKS = [
 
 export const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'adityatawde9699@gmail.com';
 
-export const RESUME_PATH = '/Aditya_Portfolio.pdf';
+export const RESUME_PATH = '/Aditya_Tawde_Resume.docx';
 
 export const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || 'adityatawde9699';

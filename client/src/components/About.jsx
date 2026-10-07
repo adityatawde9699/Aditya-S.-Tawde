@@ -4,7 +4,7 @@ import { usePortfolio } from '../hooks/usePortfolio';
 export default function About() {
   const { projectVisibility = {} } = usePortfolio();
   const count = [...FEATURED_PROJECTS, ...ARCHIVE_PROJECTS].filter(project => projectVisibility[project.id] !== false).length;
-  const fields = [['Role', 'AI Engineer'], ['Focus', 'AI Systems'], ['Primary', 'Python / PyTorch / LLMs'], ['Mode', 'Building'], ['Location', 'India'], ['Education', 'JNEC / MGM University']];
+  const fields = [['Role', 'B.Tech AI & Data Science student'], ['Focus', 'Generative AI / Machine Learning'], ['Primary', 'Python / scikit-learn / LangGraph'], ['Credential', 'IBM Generative AI Engineering'], ['Location', 'Chh. Sambhajinagar, India'], ['Education', 'JNEC / MGM University']];
   return <><div className={styles.profile} aria-label="System profile">
     <p className={`mono ${styles.label}`}>SYSTEM<br />PROFILE <span className="muted">↗</span></p>
     <dl className={styles.fields}>{fields.map(([label, value]) => <div key={label}><dt className="mono muted">{label}</dt><dd>{value}</dd></div>)}</dl>

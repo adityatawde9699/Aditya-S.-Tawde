@@ -27,8 +27,8 @@ describe('project routes', () => {
     await render(<ProjectCasePage project={FEATURED_PROJECTS[0]} />);
     expect(host.querySelector('h1').textContent).toBe('Amadeus AI');
     expect(host.textContent).toContain('Permission-gated tools');
-    expect(host.textContent).toContain('LunaMatch');
-    expect(host.querySelector('a[href="/systems/lunamatch"]')).toBeTruthy();
+    expect(host.textContent).toContain('Fake Review Detection');
+    expect(host.querySelector('a[href="/systems/fake-review-system"]')).toBeTruthy();
   });
   it('filters the archive by project name and provides a case-study route', async () => {
     await render(<ArchivePage />);

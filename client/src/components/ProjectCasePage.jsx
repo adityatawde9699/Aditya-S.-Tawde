@@ -1,12 +1,10 @@
 import { FEATURED_PROJECTS } from '../data/projectData';
-import usePageMetadata from '../hooks/usePageMetadata';
 import SystemDiagram from './SystemDiagram';
 import styles from './ProjectCasePage.module.css';
 
 export default function ProjectCasePage({ project }) {
   const index = FEATURED_PROJECTS.findIndex(item => item.id === project.id);
   const next = FEATURED_PROJECTS[(index + 1) % FEATURED_PROJECTS.length];
-  usePageMetadata(`${project.title} — Systems / Aditya S. Tawde`, `${project.subtitle}. ${project.problem}`, `/systems/${project.id}`);
   return <article className={styles.page}>
     <div className={styles.breadcrumb}><a href="/#projects">← SELECTED SYSTEMS</a><span>SYS_{String(index + 1).padStart(3, '0')} / CASE STUDY</span></div>
     <header className={styles.header}>

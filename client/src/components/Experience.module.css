@@ -12,6 +12,11 @@
 .certificates { list-style: none; padding: 0; margin: 0; }
 .certificates li { display: grid; grid-template-columns: 2rem 1fr auto; gap: 1.5rem; align-items: baseline; padding-block: 1rem; border-top: var(--rule); font-size: .875rem; }
 .certificates li > span:last-of-type { font-size: .65rem; text-align: right; }
+.courseCount { display: block; margin-top: .4rem; color: var(--text-secondary); font-size: .75rem; }
+.credential { padding: 1.5rem 0; border-top: var(--rule); }
+.credential > p:first-child { font-size: .65rem; }
+.credential h4 { margin-block: .75rem .5rem; font-size: 1rem; font-weight: 500; }
+.credential > p:last-child { color: var(--text-secondary); font-size: .8rem; }
 .activities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
 .activities > div { border-top: var(--rule); padding-top: 1rem; }
 .activities h4 { font-size: .875rem; margin-top: 1rem; line-height: 1.5; font-weight: 500; }

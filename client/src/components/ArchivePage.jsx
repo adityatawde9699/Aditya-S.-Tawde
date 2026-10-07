@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS, additionalProjects, mergeProjects } from '../data/projectData';
 import { usePortfolio } from '../hooks/usePortfolio';
-import usePageMetadata from '../hooks/usePageMetadata';
 import styles from './ArchivePage.module.css';
 
 const filters = ['All', 'AI / ML', 'Software', 'Data'];
@@ -22,7 +21,6 @@ export default function ArchivePage() {
     const text = [project.title, project.purpose, ...project.techStack].join(' ').toLowerCase();
     return text.includes(query.trim().toLowerCase()) && (filter === 'All' || category(project) === filter);
   });
-  usePageMetadata('Project Archive — Aditya S. Tawde', 'Explore Aditya S. Tawde’s AI systems, software projects, experiments, and earlier builds.', '/archive');
   return <div className={styles.page}>
     <div className={styles.breadcrumb}><a href="/#archive">← BACK TO LAB</a><span>AST_ / REPOSITORY INDEX</span></div>
     <header className={styles.header}><p className="mono muted">06 / PROJECT ARCHIVE</p><h1>THE ARCHIVE<span>.</span></h1><p>Systems, experiments, and earlier builds. Search by project, purpose, or technology.</p></header>

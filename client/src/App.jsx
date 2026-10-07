@@ -14,15 +14,17 @@ import useScrollMotion from './hooks/useScrollMotion';
 import ProjectCasePage from './components/ProjectCasePage';
 import ArchivePage from './components/ArchivePage';
 import { FEATURED_PROJECTS } from './data/projectData';
+import usePageMetadata from './hooks/usePageMetadata';
 const Projects = lazy(() => import('./components/Projects'));
 const Experience = lazy(() => import('./components/Experience'));
 const Archive = lazy(() => import('./components/Archive'));
 const Contact = lazy(() => import('./components/Contact'));
 const SectionLoader = () => <div className="loading-container" role="status">Loading section…</div>;
-export default function App() {
+export default function App({ pathname = typeof window === 'undefined' ? '/' : window.location.pathname }) {
   const portfolio = usePortfolioData();
   const motionRoot = useScrollMotion();
-  const path = window.location.pathname.replace(/\/$/, '') || '/';
+  const path = pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  usePageMetadata(path);
   const project = path.startsWith('/systems/') ? FEATURED_PROJECTS.find(item => `/systems/${item.id}` === path) : null;
   const isHome = path === '/';
   const isArchive = path === '/archive';

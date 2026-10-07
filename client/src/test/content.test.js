@@ -14,7 +14,7 @@ describe('portfolio content and CMS compatibility', () => {
     expect(mergeProjects(ARCHIVE_PROJECTS, [], { librarypro: false })).not.toContainEqual(expect.objectContaining({ id: 'librarypro' }));
   });
   it('retains verified projects with an unavailable or older backend', () => {
-    expect(mergeProjects(FEATURED_PROJECTS)).toHaveLength(6);
+    expect(mergeProjects(FEATURED_PROJECTS)).toHaveLength(8);
     expect(CERTIFICATIONS).toHaveLength(18);
   });
   it('adds published CMS repositories without duplicating curated records', () => {

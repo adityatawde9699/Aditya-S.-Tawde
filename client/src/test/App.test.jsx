@@ -25,13 +25,13 @@ import App from '../App';
 let container;
 let root;
 
-const renderApp = async () => {
+const renderApp = async (pathname = '/') => {
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
 
   await act(async () => {
-    root.render(<App />);
+    root.render(<App pathname={pathname} />);
   });
   // Flush the Suspense boundary so lazy sections resolve.
   await act(async () => {
@@ -70,5 +70,16 @@ describe('App', () => {
     expect(container.textContent).toContain('Experience');
     expect(container.textContent).toContain('Archive');
     expect(container.textContent).toContain('Contact');
+  });
+
+  it('keeps search and social metadata aligned and restores indexing after an unknown route', async () => {
+    await renderApp('/missing-page');
+    expect(document.querySelector('meta[name="robots"]').content).toBe('noindex, follow');
+    await act(async () => { root.render(<App pathname="/archive" />); });
+    expect(document.querySelector('meta[name="robots"]').content).toBe('index, follow');
+    expect(document.querySelector('meta[property="og:title"]').content).toBe(document.title);
+    expect(document.querySelector('meta[name="twitter:title"]').content).toBe(document.title);
+    expect(document.querySelector('link[rel="canonical"]').href).toBe('https://adityastawde.vercel.app/archive');
+    expect(JSON.parse(document.querySelector('#portfolio-schema').textContent)['@graph']).toContainEqual(expect.objectContaining({ '@type': 'CollectionPage' }));
   });
 });

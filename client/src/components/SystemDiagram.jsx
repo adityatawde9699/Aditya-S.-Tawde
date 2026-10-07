@@ -48,6 +48,7 @@ export default function SystemDiagram({ project, compact = false, showPipeline =
     planner: <Planner flow={project.flow}/>,
     support: <Flow steps={project.flow} active={2} arrows="↕"/>,
     finance: <Finance flow={project.flow}/>,
+    classification: <Flow steps={project.flow} active={4}/>,
   };
   return <figure data-motion="diagram" className={`${styles.figure} ${compact ? styles.compact : ''}`} aria-label={`${project.title}: explanatory system architecture`}>
     <div className={styles.canvas}>{visuals[project.visual]}</div>
